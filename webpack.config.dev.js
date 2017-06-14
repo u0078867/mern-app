@@ -3,6 +3,7 @@ var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
 
+
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
 
@@ -23,11 +24,12 @@ module.exports = {
   output: {
     path: __dirname,
     filename: 'app.js',
-    publicPath: 'http://0.0.0.0:8000/',
+    //publicPath: 'http://0.0.0.0:8000/',
+    publicPath: 'http://localhost:8000/',
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx', '.css'],
     modules: [
       'client',
       'node_modules',

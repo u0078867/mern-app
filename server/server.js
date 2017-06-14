@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
+import fileUpload from 'express-fileupload';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -32,7 +33,6 @@ import Helmet from 'react-helmet';
 // Import required modules
 import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
-import posts from './routes/post.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -50,12 +50,24 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
   dummyData();
 });
 
-// Apply body Parser and server public assets and routes
+// Apply body Parser and server public assets and routes (non-APIs)
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
+app.use(fileUpload());
+
+// Specify APIs
+import posts from './routes/post.routes';
+import forms from './routes/form.routes';
+import subms from './routes/subm.routes';
+import subjects from './routes/subject.routes';
+import subjectsSearch from './routes/subject.search.routes';
 app.use('/api', posts);
+app.use('/api', forms);
+app.use('/api', subms);
+app.use('/api', subjects);
+app.use('/search-api', subjectsSearch);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
@@ -77,6 +89,7 @@ const renderFullPage = (html, initialState) => {
 
         ${process.env.NODE_ENV === 'production' ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
+        <link rel="stylesheet" id="theme" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
       </head>
       <body>

@@ -1,4 +1,10 @@
 import Post from './models/post';
+import Subject from './models/subject';
+
+import cuid from 'cuid';
+import Chance from 'chance';
+let chance = new Chance();
+
 
 export default function () {
   Post.count().exec((err, count) => {
@@ -38,6 +44,30 @@ export default function () {
     const post2 = new Post({ name: 'Admin', title: 'Lorem Ipsum', slug: 'lorem-ipsum', cuid: 'cikqgkv4q01ck7453ualdn3hf', content: content2 });
 
     Post.create([post1, post2], (error) => {
+      if (!error) {
+        // console.log('ready to go....');
+      }
+    });
+  });
+
+  Subject.count().exec((err, count) => {
+    if (count > 0) {
+      return;
+    }
+
+    let subjects = [];
+    for (let i = 0; i < 1000; i++) {
+      const subject = new Subject({
+        name: chance.first(),
+        surname: chance.last(),
+        birthdate: chance.birthday({string: true}),
+        slug: 'test-subject',
+        cuid: cuid(),
+      });
+      subjects.push(subject);
+    }
+
+    Subject.create(subjects, (error) => {
       if (!error) {
         // console.log('ready to go....');
       }

@@ -1,7 +1,10 @@
 export default {
   locale: 'en',
   messages: {
-    siteTitle: 'MERN Starter Blog',
+    // generic
+    save: 'Save',
+    // posts
+    siteTitle: 'MERN App',
     addPost: 'Add Post',
     switchLanguage: 'Switch Language',
     twitterMessage: 'We are on Twitter',
@@ -27,5 +30,17 @@ export default {
     	  =1 {has # comment}
     	  other {has # comments}
     	} as of {date}`,
+    // forms
+    addForm: 'Add Form',
+    editForm: 'Edit Form',
+    deleteForm: 'Delete Form',
+    createNewForm: 'Create new form',
+    formTitle: 'Form Title',
+    formJSONSchema: 'Form JSON Schema',
+    formUISchema: 'Form UI Schema',
+    formInitData: 'Form initial data',
+    // submissiones
+    acceptSubm: 'Accept Submission',
+    deleteSubm: 'Delete Submission',
   },
 };

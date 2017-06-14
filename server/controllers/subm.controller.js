@@ -1,0 +1,109 @@
+import Subm from '../models/subm';
+import cuid from 'cuid';
+import slug from 'limax';
+import sanitizeHtml from 'sanitize-html';
+import config from '../config';
+
+/**
+ * Get all submissions
+ * @param req
+ * @param res
+ * @returns void
+ */
+export function getSubms(req, res) {
+  Subm.find().sort('-date_added')
+  .populate('form')
+  .exec((err, subms) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ subms });
+  });
+}
+
+/**
+ * Save a submission
+ * @param req
+ * @param res
+ * @returns void
+ */
+export function addSubm(req, res) {
+  if (!req.body.subm.form ||
+      !req.body.subm.data) {
+    res.status(403).end();
+  }
+
+  const newSubm = new Subm(req.body.subm);
+
+  // Let's sanitize inputs
+  console.log(newSubm.data);
+  //newSubm.data = JSON.parse(newSubm.data);
+
+  newSubm.slug = 'submission';
+  newSubm.cuid = cuid();
+  newSubm.save((err, saved) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ subm: saved });
+  });
+}
+
+/**
+ * Get a single subm
+ * @param req
+ * @param res
+ * @returns void
+ */
+export function getSubm(req, res) {
+  Subm.findOne({ cuid: req.params.cuid })
+  .populate('form')
+  .exec((err, subm) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ subm });
+  });
+}
+
+/**
+ * Delete a subm
+ * @param req
+ * @param res
+ * @returns void
+ */
+export function deleteSubm(req, res) {
+  Subm.findOne({ cuid: req.params.cuid }).exec((err, subm) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+
+    subm.remove(() => {
+      res.status(200).end();
+    });
+  });
+}
+
+export function updateSubm(req, res) {
+  /*Subm.findOne({ cuid: req.params.cuid }).exec((err, subm) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+
+    subm = req.body.subm;
+
+    subm.save(() => {
+      res.status(200).end();
+    });
+  });
+  */
+  Subm.findOneAndUpdate({ cuid: req.params.cuid }, { $set: req.body.subm}, { new: true })
+  .populate('form')
+  .exec((err, updated) => {
+    console.log(err);
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ subm: updated });
+  });
+}

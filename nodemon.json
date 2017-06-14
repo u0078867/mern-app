@@ -7,7 +7,10 @@
   "verbose": true,
   "watch": [
     "server",
-    "Intl"
+    "Intl",
+    "client/modules/Intl/IntlWrapper.js",
+    "client/store.js",
+    "client/routes.js"
   ],
   "env": {
     "NODE_ENV": "development"
