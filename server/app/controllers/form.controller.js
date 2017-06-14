@@ -2,7 +2,7 @@ import Form from '../models/form';
 import cuid from 'cuid';
 import slug from 'limax';
 import sanitizeHtml from 'sanitize-html';
-import config from '../config';
+import config from '../../config';
 
 /**
  * Get all forms

@@ -5,4 +5,5 @@ const router = new Router();
 // Get all Subjects
 router.route('/subjects').get(SubjectController.getSubjectsRegex);
 
-export default router;
+//export default router;
+module.exports = router;

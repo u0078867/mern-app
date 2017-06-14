@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import fileUpload from 'express-fileupload';
+import chokidar from 'chokidar';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -32,8 +33,8 @@ import Helmet from 'react-helmet';
 
 // Import required modules
 import routes from '../client/routes';
-import { fetchComponentData } from './util/fetchData';
-import dummyData from './dummyData';
+import { fetchComponentData } from './app/util/fetchData';
+import dummyData from './app/dummyData';
 import serverConfig from './config';
 
 // Set native promises as mongoose promise
@@ -58,16 +59,24 @@ app.use(Express.static(path.resolve(__dirname, '../dist')));
 app.use(fileUpload());
 
 // Specify APIs
-import posts from './routes/post.routes';
-import forms from './routes/form.routes';
-import subms from './routes/subm.routes';
-import subjects from './routes/subject.routes';
-import subjectsSearch from './routes/subject.search.routes';
-app.use('/api', posts);
-app.use('/api', forms);
-app.use('/api', subms);
-app.use('/api', subjects);
-app.use('/search-api', subjectsSearch);
+app.use('/api', function(req, res, next) {
+  require('./app/routes/post.routes')(req, res, next);
+});
+app.use('/api', function(req, res, next) {
+  require('./app/routes/form.routes')(req, res, next);
+});
+app.use('/api', function(req, res, next) {
+  require('./app/routes/subm.routes')(req, res, next);
+});
+app.use('/api', function(req, res, next) {
+  require('./app/routes/subject.routes')(req, res, next);
+});
+app.use('/search-api', function(req, res, next) {
+  require('./app/routes/subject.search.routes')(req, res, next);
+});
+app.use('/test-hmr-api', function(req, res, next) {
+  require('./app/routes/test.hmr.routes')(req, res, next);
+});
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
@@ -152,10 +161,22 @@ app.use((req, res, next) => {
   });
 });
 
+// Watch files and clean cache
+const watcher = chokidar.watch(path.resolve(__dirname) + '/app');
+watcher.on('ready', function() {
+  console.log('Chokidar ready to watch server files');
+  watcher.on('all', function() {
+    console.log("Clearing /app/ module cache from server");
+    Object.keys(require.cache).forEach(function(id) {
+      if (/[\/\\]app[\/\\]/.test(id)) delete require.cache[id];
+    });
+  });
+});
+
 // start app
 app.listen(serverConfig.port, (error) => {
   if (!error) {
-    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
+    console.log(`SERVER is running on port: ${serverConfig.port}!`); // eslint-disable-line
   }
 });
 

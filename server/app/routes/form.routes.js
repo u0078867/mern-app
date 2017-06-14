@@ -23,4 +23,5 @@ router.route('/form/upload/data').post(FormController.uploadDataFromForm);
 // Delete a form by cuid
 router.route('/forms/:cuid').delete(FormController.deleteForm);
 
-export default router;
+//export default router;
+module.exports = router;

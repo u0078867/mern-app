@@ -17,4 +17,5 @@ router.route('/subms/:cuid').put(SubmController.updateSubm);
 // Delete a submission by cuid
 router.route('/subms/:cuid').delete(SubmController.deleteSubm);
 
-export default router;
+//export default router;
+module.exports = router;

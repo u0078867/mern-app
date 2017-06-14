@@ -8,5 +8,7 @@ const submSchema = new Schema({
   cuid: { type: 'String', required: true },
   date_added: { type: 'Date', default: Date.now, required: true },
 });
+if ('Subm' in mongoose.connection.models)
+  delete mongoose.connection.models['Subm'];
 
 export default mongoose.model('Subm', submSchema);

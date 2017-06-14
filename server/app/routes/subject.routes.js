@@ -8,4 +8,5 @@ router.route('/subjects').get(SubjectController.getSubjects);
 // Get one subject by cuid
 router.route('/subjects/:cuid').get(SubjectController.getSubject);
 
-export default router;
+//export default router;
+module.exports = router;

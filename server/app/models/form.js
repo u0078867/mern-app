@@ -10,5 +10,7 @@ const formSchema = new Schema({
   cuid: { type: 'String', required: true },
   dateAdded: { type: 'Date', default: Date.now, required: true },
 });
+if ('Form' in mongoose.connection.models)
+  delete mongoose.connection.models['Form'];
 
 export default mongoose.model('Form', formSchema);
