@@ -7879,10 +7879,6 @@
 	
 	var _expressFileupload2 = _interopRequireDefault(_expressFileupload);
 	
-	var _chokidar = __webpack_require__(67);
-	
-	var _chokidar2 = _interopRequireDefault(_chokidar);
-	
 	var _webpack = __webpack_require__(31);
 	
 	var _webpack2 = _interopRequireDefault(_webpack);
@@ -8115,20 +8111,23 @@
 	  });
 	});
 	
-	// Watch files and clean cache (server)
-	var watcher = _chokidar2.default.watch(_path2.default.resolve(__dirname) + '/app');
-	watcher.on('ready', function () {
-	  console.log('Chokidar ready to watch server files');
-	  watcher.on('all', function () {
-	    console.log("Clearing /app/ module cache from server");
-	    Object.keys(__webpack_require__.c).forEach(function (id) {
-	      if (/[\/\\]app[\/\\]/.test(id)) {
-	        //console.log(`Uncaching ${id} ...`);
-	        delete __webpack_require__.c[id];
-	      }
+	if (process.env.NODE_ENV === 'development') {
+	  // Watch files and clean cache (server)
+	  var chokidar = __webpack_require__(67);
+	  var watcher = chokidar.watch(_path2.default.resolve(__dirname) + '/app');
+	  watcher.on('ready', function () {
+	    console.log('Chokidar ready to watch server files');
+	    watcher.on('all', function () {
+	      console.log("Clearing /app/ module cache from server");
+	      Object.keys(__webpack_require__.c).forEach(function (id) {
+	        if (/[\/\\]app[\/\\]/.test(id)) {
+	          //console.log(`Uncaching ${id} ...`);
+	          delete __webpack_require__.c[id];
+	        }
+	      });
 	    });
 	  });
-	});
+	}
 	
 	// start app
 	app.listen(_config2.default.port, function (error) {

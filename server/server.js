@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import fileUpload from 'express-fileupload';
-import chokidar from 'chokidar';
+
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -242,20 +242,23 @@ app.use((req, res, next) => {
   });
 });
 
-// Watch files and clean cache (server)
-const watcher = chokidar.watch(path.resolve(__dirname) + '/app');
-watcher.on('ready', function() {
-  console.log('Chokidar ready to watch server files');
-  watcher.on('all', function() {
-    console.log("Clearing /app/ module cache from server");
-    Object.keys(require.cache).forEach(function(id) {
-      if (/[\/\\]app[\/\\]/.test(id)) {
-        //console.log(`Uncaching ${id} ...`);
-        delete require.cache[id];
-      }
+if (process.env.NODE_ENV === 'development') {
+  // Watch files and clean cache (server)
+  let chokidar = require('chokidar');
+  const watcher = chokidar.watch(path.resolve(__dirname) + '/app');
+  watcher.on('ready', function() {
+    console.log('Chokidar ready to watch server files');
+    watcher.on('all', function() {
+      console.log("Clearing /app/ module cache from server");
+      Object.keys(require.cache).forEach(function(id) {
+        if (/[\/\\]app[\/\\]/.test(id)) {
+          //console.log(`Uncaching ${id} ...`);
+          delete require.cache[id];
+        }
+      });
     });
   });
-});
+}
 
 // start app
 app.listen(serverConfig.port, (error) => {
