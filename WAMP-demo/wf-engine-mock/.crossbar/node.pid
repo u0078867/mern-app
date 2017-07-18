@@ -1,0 +1,19 @@
+{
+    "pid": 5820, 
+    "options": {
+        "reactor": null, 
+        "loglevel": "info", 
+        "logtofile": false, 
+        "cbdir": "C:\\Users\\u0078867\\Desktop\\KULeuvenJob\\test-scaffolding-full-stack\\mern-app\\WAMP-demo\\wf-engine-mock\\.crossbar", 
+        "logformat": "standard", 
+        "command": "start", 
+        "logdir": null, 
+        "config": "config.json", 
+        "colour": false, 
+        "personality": "community"
+    }, 
+    "argv": [
+        "C:\\Users\\u0078867\\Anaconda\\Scripts\\crossbar", 
+        "start"
+    ]
+}

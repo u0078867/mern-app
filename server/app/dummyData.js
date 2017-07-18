@@ -276,6 +276,16 @@ function dummyData(verbose) {
     };
     forms.push(form1);
 
+    let form2 = {
+      title: "empty",
+      json_schema: {},
+      ui_schema: {},
+      init_data: {},
+      slug: "empty",
+      cuid: cuid(),
+    };
+    forms.push(form2);
+
     return Form.create(forms);
   })
   .then(() => console.log('forms filled'))

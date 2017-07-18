@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import JSSForm from '../../../../components/JSSForm/JSSForm';
+import OutPortFeeder from '../../../../components/SocketPorts/OutPortFeeder';
 
 // Import Style
 import styles from '../../components/FormListItem/FormListItem.css';
@@ -23,6 +24,7 @@ class FormDetailPage extends Component {
     this.state = {
       formData: this.props.form.init_data,
     };
+    this.sender = new OutPortFeeder({dataOutPort: 'wf-task-exit'});
   }
 
   onSubmit = ({formData}) => {
@@ -53,6 +55,7 @@ class FormDetailPage extends Component {
   }
 
   onClick = (event) => {
+    this.sender.send('exited');
     this.setState({submitType: event.target.id})
   }
 

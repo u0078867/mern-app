@@ -1,7 +1,6 @@
 
 import React, { Component, PropTypes } from 'react';
 import InPortConsumer from '../../../../components/SocketPorts/InPortConsumer';
-import OutPortFeeder from '../../../../components/SocketPorts/OutPortFeeder';
 
 // Import Style
 import styles from './WorkFlowClient.css';
@@ -14,10 +13,6 @@ class WorkFlowClient extends Component {
       this.state = {
         enabled: false,
       }
-      this.sender = new OutPortFeeder({dataOutPort: 'wf-test'});
-      /*setInterval(() => {
-        this.sender.send(Math.random());
-      }, 2000);*/
     }
 
     handleReceiveMessage = (data) => {
@@ -33,11 +28,7 @@ class WorkFlowClient extends Component {
                 <table><tbody>
                   <tr>
                     <td>Listening on port:</td>
-                    <td>wf-task</td>
-                  </tr>
-                  <tr>
-                    <td>Writing to port:</td>
-                    <td>wf-test</td>
+                    <td>wf-task-enter</td>
                   </tr>
                   <tr>
                     <td>Enabled:</td>
@@ -46,7 +37,7 @@ class WorkFlowClient extends Component {
                 </tbody></table>
               </div>
             </div>
-            <InPortConsumer dataInPort="wf-task" receiveCallback={this.handleReceiveMessage} />
+            <InPortConsumer dataInPort="wf-task-enter" receiveCallback={this.handleReceiveMessage} />
         </div>
     }
 

@@ -53,9 +53,9 @@ class WAMPConnection extends Component {
 
                 <InPort port="ws-status" data={this.state['ws-status']} buffered={false} showContent={true} />
 
-                <InPort port="wf-task" data={this.state['wf-task']} buffered={false} showContent={true} />
+                <InPort port="wf-task-enter" data={this.state['wf-task-enter']} buffered={false} showContent={true} />
 
-                <OutPort port="wf-test" sendCallback={this.sendCallback} />
+                <OutPort port="wf-task-exit" sendCallback={this.sendCallback} />
 
             </WAMPSocket>
           </div>
