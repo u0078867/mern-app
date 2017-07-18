@@ -39,6 +39,7 @@ export default {
     formJSONSchema: 'Form JSON Schema',
     formUISchema: 'Form UI Schema',
     formInitData: 'Form initial data',
+    formPreview: 'Form preview',
     // submissiones
     acceptSubm: 'Accept Submission',
     deleteSubm: 'Delete Submission',

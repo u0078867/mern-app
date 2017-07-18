@@ -1,0 +1,22 @@
+
+.summary {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 10px;
+}
+
+.inputs input[type="text"] {
+    min-width: 200px;
+}
+
+.inputs td {
+    padding: 15px;
+}
+
+.pos-right {
+    float: right;
+}
+
+.pos-left {
+    float: left;
+}

@@ -1,0 +1,16 @@
+{
+  "comp1": {
+    "ui:widget": "device",
+    "ui:options": {
+      "events": {
+        "timeout": {
+          "targets": {
+            "formData": {
+              "path": "comp2"
+            }
+          }
+        }
+      }
+    }
+  }
+}

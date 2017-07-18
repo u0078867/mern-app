@@ -15,7 +15,7 @@ class FormList extends Component {
               form={form}
               key={form.cuid}
               onDelete={() => this.props.handleDeleteForm(form.cuid)}
-              onUpdate={() => this.props.handleUpdateForm(form)}
+              onUpdate={this.props.handleUpdateForm}
             />
           ))
         }

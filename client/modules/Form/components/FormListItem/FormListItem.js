@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
-import FormCreateWidget from '../FormCreateWidget/FormCreateWidget';
+import FormEditWidget from '../FormEditWidget/FormEditWidget';
 
 // Import Style
 import styles from './FormListItem.css';
@@ -31,9 +31,9 @@ class FormListItem extends Component {
         </h3>
         <p className={styles['form-action']}><a href="#" onClick={this.props.onDelete}><FormattedMessage id="deleteForm" /></a></p>
         <p className={styles['form-action']}><a href="#" onClick={this.showEdit}><FormattedMessage id="editForm" /></a></p>
-        <FormCreateWidget
-          addForm={this.props.onUpdate}
-          showAddForm={this.state.isEditShown}
+        <FormEditWidget
+          saveForm={this.props.onUpdate}
+          showEditForm={this.state.isEditShown}
           initialForm={this.props.form}
         />
         <hr className={styles.divider} />

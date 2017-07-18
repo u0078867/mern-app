@@ -51,12 +51,15 @@ module.exports = {
         exclude: [/node_modules/, /.+\.config.js/],
         loader: 'babel',
       }, {
-        test: /\.(jpe?g|gif|png|svg)$/i,
+        test: /\.(jpe?g|gif|png|svg|eot|ttf|woff|woff2)$/i,
         loader: 'url-loader?limit=10000',
       }, {
         test: /\.json$/,
         loader: 'json-loader',
-      },
+      }, {
+        test: require.resolve("cbor"),
+        loader: "null-loader"
+      }
     ],
   },
 

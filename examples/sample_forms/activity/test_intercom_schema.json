@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "comp1": {
+      "type": "string",
+      "title": "Component 1"
+    },
+    "comp2": {
+      "type": "string",
+      "title": "Component 2"
+    }
+  }
+}

@@ -25,10 +25,10 @@ export default function callApi(endpoint, method = 'get', body) {
   );
 }
 
-export function uploadFileFromForm(file) {
+export function uploadFile(file) {
   let data = new FormData();
   data.append('file', file);
-  return fetch(`${API_URL}/form/upload/file`, {
+  return fetch(`${API_URL}/upload/file`, {
     method: 'POST',
     body: data
   })

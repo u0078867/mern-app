@@ -7,10 +7,17 @@
 .content {
   width: 100%;
   max-width: 980px;
+  height: 450px;
   margin: auto;
   padding: 64px 16px;
   overflow: auto;
+  background-color: #FFF;
 }
+
+/*.content a {
+  text-decoration: none;
+  color: #FFF;
+}*/
 
 .site-title {
   font-weight: 300;
@@ -54,6 +61,30 @@
 
 .language-switcher li:first-child {
   color: rgba(255, 255, 255, 0.7);
+}
+
+.panel-switcher {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.panel-switcher ul {
+  list-style: none;
+  width: 980px;
+  margin: auto;
+  text-align: left;
+}
+
+.panel-switcher li {
+  display: inline-block;
+  margin: 10px;
+  padding: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.panel-switcher li a {
+  color: #fff;
+  text-decoration: none;
 }
 
 .selected {

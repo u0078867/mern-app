@@ -10,6 +10,11 @@ export function Header(props, context) {
     lang => <li key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</li>
   );
 
+  const panels = [
+    {name: 'Forms', 'url': '/'},
+    {name: 'Submissions', 'url': '/subms'},
+  ];
+
   return (
     <div className={styles.header}>
       <div className={styles['language-switcher']}>
@@ -18,7 +23,7 @@ export function Header(props, context) {
           {languageNodes}
         </ul>
       </div>
-      <div className={styles.content}>
+      {/*<div className={styles.content}>
         <h1 className={styles['site-title']}>
           <Link to="/" ><FormattedMessage id="siteTitle" /></Link>
         </h1>
@@ -27,6 +32,18 @@ export function Header(props, context) {
             ? <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
             : null
         }
+      </div>*/}
+      <div className={styles.content}>
+        {props.children}
+      </div>
+      <div className={styles['panel-switcher']}>
+        <ul>
+          {
+            panels.map(panel => (
+              <li key={panel.name}><Link to={panel.url}>{panel.name}</Link></li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   );

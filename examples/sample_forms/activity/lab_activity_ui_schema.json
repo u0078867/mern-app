@@ -1,0 +1,37 @@
+{
+  "researchers": {
+    "items": {
+      "id": {
+        "ui:widget": "researcher"
+      }
+    }
+  },
+  "subjects": {
+    "items": {
+      "id": {
+        "ui:widget": "subject"
+      }
+    }
+  },
+  "devices": {
+    "items": {
+      "id": {
+        "ui:widget": "device"
+      }
+    }
+  },
+  "software": {
+    "items": {
+      "id": {
+        "ui:widget": "software"
+      }
+    }
+  },
+  "other_resources": {
+    "items": {
+      "id": {
+        "ui:widget": "output"
+      }
+    }
+  }
+}

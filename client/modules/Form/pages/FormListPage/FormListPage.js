@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // Import Components
 import FormList from '../../components/FormList';
-import FormCreateWidget from '../../components/FormCreateWidget/FormCreateWidget';
+import FormEditWidget from '../../components/FormEditWidget/FormEditWidget';
 
 // Import Actions
 import { addFormRequest, fetchForms, deleteFormRequest, toggleAddForm, updateFormRequest } from '../../FormActions';
@@ -33,6 +33,8 @@ class FormListPage extends Component {
 
   handleAddForm = (form) => {
     this.props.dispatch(toggleAddForm());
+    console.log('handleAddForm');
+    console.log(form);
     this.props.dispatch(addFormRequest(form));
   };
 
@@ -45,7 +47,7 @@ class FormListPage extends Component {
       <div>
         {/*<a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>*/}
         <a href="#" onClick={this.handleToggleAddForm}>Add form</a>
-        <FormCreateWidget addForm={this.handleAddForm} showAddForm={this.props.showAddForm} />
+        <FormEditWidget saveForm={this.handleAddForm} showEditForm={this.props.showAddForm} />
         <FormList
           handleDeleteForm={this.handleDeleteForm}
           handleUpdateForm={this.handleUpdateForm}

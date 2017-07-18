@@ -6,6 +6,8 @@ var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
 var cssnano = require('cssnano');
+//var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 
 module.exports = {
   devtool: 'hidden-source-map',
@@ -40,6 +42,7 @@ module.exports = {
         test: /\.css$/,
         exclude: /node_modules/,
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader?localIdentName=[hash:base64]&modules&importLoaders=1!postcss-loader'),
+        //loader: 'style-loader!css-loader?localIdentName=[name]__[local]__[hash:base64:5]&modules&importLoaders=1&sourceMap!postcss-loader',
       }, {
         test: /\.css$/,
         include: /node_modules/,
@@ -49,12 +52,15 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel',
       }, {
-        test: /\.(jpe?g|gif|png|svg)$/i,
+        test: /\.(jpe?g|gif|png|svg|eot|ttf|woff|woff2)$/i,
         loader: 'url-loader?limit=10000',
       }, {
         test: /\.json$/,
         loader: 'json-loader',
-      },
+      }, { // https://github.com/crossbario/autobahn-js/issues/307
+        test: require.resolve("cbor"),
+        loader: "null-loader"
+      }
     ],
   },
 
@@ -77,7 +83,7 @@ module.exports = {
       filename: "chunk-manifest.json",
       manifestVariable: "webpackManifest",
     }),
-    new webpack.optimize.UglifyJsPlugin({
+    new UglifyJsPlugin({
       compressor: {
         warnings: false,
       }

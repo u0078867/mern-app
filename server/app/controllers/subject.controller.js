@@ -2,7 +2,7 @@ import Subject from '../models/subject';
 
 
 /**
- * Get all subjectss
+ * Get all subjects
  * @param req
  * @param res
  * @returns void
@@ -10,14 +10,14 @@ import Subject from '../models/subject';
 export function getSubjects(req, res) {
   Subject.find().exec((err, subjects) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     res.json({ subjects });
   });
 }
 
 /**
- * Get a single form
+ * Get a single subject
  * @param req
  * @param res
  * @returns void
@@ -25,7 +25,7 @@ export function getSubjects(req, res) {
 export function getSubject(req, res) {
   Subject.findOne({ cuid: req.params.cuid }).exec((err, subject) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     res.json({ subject });
   });

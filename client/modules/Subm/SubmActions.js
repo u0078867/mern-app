@@ -32,29 +32,14 @@ export function addSubms(subms) {
 export function fetchSubms() {
   return (dispatch) => {
     return callApi('subms').then(res => {
-      /*let subms = res.subms.map(subm => {
-        subm.form = {
-
-        };
-        return subm;
-      })
-      return dispatch(addSubms(subms));*/
       dispatch(addSubms(res.subms));
     });
-
   };
 }
 
 export function fetchSubm(cuid) {
   return (dispatch) => {
     return callApi(`subms/${cuid}`)
-    /*.then(res =>
-      callApi(`forms/${res.subm.form_cuid}`)
-      .then(res2 => {
-        res.subm.form = res2.form;
-        return res;
-      })
-    )*/
     .then(res => dispatch(addSubm(res.subm)));
   };
 }
@@ -74,8 +59,12 @@ export function deleteSubmRequest(cuid) {
 
 export function acceptSubmRequest(subm) {
   return (dispatch) => {
-    return callApi('form/upload/data', 'post', subm.data)
-    .then(() => dispatch(deleteSubm(subm.cuid)))
+    let data = {
+      target_collection: 'to-implement',
+      document: subm.data,
+    };
+    return callApi('upload/data', 'post', data)
+    .then(() => dispatch(deleteSubmRequest(subm.cuid)))
     /*.then(() => {
       type: ACCEPT_SUBM,
       subm

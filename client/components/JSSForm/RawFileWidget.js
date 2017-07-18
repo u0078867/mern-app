@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from "react";
 import fetch from 'isomorphic-fetch';
-import {uploadFileFromForm} from '../../../../util/apiCaller';
+import {uploadFile} from '../../util/apiCaller';
 //import PropTypes from "prop-types";
 
 //import { dataURItoBlob, shouldRender, setState } from "../../utils";
@@ -39,7 +39,7 @@ class RawFileWidget extends Component {
   onChange = event => {
     const { multiple, onChange } = this.props;
     processFiles(event.target.files).then(filesInfo => {
-      console.log(filesInfo);
+      //console.log(filesInfo);
       const state = {
         values: filesInfo.map(fileInfo => JSON.stringify(fileInfo)),
         filesInfo,
@@ -70,6 +70,7 @@ class RawFileWidget extends Component {
             defaultValue=""
             autoFocus={autofocus}
             multiple={multiple}
+            style={{color: 'transparent'}}
           />
         </p>
         <FilesInfo filesInfo={filesInfo} />
@@ -101,12 +102,12 @@ class RawFileWidget extends Component {
 function processFile(file) {
   const { name, size, type } = file;
   return new Promise((resolve, reject) => {
-    uploadFileFromForm(file)
+    uploadFile(file)
     .then(res => {
       console.log('response:');
       console.log(res);
       resolve({
-        newName: res.newName,
+        newName: res.newFileName,
         name,
         size,
         type,
@@ -127,10 +128,11 @@ function FilesInfo(props) {
   return (
     <ul className="file-info">
       {filesInfo.map((fileInfo, key) => {
-        const { name, size, type } = fileInfo;
+        let { name, newName, size, type } = fileInfo;
+        if (!type) type = 'unknown type';
         return (
           <li key={key}>
-            <strong>{name}</strong> ({type}, {size} bytes)
+            <strong>{name}</strong> ({type}, {size} bytes) -> {newName}
           </li>
         );
       })}
@@ -157,16 +159,17 @@ function extractFileInfo(files) {
     .map(file => {
       //const { blob, name } = dataURItoBlob(value);
       try {
-        var { name, size, type } = JSON.parse(file);
+        var { name, newName, size, type } = JSON.parse(file);
       } catch(e) {
-        var name = size = type = undefined;
+        var name = newName = size = type = undefined;
       }
       let o = {
         name,
+        newName,
         size,
         type,
       };
-      console.log(o);
+      //console.log(o);
       return o;
     });
 }

@@ -3,14 +3,14 @@ import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
-import JSSForm from '../../components/JSSForm/JSSForm';
+import JSSForm from '../../../../components/JSSForm/JSSForm';
 
 // Import Style
 import styles from '../../components/FormListItem/FormListItem.css';
 
 // Import Actions
 import { fetchForm, submitForm } from '../../FormActions';
-import { addSubmRequest } from '../../../Subm/SubmActions';
+import { addSubmRequest, fetchSubm, updateSubmRequest, acceptSubmRequest } from '../../../Subm/SubmActions';
 
 // Import Selectors
 import { getForm } from '../../FormReducer';
@@ -20,15 +20,40 @@ class FormDetailPage extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      formData: this.props.form.init_data,
+    };
   }
 
   onSubmit = ({formData}) => {
+    console.log('submitting...');
+    console.log(this.state.submitType);
     let subm = {
       form: this.props.form._id,
       data: formData,
     };
-    this.props.dispatch(addSubmRequest(subm))
-    .then(this.context.router.push('/forms'));
+    switch (this.state.submitType) {
+      case 'submit_later':
+        this.props.dispatch(addSubmRequest(subm))
+        .then(this.context.router.push('/'));
+        break;
+      case 'submit_now':
+        this.props.dispatch(addSubmRequest(subm))
+        .then(res => this.props.dispatch(updateSubmRequest(res.subm)))
+        .then(res => this.props.dispatch(acceptSubmRequest(res.subm)))
+        .then(this.context.router.push('/'));
+        break;
+    }
+  }
+
+  onChange = ({formData}) => {
+    this.setState({
+      formData: formData
+    });
+  }
+
+  onClick = (event) => {
+    this.setState({submitType: event.target.id})
   }
 
   render() {
@@ -41,10 +66,13 @@ class FormDetailPage extends Component {
         <JSSForm
           schema={this.props.form.json_schema}
           uiSchema={this.props.form.ui_schema}
-          formData={this.props.form.init_data}
+          formData={this.state.formData}
           onSubmit={this.onSubmit}
+          onChange={this.onChange}
+          listenToInternalEvents={true}
         >
-          <button type="submit">Submit (accept later)</button>
+          <button type="submit" className="btn btn-info" id="submit_now" onClick={this.onClick}>Submit (accept now)</button>
+          <button type="submit" className="btn btn-info" id="submit_later" onClick={this.onClick}>Submit (accept later)</button>
         </JSSForm>
       </div>
     );

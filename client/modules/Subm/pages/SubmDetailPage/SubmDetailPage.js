@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
-import JSSForm from '../../../Form/components/JSSForm/JSSForm';
+import JSSForm from '../../../../components/JSSForm/JSSForm';
 
 // Import Style
 import styles from '../../components/SubmListItem/SubmListItem.css';
@@ -25,6 +25,10 @@ class SubmDetailPage extends Component {
 
   constructor(props) {
     super(props);
+    console.log(this.props.subm.data)
+    this.state = {
+      formData: this.props.subm.data,
+    };
   }
 
   componentDidMount() {
@@ -35,16 +39,31 @@ class SubmDetailPage extends Component {
   }
 
   onSubmit = ({formData}) => {
-    let subm = Object.assign({}, this.props.subm, {
-      'form': this.props.subm.form._id,
-      'data': formData,
-    });
-    this.props.dispatch(updateSubmRequest(subm));
+    switch (this.state.action) {
+      case 'save':
+        let subm = Object.assign({}, this.props.subm, {
+          'form': this.props.subm.form._id,
+          'data': formData,
+        });
+        console.log(subm)
+        this.props.dispatch(updateSubmRequest(subm))
+        .then(this.context.router.push('/subms'));
+        break;
+    }
+  }
+
+  onChange = ({formData}) => {
+    console.log(formData);
+    this.setState({
+      formData
+    })
+  }
+
+  onClick = (event) => {
+    this.setState({action: event.target.id})
   }
 
   render() {
-    /*if (!this.props.subm.form)
-      return null;*/
     return (
       <div>
         <Helmet title={this.props.subm.form.title} />
@@ -54,10 +73,12 @@ class SubmDetailPage extends Component {
         <JSSForm
           schema={this.props.subm.form.json_schema}
           uiSchema={this.props.subm.form.ui_schema}
-          formData={this.props.subm.data}
+          formData={this.state.formData}
           onSubmit={this.onSubmit}
+          onChange={this.onChange}
+          listenToInternalEvents={true}
         >
-          <button type="submit">Save</button>
+          <button type="submit" className="btn btn-info" id="save" onClick={this.onClick}>Save</button>
         </JSSForm>
       </div>
     );
@@ -85,5 +106,9 @@ SubmDetailPage.propTypes = {
     cuid: PropTypes.string.isRequired,
   }).isRequired,
 };
+
+SubmDetailPage.contextTypes = {
+  router: React.PropTypes.object.isRequired
+}
 
 export default connect(mapStateToProps)(SubmDetailPage);

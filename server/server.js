@@ -19,8 +19,26 @@ const app = new Express();
 // Run Webpack dev server in development mode
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(config);
-  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath,
+    stats: {
+      chunks: false,  // necessary otherwise autobahn logs a lot of data
+    }
+  }));
   app.use(webpackHotMiddleware(compiler));
+
+  // Watch files and clean cache (server)
+  compiler.plugin('done', function() {
+    console.log("Clearing /client/ module cache from server");
+    Object.keys(require.cache).forEach(function(id) {
+      if (/[\/\\]client[\/\\]/.test(id)) {
+        //console.log(`Uncaching ${id} ...`);
+        delete require.cache[id];
+      }
+    });
+  });
+
 }
 
 // React And Redux Setup
@@ -34,8 +52,11 @@ import Helmet from 'react-helmet';
 // Import required modules
 import routes from '../client/routes';
 import { fetchComponentData } from './app/util/fetchData';
-import dummyData from './app/dummyData';
+//import dummyData from './app/dummyData';
 import serverConfig from './config';
+
+// Display server config
+console.log(serverConfig);
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -47,8 +68,29 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     throw error;
   }
 
-  // feed some dummy data in DB.
-  dummyData();
+  if (process.env.NODE_ENV === 'development') {
+    // feed some dummy data in DB.
+    var readline = require('readline');
+    var rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      terminal: false
+    });
+    console.log('Type "fill" to fill Mongo with fictitious data ...');
+    rl.on('line', (line) => {
+      console.log(`typed '${line}'`);
+      if (line == 'fill') {
+        /*try {
+          require('./app/dummyData')();
+        } catch (err) {
+          console.log(err);
+        }*/
+        require('./app/dummyData')(false)
+        .then(() => console.log('db filled with fictitious data!'))
+        .catch(err => console.log(err));
+      }
+    });
+  }
 });
 
 // Apply body Parser and server public assets and routes (non-APIs)
@@ -59,20 +101,49 @@ app.use(Express.static(path.resolve(__dirname, '../dist')));
 app.use(fileUpload());
 
 // Specify APIs
-app.use('/api', function(req, res, next) {
+const API_URL = '/api';
+const SEARCH_API_URL = '/search-api';
+app.use(API_URL, function(req, res, next) {
   require('./app/routes/post.routes')(req, res, next);
 });
-app.use('/api', function(req, res, next) {
+app.use(API_URL, function(req, res, next) {
   require('./app/routes/form.routes')(req, res, next);
 });
-app.use('/api', function(req, res, next) {
+app.use(API_URL, function(req, res, next) {
   require('./app/routes/subm.routes')(req, res, next);
 });
-app.use('/api', function(req, res, next) {
+app.use(API_URL, function(req, res, next) {
+  require('./app/routes/upload.routes')(req, res, next);
+});
+app.use(API_URL, function(req, res, next) {
   require('./app/routes/subject.routes')(req, res, next);
 });
-app.use('/search-api', function(req, res, next) {
+app.use(API_URL, function(req, res, next) {
+  require('./app/routes/researcher.routes')(req, res, next);
+});
+app.use(API_URL, function(req, res, next) {
+  require('./app/routes/device.routes')(req, res, next);
+});
+app.use(API_URL, function(req, res, next) {
+  require('./app/routes/swtool.routes')(req, res, next);
+});
+app.use(API_URL, function(req, res, next) {
+  require('./app/routes/output.routes')(req, res, next);
+});
+app.use(SEARCH_API_URL, function(req, res, next) {
   require('./app/routes/subject.search.routes')(req, res, next);
+});
+app.use(SEARCH_API_URL, function(req, res, next) {
+  require('./app/routes/researcher.search.routes')(req, res, next);
+});
+app.use(SEARCH_API_URL, function(req, res, next) {
+  require('./app/routes/device.search.routes')(req, res, next);
+});
+app.use(SEARCH_API_URL, function(req, res, next) {
+  require('./app/routes/swtool.search.routes')(req, res, next);
+});
+app.use(SEARCH_API_URL, function(req, res, next) {
+  require('./app/routes/output.search.routes')(req, res, next);
 });
 app.use('/test-hmr-api', function(req, res, next) {
   require('./app/routes/test.hmr.routes')(req, res, next);
@@ -86,6 +157,18 @@ const renderFullPage = (html, initialState) => {
   const assetsManifest = process.env.webpackAssets && JSON.parse(process.env.webpackAssets);
   const chunkManifest = process.env.webpackChunkAssets && JSON.parse(process.env.webpackChunkAssets);
 
+
+  /*
+  removed:
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
+    <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
+
+  fixed/improved:
+    - warning with https://github.com/Hashnode/mern-starter/issues/149
+    - add .replace(/</g, '\\u003c') to JSON.stringify(initialState)
+      (http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations)
+  */
+
   return `
     <!doctype html>
     <html>
@@ -97,14 +180,12 @@ const renderFullPage = (html, initialState) => {
         ${head.script.toString()}
 
         ${process.env.NODE_ENV === 'production' ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
-        <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
-        <link rel="stylesheet" id="theme" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
+
       </head>
       <body>
-        <div id="root">${html}</div>
+        <div id="root">${process.env.NODE_ENV === 'production' ? html : `<div>${html}</div>`}</div>
         <script>
-          window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
+          window.__INITIAL_STATE__ = ${JSON.stringify(initialState).replace(/</g, '\\u003c')};
           ${process.env.NODE_ENV === 'production' ?
           `//<![CDATA[
           window.webpackManifest = ${JSON.stringify(chunkManifest)};
@@ -161,14 +242,17 @@ app.use((req, res, next) => {
   });
 });
 
-// Watch files and clean cache
+// Watch files and clean cache (server)
 const watcher = chokidar.watch(path.resolve(__dirname) + '/app');
 watcher.on('ready', function() {
   console.log('Chokidar ready to watch server files');
   watcher.on('all', function() {
     console.log("Clearing /app/ module cache from server");
     Object.keys(require.cache).forEach(function(id) {
-      if (/[\/\\]app[\/\\]/.test(id)) delete require.cache[id];
+      if (/[\/\\]app[\/\\]/.test(id)) {
+        //console.log(`Uncaching ${id} ...`);
+        delete require.cache[id];
+      }
     });
   });
 });

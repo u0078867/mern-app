@@ -10,7 +10,7 @@ function SubmListItem(props) {
     <div className={styles['single-subm']}>
       <h3 className={styles['subm-title']}>
         <Link to={`/subms/${props.subm.slug}-${props.subm.cuid}`} >
-          {props.subm.form.title}
+          {`${props.subm.form.title} (created: ${props.subm.date_added})`}
         </Link>
       </h3>
       <p className={styles['subm-action']}><a href="#" onClick={props.onDelete}><FormattedMessage id="deleteSubm" /></a></p>

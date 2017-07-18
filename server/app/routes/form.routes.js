@@ -14,12 +14,6 @@ router.route('/forms').post(FormController.addForm);
 // Update form by cuid
 router.route('/forms/:cuid').put(FormController.updateForm);
 
-// Upload file from form
-router.route('/form/upload/file').post(FormController.uploadFileFromForm);
-
-// Upload data from form
-router.route('/form/upload/data').post(FormController.uploadDataFromForm);
-
 // Delete a form by cuid
 router.route('/forms/:cuid').delete(FormController.deleteForm);
 

@@ -13,7 +13,7 @@ import { addSubmRequest, fetchSubms, deleteSubmRequest, acceptSubmRequest } from
 import { getSubms } from '../../SubmReducer';
 
 class SubmListPage extends Component {
-  
+
   componentDidMount() {
     this.props.dispatch(fetchSubms());
   }
@@ -26,6 +26,7 @@ class SubmListPage extends Component {
 
   handleAcceptSubm = subm => {
     if (confirm('Do you want to accept this submission')) { // eslint-disable-line
+      console.log(subm);
       this.props.dispatch(acceptSubmRequest(subm));
     }
   };

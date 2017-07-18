@@ -15,7 +15,7 @@ export function getSubms(req, res) {
   .populate('form')
   .exec((err, subms) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     res.json({ subms });
   });
@@ -30,7 +30,7 @@ export function getSubms(req, res) {
 export function addSubm(req, res) {
   if (!req.body.subm.form ||
       !req.body.subm.data) {
-    res.status(403).end();
+    return res.status(403).end();
   }
 
   const newSubm = new Subm(req.body.subm);
@@ -43,7 +43,7 @@ export function addSubm(req, res) {
   newSubm.cuid = cuid();
   newSubm.save((err, saved) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     res.json({ subm: saved });
   });
@@ -60,7 +60,7 @@ export function getSubm(req, res) {
   .populate('form')
   .exec((err, subm) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     res.json({ subm });
   });
@@ -75,7 +75,7 @@ export function getSubm(req, res) {
 export function deleteSubm(req, res) {
   Subm.findOne({ cuid: req.params.cuid }).exec((err, subm) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
 
     subm.remove(() => {
@@ -85,24 +85,11 @@ export function deleteSubm(req, res) {
 }
 
 export function updateSubm(req, res) {
-  /*Subm.findOne({ cuid: req.params.cuid }).exec((err, subm) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-
-    subm = req.body.subm;
-
-    subm.save(() => {
-      res.status(200).end();
-    });
-  });
-  */
   Subm.findOneAndUpdate({ cuid: req.params.cuid }, { $set: req.body.subm}, { new: true })
   .populate('form')
   .exec((err, updated) => {
-    console.log(err);
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
     res.json({ subm: updated });
   });
