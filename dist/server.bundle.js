@@ -7848,9 +7848,6 @@
 	
 	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 	
-	// Webpack Requirements
-	
-	
 	var _express = __webpack_require__(1);
 	
 	var _express2 = _interopRequireDefault(_express);
@@ -7878,22 +7875,6 @@
 	var _expressFileupload = __webpack_require__(69);
 	
 	var _expressFileupload2 = _interopRequireDefault(_expressFileupload);
-	
-	var _webpack = __webpack_require__(31);
-	
-	var _webpack2 = _interopRequireDefault(_webpack);
-	
-	var _webpackConfig = __webpack_require__(65);
-	
-	var _webpackConfig2 = _interopRequireDefault(_webpackConfig);
-	
-	var _webpackDevMiddleware = __webpack_require__(71);
-	
-	var _webpackDevMiddleware2 = _interopRequireDefault(_webpackDevMiddleware);
-	
-	var _webpackHotMiddleware = __webpack_require__(72);
-	
-	var _webpackHotMiddleware2 = _interopRequireDefault(_webpackHotMiddleware);
 	
 	var _store = __webpack_require__(47);
 	
@@ -7928,15 +7909,19 @@
 	
 	// Run Webpack dev server in development mode
 	if (process.env.NODE_ENV === 'development') {
-	  var compiler = (0, _webpack2.default)(_webpackConfig2.default);
-	  app.use((0, _webpackDevMiddleware2.default)(compiler, {
+	  var webpack = __webpack_require__(31);
+	  var config = __webpack_require__(65);
+	  var webpackDevMiddleware = __webpack_require__(71);
+	  var webpackHotMiddleware = __webpack_require__(72);
+	  var compiler = webpack(config);
+	  app.use(webpackDevMiddleware(compiler, {
 	    noInfo: true,
-	    publicPath: _webpackConfig2.default.output.publicPath,
+	    publicPath: config.output.publicPath,
 	    stats: {
 	      chunks: false // necessary otherwise autobahn logs a lot of data
 	    }
 	  }));
-	  app.use((0, _webpackHotMiddleware2.default)(compiler));
+	  app.use(webpackHotMiddleware(compiler));
 	
 	  // Watch files and clean cache (server)
 	  compiler.plugin('done', function () {

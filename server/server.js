@@ -7,17 +7,15 @@ import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import fileUpload from 'express-fileupload';
 
 
-// Webpack Requirements
-import webpack from 'webpack';
-import config from '../webpack.config.dev';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-
 // Initialize the Express App
 const app = new Express();
 
 // Run Webpack dev server in development mode
 if (process.env.NODE_ENV === 'development') {
+  let webpack = require('webpack');
+  let config = require('../webpack.config.dev');
+  let webpackDevMiddleware = require('webpack-dev-middleware');
+  let webpackHotMiddleware = require('webpack-hot-middleware');
   const compiler = webpack(config);
   app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
