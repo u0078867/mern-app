@@ -1,3 +1,4 @@
+var webpack = require('webpack');
 var fs = require('fs');
 var path = require('path');
 var ExternalsPlugin = require('webpack-externals-plugin');
@@ -54,6 +55,14 @@ module.exports = {
     ],
   },
   plugins: [
+    /*new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production'),
+      }
+    }),*/
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
     new ExternalsPlugin({
       type: 'commonjs',
       include: path.join(__dirname, './node_modules/'),
