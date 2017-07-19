@@ -65,7 +65,15 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
     throw error;
   }
+  console.log('Connected to db')
 
+  var dummyData = (verbose) => {
+    require('./app/dummyData')(verbose)
+    .then(() => console.log('db filled with fictitious data when necessary'))
+    .catch(err => console.log(err));
+  }
+
+  dummyData(true);
   if (process.env.NODE_ENV === 'development') {
     // feed some dummy data in DB.
     var readline = require('readline');
@@ -78,14 +86,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     rl.on('line', (line) => {
       console.log(`typed '${line}'`);
       if (line == 'fill') {
-        /*try {
-          require('./app/dummyData')();
-        } catch (err) {
-          console.log(err);
-        }*/
-        require('./app/dummyData')(false)
-        .then(() => console.log('db filled with fictitious data!'))
-        .catch(err => console.log(err));
+        dummyData(true);
       }
     });
   }

@@ -62,5 +62,10 @@ module.exports = {
       type: 'commonjs',
       include: path.join(__dirname, './node_modules/'),
     }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false,
+      }
+    }),
   ],
 };
