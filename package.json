@@ -10,7 +10,7 @@
     "start:nodemon": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development nodemon index.js",
     "start:choki": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development node index.js",
     "start": "cross-env NODE_ENV=production node index.js",
-    "bs": "npm run clean && npm run build && npm run build:server && npm run start:prod",
+    "bs": "npm run clean && npm run build:client && npm run build:server && npm run start",
     "build:client": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:server": "cross-env NODE_ENV=production webpack --config webpack.config.server.js",
     "clean": "rimraf dist",

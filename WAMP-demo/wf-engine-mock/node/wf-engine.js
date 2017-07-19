@@ -34,7 +34,7 @@ connection.onopen = function (session) {
 
 };
 
-fetch('http://localhost:8000/api/forms', {
+/*fetch('http://localhost:8000/api/forms', {
     headers: { 'content-type': 'application/json' },
     method: 'get',
   })
@@ -44,3 +44,5 @@ fetch('http://localhost:8000/api/forms', {
   console.log(urls);
 })
 .then(() => connection.open());
+*/
+connection.open()

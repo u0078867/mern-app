@@ -25,6 +25,32 @@ These services are available:
 *(to add many details)*
 
 
+### Installation (production):
+
+Install dependencies:
+```
+$ npm install
+```
+Build:
+```
+$ npm run build:server
+```
+```
+$ npm run build:client
+```
+Deploy - set environment variables:
+
+- ``MONGO_URL``: ``"mongodb://<user>:<password>@<url>:<port>/<dbname>"``;
+- ``PORT``: server port; default: 8000;
+- ``WORK_DIR``: directory for data uploads (submissions + files); default: ``./upload``;
+- ``PREFILL_DB``: if 1, fill with fictitious data empty collections; 0 otherwise; default: 1;
+
+Deploy - run:
+```
+$ npm start
+```
+
+
 ### Boilerplate:
 
 The application was developed on top of the [mern.io](http://mern.io/) 2.0 boilerplate.

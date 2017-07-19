@@ -1,6 +1,7 @@
 import React from 'react';
 import update from 'react-addons-update';
 import autobahn from 'autobahn';
+import InPort from './InPort';
 
 
 let enabled = false;
@@ -73,14 +74,11 @@ class WAMPSocket extends React.Component {
                 realm: realm,
             });
             this.connection.onopen = (session, details) => {
-
                 this.session = session;
 
                 React.Children.map(this.props.children, (child) => {
                     if (React.isValidElement(child)) {
-                        //console.log("valid element")
-                        let childType = child.type.name;
-                        if (childType == "InPort") {
+                        if (child.type == InPort) { // child.type.name == "InPort" does not work after uglify
                             let topic = child.props.port;
                             session.subscribe(topic, (args) => {
                                 this.props.onData(topic, args[0]);
