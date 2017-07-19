@@ -6,10 +6,11 @@ import styles from './App.css';
 
 // Import Components
 import Helmet from 'react-helmet';
-import DevTools from './components/DevTools';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Services from './components/Services';
+if (process.env.NODE_ENV === 'development')
+  var DevTools = require('./components/DevTools').default;
 
 import WAMPConnection from './components/WAMPConnection/WAMPConnection';
 import WorkFlowClient from './components/WorkFlowClient/WorkFlowClient';
