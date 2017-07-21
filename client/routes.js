@@ -16,8 +16,6 @@ if (typeof require.ensure !== 'function') {
  */
 if (process.env.NODE_ENV !== 'production') {
   // Require async routes only in development for react-hot-reloader to work.
-  require('./modules/Post/pages/PostListPage/PostListPage');
-  require('./modules/Post/pages/PostDetailPage/PostDetailPage');
   require('./modules/Form/pages/FormListPage/FormListPage');
   require('./modules/Form/pages/FormDetailPage/FormDetailPage');
   require('./modules/Subm/pages/SubmListPage/SubmListPage');
@@ -27,24 +25,8 @@ if (process.env.NODE_ENV !== 'production') {
 // react-router setup with code-splitting
 // More info: http://blog.mxstbr.com/2016/01/react-apps-with-pages/
 export default (
-  <Route path="/posts" component={App}>
+  <Route path="/" component={App}>
     <IndexRoute
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
-        });
-      }}
-    />
-    <Route
-      path="/posts/:slug-:cuid"
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostDetailPage/PostDetailPage').default);
-        });
-      }}
-    />
-    <Route
-      path="/"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Form/pages/FormListPage/FormListPage').default);

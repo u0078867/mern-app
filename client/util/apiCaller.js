@@ -19,10 +19,10 @@ export default function callApi(endpoint, method = 'get', body) {
 
     return json;
   })
-  .then(
+  /*.then(
     response => response,
     error => error
-  );
+  );*/
 }
 
 export function uploadFile(file) {
@@ -40,8 +40,8 @@ export function uploadFile(file) {
 
     return json;
   })
-  .then(
+  /*.then(
     response => response,
     error => error
-  );
+  );*/
 }

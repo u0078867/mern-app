@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
+import SubjectViewer from './components/SubjectViewer';
 import callSearchApi from '../../util/apiSearchCaller';
 import callApi from '../../util/apiCaller';
 
@@ -28,10 +29,12 @@ class SubjectSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        <div>
-          {this.props.option.name + ' ' + this.props.option.surname + ' '}
-          <i>({this.props.option.birthdate})</i>
-        </div>
+        <SubjectViewer {...this.props.option} />
+        {/*<div><b>CUID:</b> {this.props.option.cuid}</div>
+        <div><b>Attributes:</b></div>
+        {this.props.option.attributes && this.props.option.attributes.map(attribute => {
+          return <div style={{paddingLeft: "10px"}} key={Math.random()}><b>{attribute.name}:</b> {attribute.value}</div>;
+        })}*/}
       </div>
     );
   }
@@ -44,8 +47,7 @@ class SubjectSearchValue extends Component {
     return (
       <div className="Select-value">
         <span className="Select-value-label">
-          {this.props.value.name + ' ' + this.props.value.surname + ' '}
-          <b>({this.props.value.cuid})</b>
+          <b>{this.props.value.cuid}</b>
         </span>
       </div>
     );
@@ -75,7 +77,7 @@ class SubjectSearch extends Component {
       if (!value) {
         value = {cuid};
       }
-      if (this.refs.container) 
+      if (this.refs.container)
         this.setState({ value: value });
     });
   }

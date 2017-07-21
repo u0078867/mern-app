@@ -30,7 +30,7 @@ export function addForm(req, res) {
       !req.body.form.json_schema ||
       !req.body.form.ui_schema ||
       !req.body.form.init_data) {
-    return res.status(403).end();
+    return res.status(403).json(null);
   }
 
   const newForm = new Form(req.body.form);
@@ -79,7 +79,7 @@ export function deleteForm(req, res) {
     }
 
     form.remove(() => {
-      res.status(200).end();
+      res.status(200).json(null);
     });
   });
 }
@@ -93,5 +93,3 @@ export function updateForm(req, res) {
     res.json({ form: updated });
   });
 }
-
-

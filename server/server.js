@@ -73,7 +73,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     .catch(err => console.log(err));
   }
 
-  dummyData(true);
+  dummyData(false);
   if (process.env.NODE_ENV === 'development') {
     // feed some dummy data in DB.
     var readline = require('readline');
@@ -86,7 +86,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     rl.on('line', (line) => {
       console.log(`typed '${line}'`);
       if (line == 'fill') {
-        dummyData(true);
+        dummyData(false);
       }
     });
   }
@@ -102,9 +102,6 @@ app.use(fileUpload());
 // Specify APIs
 const API_URL = '/api';
 const SEARCH_API_URL = '/search-api';
-app.use(API_URL, function(req, res, next) {
-  require('./app/routes/post.routes')(req, res, next);
-});
 app.use(API_URL, function(req, res, next) {
   require('./app/routes/form.routes')(req, res, next);
 });
@@ -128,6 +125,9 @@ app.use(API_URL, function(req, res, next) {
 });
 app.use(API_URL, function(req, res, next) {
   require('./app/routes/output.routes')(req, res, next);
+});
+app.use(API_URL, function(req, res, next) {
+  require('./app/routes/database.routes')(req, res, next);
 });
 app.use(SEARCH_API_URL, function(req, res, next) {
   require('./app/routes/subject.search.routes')(req, res, next);

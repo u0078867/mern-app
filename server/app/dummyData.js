@@ -10,7 +10,6 @@ import mongoose from 'mongoose';
 mongoose.Promise = global.Promise;
 const ObjectId = mongoose.Types.ObjectId;
 
-import cuid from 'cuid';
 import Chance from 'chance';
 let chance = new Chance();
 
@@ -31,13 +30,30 @@ function dummyData(verbose) {
     console.log('filling subjects collection ...');
     let subjects = [];
     for (let i = 0; i < 1000; i++) {
-      const subject = new Subject({
-        name: chance.first(),
-        surname: chance.last(),
-        birthdate: chance.birthday({string: true}),
-        slug: 'test-subject',
-        cuid: cuid(),
-      });
+      var isHuman = chance.bool({likelihood: 50});
+      if (isHuman) {
+        // human subject
+        var subject = new Subject({
+          attributes: [
+            {name: "name", value: chance.first()},
+            {name: "surname", value: chance.last()},
+            {name: "birthdate", value: chance.birthday({string: true})},
+          ],
+          slug: 'test-human-subject',
+        });
+      } else {
+        // specimen subject
+        var subject = new Subject({
+          attributes: [
+            {name: "name", value: chance.first()},
+            {name: "surname", value: chance.last()},
+            {name: "deathdate", value: chance.birthday({string: true})},
+            {name: "anatomical_segment", value: "foot"},
+            {name: "anatomical_side", value: chance.character({pool: 'RL'})},
+          ],
+          slug: 'test-specimen-subject',
+        });
+      }
       subjects.push(subject);
     }
     return Subject.create(subjects);
@@ -59,7 +75,6 @@ function dummyData(verbose) {
         surname: chance.last(),
         birthdate: chance.birthday({string: true}),
         slug: 'test-researcher',
-        cuid: cuid(),
       });
       researchers.push(researcher);
     }
@@ -87,8 +102,9 @@ function dummyData(verbose) {
       const device = new Device({
         name: 'device-' + chance.word(),
         type: types[chance.integer({min: 0, max: types.length-1})],
+        producer: 'Producer Inc.',
+        uri: chance.url(),
         slug: 'test-device',
-        cuid: cuid(),
       });
       devices.push(device);
     }
@@ -109,7 +125,7 @@ function dummyData(verbose) {
       {name: 'software-A', company: 'Micky Mouse Inc.'},
       {name: 'software-B', company: 'Duffy Duck Ltd.'},
       {name: 'software-C', company: 'Bla bla NV'},
-      {name: 'software-D'}
+      {name: 'software-D', company: 'and more Bla bla NV'}
     ];
     for (let i = 0; i < 50; i++) {
       let tool = tools[chance.integer({min: 0, max: tools.length-1})];
@@ -121,10 +137,9 @@ function dummyData(verbose) {
       const swTool = new SWTool({
         name: tool.name,
         version: version,
-        company: tool.company,
-        download_uri: chance.url(),
+        producer: tool.company,
+        uri: chance.url(),
         slug: 'test-software',
-        cuid: cuid(),
       });
       swTools.push(swTool);
     }
@@ -192,7 +207,6 @@ function dummyData(verbose) {
         for (let j = 0; j < chance.natural({min: 1, max: 5}); j++) {
           outputs.push({
             _id: ObjectId(),
-            cuid: cuid(),
             name: chance.word(),
             uri: chance.url(),
           })
@@ -242,7 +256,6 @@ function dummyData(verbose) {
           outputs,
           other_resources,
           slug: 'test-activity',
-          cuid: cuid(),
         }
 
         activities.push(activity);
@@ -271,18 +284,20 @@ function dummyData(verbose) {
       json_schema: require('../../examples/sample_forms/activity/lab_activity_schema.json'),
       ui_schema: require('../../examples/sample_forms/activity/lab_activity_ui_schema.json'),
       init_data: {},
+      dest_collection: 'activities',
+      insert_on_submit: false,
       slug: "sample-lab-activity",
-      cuid: cuid(),
     };
     forms.push(form1);
 
     let form2 = {
-      title: "empty",
-      json_schema: {},
+      title: "Insert new software",
+      json_schema: require('../../examples/sample_forms/insert_new_software_schema.json'),
       ui_schema: {},
       init_data: {},
-      slug: "empty",
-      cuid: cuid(),
+      dest_collection: 'swtools',
+      insert_on_submit: true,
+      slug: "insert-new-software",
     };
     forms.push(form2);
 

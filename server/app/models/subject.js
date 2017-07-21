@@ -1,17 +1,24 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
+import cuid from 'cuid';
 
 if ('Subject' in mongoose.connection.models)
   delete mongoose.connection.models['Subject'];
 
 const subjectSchema = new Schema({
-  name: { type: 'String', required: true, index: true },
+  /*name: { type: 'String', required: true, index: true },
   surname: { type: 'String', required: true, index: true },
-  birthdate: { type: 'String', required: true, index: true },
+  birthdate: { type: 'String', required: true, index: true },*/
+  attributes: [{
+    name: { type: 'String', required: true},
+    value: { type: 'String', required: true, index: true },
+    _id: false,
+  }],
+
   slug: { type: 'String', required: true },
-  cuid: { type: 'String', required: true },
-  dateAdded: { type: 'Date', default: Date.now, required: true },
-});
+  cuid: { type: 'String', default: cuid, required: true },
+  date_added: { type: 'Date', default: Date.now, required: true },
+}, { strict: false } );
 
 subjectSchema.index({ "$**": "text" });
 

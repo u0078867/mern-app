@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
+import SubjectViewer from './components/SubjectViewer';
 import callSearchApi from '../../util/apiSearchCaller';
 import callApi from '../../util/apiCaller';
 
@@ -43,13 +44,21 @@ class OutputSearchOption extends Component {
         <div><b>Activity:</b> {this.props.option.activity.description}</div>
         {this.props.option.activity.subjects.map(subject => {
           let sbj = subject.id;
-          return <div key={subject.id}><b>Involved: </b>{sbj.name} {sbj.surname} (born: {sbj.birthdate})</div>
+          //return <div key={subject.id}><b>Involved: </b>{sbj.name} {sbj.surname} (born: {sbj.birthdate})</div>
+          return <div key={subject.id}>
+            <b>Subject involved:</b>
+            <div style={{paddingLeft: "10px"}}><SubjectViewer {...sbj} /></div>
+          </div>
         })}
         {(() => {
           if (!this.props.option.activity.prev)
             return null;
           let sbj = this.props.option.activity.prev.subjects.id;
-          return <div><b>Involved previously: </b>{sbj.name} {sbj.surname} (born: {sbj.birthdate})</div>
+          //return <div><b>Involved previously: </b>{sbj.name} {sbj.surname} (born: {sbj.birthdate})</div>
+          return <div>
+            <b>Subject involved previously:</b>
+            <div style={{paddingLeft: "10px"}}><SubjectViewer {...sbj} /></div>
+          </div>
         })()}
       </div>
     );

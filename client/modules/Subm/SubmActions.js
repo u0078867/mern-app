@@ -53,22 +53,15 @@ export function deleteSubm(cuid) {
 
 export function deleteSubmRequest(cuid) {
   return (dispatch) => {
-    return callApi(`subms/${cuid}`, 'delete').then(() => dispatch(deleteSubm(cuid)));
+    return callApi(`subms/${cuid}`, 'delete')
+    .then(() => dispatch(deleteSubm(cuid)))
   };
 }
 
 export function acceptSubmRequest(subm) {
   return (dispatch) => {
-    let data = {
-      target_collection: 'to-implement',
-      document: subm.data,
-    };
-    return callApi('upload/data', 'post', data)
+    return callApi('upload/data', 'post', subm)
     .then(() => dispatch(deleteSubmRequest(subm.cuid)))
-    /*.then(() => {
-      type: ACCEPT_SUBM,
-      subm
-    });*/
   };
 }
 

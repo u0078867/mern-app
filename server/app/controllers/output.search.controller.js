@@ -21,9 +21,10 @@ export function getOutputs(req, res) {
   Subject.find({
     $or: [
       {$text: {$search: q}},
-      {'name': pattern},
+      /*{'name': pattern},
       {'surname': pattern},
-      {'birthdate': pattern},
+      {'birthdate': pattern},*/
+      {'attributes.value': pattern},
     ]
   })
   .exec()

@@ -86,7 +86,7 @@ class JSSForm extends Component {
       if (/unsupported/i.test(test))
         throw new Error(test);
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       valid = false;
     }
     this.props.onFormPropsChange({valid});

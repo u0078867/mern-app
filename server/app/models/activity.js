@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
+import cuid from 'cuid';
 
 if ('Activity' in mongoose.connection.models)
   delete mongoose.connection.models['Activity'];
@@ -29,14 +30,15 @@ const activitySchema = new Schema({
   }],
   outputs: [{
     _id: { type: ObjectId, required: true, index: true },
-    cuid: { type: 'String', required: true, index: true },
+    cuid: { type: 'String', default: cuid, required: true, index: false },
     name: { type: 'String', required: true, index: true },
     uri: { type: 'String', required: false, index: true },
   }],
+
   slug: { type: 'String', required: true },
-  cuid: { type: 'String', required: true },
+  cuid: { type: 'String', default: cuid, required: true },
   date_added: { type: 'Date', default: Date.now, required: true },
-});
+}, { strict: false } );
 
 activitySchema.index({ "$**": "text" });
 

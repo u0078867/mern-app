@@ -16,7 +16,7 @@ import WAMPConnection from './components/WAMPConnection/WAMPConnection';
 import WorkFlowClient from './components/WorkFlowClient/WorkFlowClient';
 
 // Import Actions
-import { toggleAddPost } from './AppActions';
+//import { toggleAddPost } from './AppActions';
 import { switchLanguage } from '../../modules/Intl/IntlActions';
 
 export class App extends Component {
@@ -30,10 +30,6 @@ export class App extends Component {
     this.setState({isMounted: true}); // eslint-disable-line
   }
 
-  toggleAddPostSection = () => {
-    this.props.dispatch(toggleAddPost());
-  };
-
   redirectToForm = (url) => {
     this.context.router.push(`/forms/${url}`);
   }
@@ -41,7 +37,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-        {/*this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />*/}
+        {this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
         <div>
           <Helmet
             title="Activity logging app"
@@ -61,7 +57,6 @@ export class App extends Component {
           <Header
             switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
             intl={this.props.intl}
-            toggleAddPost={this.toggleAddPostSection}
           >
             <Services
               data={[

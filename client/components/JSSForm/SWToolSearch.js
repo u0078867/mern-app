@@ -28,10 +28,11 @@ class SWToolSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        <div>
-          {`${this.props.option.company} ${this.props.option.name} ${this.props.option.version} `}<br/>
-          <i>({this.props.option.download_uri})</i>
-        </div>
+        <div><b>CUID:</b> {this.props.option.cuid}</div>
+        <div><b>Name:</b> {this.props.option.name}</div>
+        <div><b>Version:</b> {this.props.option.version}</div>
+        <div><b>Producer:</b> {this.props.option.producer}</div>
+        <div><b>Uri:</b> {this.props.option.uri}</div>
       </div>
     );
   }
@@ -44,8 +45,7 @@ class SWToolSearchValue extends Component {
     return (
       <div className="Select-value">
         <span className="Select-value-label">
-          {`${this.props.value.company} ${this.props.value.name} ${this.props.value.version} `}
-          <b>({this.props.value.cuid})</b>
+          <b>{this.props.value.cuid}</b>
         </span>
       </div>
     );

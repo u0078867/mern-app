@@ -28,10 +28,10 @@ class ResearcherSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        <div>
-          {this.props.option.name + ' ' + this.props.option.surname + ' '}
-          <i>({this.props.option.birthdate})</i>
-        </div>
+        <div><b>CUID:</b> {this.props.option.cuid}</div>
+        <div><b>Name:</b> {this.props.option.name}</div>
+        <div><b>Surname:</b> {this.props.option.surname}</div>
+        <div><b>Birthdate:</b> {this.props.option.birthdate}</div>
       </div>
     );
   }
@@ -44,8 +44,7 @@ class ResearcherSearchValue extends Component {
     return (
       <div className="Select-value">
         <span className="Select-value-label">
-          {this.props.value.name + ' ' + this.props.value.surname + ' '}
-          <b>({this.props.value.cuid})</b>
+          <b>{this.props.value.cuid}</b>
         </span>
       </div>
     );

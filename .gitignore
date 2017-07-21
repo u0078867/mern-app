@@ -7,5 +7,5 @@ dump.rdb
 public/*
 coverage/
 .nyc_output/
-server/upload/
+upload/*
 

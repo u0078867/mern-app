@@ -19,8 +19,8 @@ export default function callApi(endpoint, query) {
 
     return json;
   })
-  .then(
+  /*.then(
     response => response,
     error => error
-  );
+  );*/
 }

@@ -43,7 +43,7 @@ class FormDetailPage extends Component {
         this.props.dispatch(addSubmRequest(subm))
         .then(res => this.props.dispatch(updateSubmRequest(res.subm)))
         .then(res => this.props.dispatch(acceptSubmRequest(res.subm)))
-        .then(this.context.router.push('/'));
+        .then(() => this.context.router.push('/'))
         break;
     }
   }

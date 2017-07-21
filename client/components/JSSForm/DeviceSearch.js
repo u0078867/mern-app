@@ -31,10 +31,11 @@ class DeviceSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        <div>
-          {this.props.option.name + ' '}
-          <i>({this.props.option.type})</i>
-        </div>
+        <div><b>CUID:</b> {this.props.option.cuid}</div>
+        <div><b>Name:</b> {this.props.option.name}</div>
+        <div><b>Type:</b> {this.props.option.type}</div>
+        <div><b>Producer:</b> {this.props.option.producer}</div>
+        <div><b>Uri:</b> {this.props.option.uri}</div>
       </div>
     );
   }
@@ -47,8 +48,7 @@ class DeviceSearchValue extends Component {
     return (
       <div className="Select-value">
         <span className="Select-value-label">
-          {this.props.value.name + ' '}
-          <b>({this.props.value.cuid})</b>
+          <b>{this.props.value.cuid}</b>
         </span>
       </div>
     );

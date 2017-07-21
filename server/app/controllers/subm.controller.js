@@ -11,7 +11,7 @@ import config from '../../config';
  * @returns void
  */
 export function getSubms(req, res) {
-  Subm.find().sort('-date_added')
+  Subm.find().sort('date_added')
   .populate('form')
   .exec((err, subms) => {
     if (err) {
@@ -78,8 +78,9 @@ export function deleteSubm(req, res) {
       return res.status(500).send(err);
     }
 
-    subm.remove(() => {
-      res.status(200).end();
+    subm.remove((err) => {
+      //res.status(200).send({});
+      res.status(200).json(null);
     });
   });
 }

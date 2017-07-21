@@ -4,6 +4,7 @@ import slug from 'limax';
 import sanitizeHtml from 'sanitize-html';
 import config from '../../config';
 import fs from 'fs';
+import mongoose from 'mongoose';
 
 
 export function uploadFile(req, res) {
@@ -26,16 +27,37 @@ export function uploadFile(req, res) {
 
 export function uploadData(req, res) {
 
-  const data = JSON.stringify(req.body, null, 2);
+  let subm = req.body;
 
-  const fileName = cuid();
+  if (subm.form.insert_on_submit) {
 
-  fs.writeFile(path.join(config.workDir, fileName + '.json'), data, (err) => {
-    if (err) {
-      return res.status(500).send(err);
-    };
-    console.log("File has been created");
-  });
+    // Insert in target collection
+    let models = mongoose.connection.models;
+    let model = Object.keys(models).filter(m => {
+      return models[m].collection.collectionName == subm.form.dest_collection
+    })[0];
+    const TargetModel = models[model];
+    const newDoc = new TargetModel(subm.data);
+    newDoc.slug = slug(`${model}`, { lowercase: true });
+    newDoc.save((err, saved) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.json({ saved });
+    });
 
-  res.json({ data: data });
+  } else {
+
+    // Write to JSON file for later insertion
+    const stringData = JSON.stringify(subm, null, 2);
+    const fileName = cuid();
+    fs.writeFile(path.join(config.workDir, fileName + '.json'), stringData, (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      };
+      res.json({ fileName });
+      console.log("File has been created");
+    });
+  }
+
 }
