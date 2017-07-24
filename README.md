@@ -18,4 +18,4 @@ Ideally, these tools:
 - for developers, the interface should be implemented with technologies that allow highest customization: HTML5 and JS. For develoment, I give my personal preference to React / Redux, with respect to Angular where I have found in my experience issues with response time and higher complexity in data flows;
 - should be centralized, so that it is ensured that all users are using the same version of the services;
 
-Based on the boilerplate [MERN](mern.io), I am experimenting with forms creation from JSON Schema and one of its implementation with React using [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form). This, along with a JSON schema (what), allows for the creation of an UI schema (how) and the initial form data.
+Based on the boilerplate [MERN](http://mern.io), I am experimenting with forms creation from JSON Schema and one of its implementation with React using [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form). This, along with a JSON schema (what), allows for the creation of an UI schema (how) and the initial form data.
