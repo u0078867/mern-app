@@ -7,4 +7,5 @@ public/*
 coverage/
 .nyc_output/
 upload/*
+!upload/.gitkeep
 
