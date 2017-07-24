@@ -132,7 +132,10 @@ function FilesInfo(props) {
         if (!type) type = 'unknown type';
         return (
           <li key={key}>
-            <strong>{name}</strong> ({type}, {size} bytes) -> {newName}
+            <div>
+              <strong>{name}</strong> ({type}, {size} bytes)<br/>
+              Renamed as: {newName}
+            </div>
           </li>
         );
       })}
@@ -171,7 +174,8 @@ function extractFileInfo(files) {
       };
       //console.log(o);
       return o;
-    });
+    })
+    .filter(o => typeof o.name !== "undefined")
 }
 
 /*RawFileWidget.defaultProps = {

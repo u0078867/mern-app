@@ -25,7 +25,6 @@ const customWidgets = {
 class JSSForm extends Component {
 
   static defaultProps = {
-    valid: false,
     schema: undefined,
     uiSchema: undefined,
     formData: undefined,
@@ -74,7 +73,7 @@ class JSSForm extends Component {
     let {schema, uiSchema, formData} = formProps;
     let valid = true;
     try {
-      const test = renderToString(
+      const test = renderToString(  // done only to catch render() exceptions in Form
         <Form
           fields={customFields}
           widgets={customWidgets}
@@ -99,7 +98,8 @@ class JSSForm extends Component {
       });
     } else {
       this.setState({
-        valid: false
+        valid: false,
+        formData: formData,
       });
     }
   };
@@ -107,6 +107,8 @@ class JSSForm extends Component {
   render() {
     var form = null;
     let {schema, uiSchema, formData, ...props} = this.props;
+
+    var form = <pre>{JSON.stringify(formData, null, 2)}</pre>;
     if (this.state.valid) {
       var form = (<Form
                 fields={customFields}

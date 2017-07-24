@@ -7,38 +7,59 @@ if ('Activity' in mongoose.connection.models)
   delete mongoose.connection.models['Activity'];
 
 const activitySchema = new Schema({
-  description: { type: 'String', required: true, index: true },
+  name: { type: 'String', required: true, index: true },
   researchers: [{
-    id: { type: ObjectId, required: true, index: true, ref: 'Researcher' },
+    id: { type: 'String', required: true, index: true },
     _id: false,
   }],
   subjects: [{
-    id: { type: ObjectId, required: true, index: true, ref: 'Subject' },
+    id: { type: 'String', required: true, index: true },
     _id: false,
   }],
   devices: [{
-    id: { type: ObjectId, required: true, index: true, ref: 'Device' },
+    id: { type: 'String', required: true, index: true },
     _id: false,
   }],
   software: [{
-    id: { type: ObjectId, required: true, index: true, ref: 'SWTool' },
+    id: { type: 'String', required: true, index: true },
     _id: false,
   }],
   other_resources: [{
-    id: { type: ObjectId, required: true, index: true,  },
+    id: { type: 'String', required: true, index: true,  },
     _id: false,
   }],
   outputs: [{
-    _id: { type: ObjectId, required: true, index: true },
-    cuid: { type: 'String', default: cuid, required: true, index: false },
+    //_id: { type: ObjectId, required: true, index: true },
+    _id: false,
+    cuid: { type: 'String', default: cuid, required: true, index: true },
     name: { type: 'String', required: true, index: true },
     uri: { type: 'String', required: false, index: true },
+    metadata: [{
+      name: { type: 'String', required: true, },
+      value: { type: 'Mixed', required: true, index: true },
+      uom: { type: 'String', },
+      _id: false,
+    }],
   }],
 
   slug: { type: 'String', required: true },
-  cuid: { type: 'String', default: cuid, required: true },
+  cuid: { type: 'String', default: cuid, required: true, index: true },
   date_added: { type: 'Date', default: Date.now, required: true },
-}, { strict: false } );
+}, { strict: false, toObject: {virtuals: true} } );
+
+activitySchema.virtual('activity.subjects', {
+  ref: 'Subject',
+  localField: 'activity.subjects.id',
+  foreignField: 'cuid',
+  justOne: true
+});
+
+activitySchema.virtual('activity.prev.subject', {
+  ref: 'Subject',
+  localField: 'activity.prev.subjects.id',
+  foreignField: 'cuid',
+  justOne: true
+});
 
 activitySchema.index({ "$**": "text" });
 

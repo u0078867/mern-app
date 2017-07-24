@@ -43,21 +43,20 @@ class OutputSearchOption extends Component {
         <div><b>Uri:</b> {this.props.option.uri}</div>
         <div><b>Activity:</b> {this.props.option.activity.description}</div>
         {this.props.option.activity.subjects.map(subject => {
-          let sbj = subject.id;
-          //return <div key={subject.id}><b>Involved: </b>{sbj.name} {sbj.surname} (born: {sbj.birthdate})</div>
-          return <div key={subject.id}>
+          return <div key={subject.cuid}>
             <b>Subject involved:</b>
-            <div style={{paddingLeft: "10px"}}><SubjectViewer {...sbj} /></div>
+            <div style={{paddingLeft: "10px"}}><SubjectViewer {...subject} /></div>
           </div>
         })}
         {(() => {
           if (!this.props.option.activity.prev)
             return null;
-          let sbj = this.props.option.activity.prev.subjects.id;
-          //return <div><b>Involved previously: </b>{sbj.name} {sbj.surname} (born: {sbj.birthdate})</div>
+          let subject = this.props.option.activity.prev.subject;
+          if (!subject)
+            return null;
           return <div>
             <b>Subject involved previously:</b>
-            <div style={{paddingLeft: "10px"}}><SubjectViewer {...sbj} /></div>
+            <div style={{paddingLeft: "10px"}}><SubjectViewer {...subject} /></div>
           </div>
         })()}
       </div>
@@ -98,6 +97,7 @@ class OutputSearch extends Component {
 
   setValueFromProps = (props) => {
     let cuid = props.value;
+    if (!cuid) return;
     callApi(`outputs/${cuid}`).then(res => {
       let value = res.output;
       if (!value) {

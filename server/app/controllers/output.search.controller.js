@@ -29,7 +29,8 @@ export function getOutputs(req, res) {
   })
   .exec()
   .then(subjects => {
-    return subjects.map(s => ObjectId(s.id)); // wrapping into ObjectId is necessary
+    //return subjects.map(s => ObjectId(s.id)); // wrapping into ObjectId is necessary
+    return subjects.map(s => s.cuid);
   })
   .then(subjectIds => {
 
@@ -38,7 +39,7 @@ export function getOutputs(req, res) {
       // text search in activities
       { $match: { $or: [
           {$text: {$search: q}},
-          {'description': pattern},
+          {'name': pattern},
           {'outputs.name': pattern},
           {'outputs.uri': pattern},
           {'subjects.id': {$in: subjectIds}},
@@ -52,7 +53,8 @@ export function getOutputs(req, res) {
           "from": "activities",
           "startWith": "$other_resources.id",
           "connectFromField": "other_resources.id",
-          "connectToField": "outputs._id",
+          //"connectToField": "outputs._id",
+          "connectToField": "outputs.cuid",
           "as": "prev",
       }},
       // create score depending if subject belongs to previous linked activities
@@ -77,20 +79,11 @@ export function getOutputs(req, res) {
     .exec()
   })
   .then(outputs => {
-    return Activity.populate(outputs, {path: 'activity.subjects.id', model: 'Subject'})
+    return Activity.populate(outputs, {path: 'activity.subjects'})
   })
   .then(outputs => {
-    return Activity.populate(outputs, {path: 'activity.prev.subjects.id', model: 'Subject'})
+    return Activity.populate(outputs, {path: 'activity.prev.subject'})
   })
-  /*.then(outputs => {
-    return Activity.populate(outputs, {path: 'software.id'})
-  })
-  .then(outputs => {
-    return Activity.populate(outputs, {path: 'devices.id'})
-  })
-  .then(outputs => {
-    return Activity.populate(outputs, {path: 'researchers.id'})
-  })*/
   .then(outputs => {
     res.json({ outputs });
   })

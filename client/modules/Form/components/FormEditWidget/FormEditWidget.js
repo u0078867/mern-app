@@ -41,6 +41,7 @@ export class FormEditWidget extends Component {
 
   componentWillMount = () => {
     this.setState(this._parse(this.state));
+    this.checkTitle(this.state.title);
   }
 
   componentDidMount = () => {
@@ -65,11 +66,13 @@ export class FormEditWidget extends Component {
 
   setTitle = (event) => {
     let title = event.target.value;
+    this.setState({ title });
+    this.checkTitle(title);
+  }
+
+  checkTitle = (title) => {
     let isTitleValid = title.trim().length > 0;
-    this.setState({
-      title,
-      isTitleValid,
-    });
+    this.setState({ isTitleValid });
   }
 
   setJSONSchema = (event) => {

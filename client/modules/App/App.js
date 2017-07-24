@@ -40,7 +40,7 @@ export class App extends Component {
         {this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
         <div>
           <Helmet
-            title="Activity logging app"
+            title="DB data insertion app"
             titleTemplate="%s"
             meta={[
               { charset: 'utf-8' },

@@ -65,13 +65,13 @@ class DeviceSearch extends Component {
 
   componentDidMount = () => {
 
-    setTimeout(() => {
+    /*setTimeout(() => {
       try {
         let msg = JSON.parse(JSON.stringify(this.props.options.events.timeout));
         msg.targets.formData.payload = "random string";
         pubsub.publishSync('jss-internals', msg);
       } catch (e) {}
-    }, 2000);
+    }, 2000);*/
 
     this.setValueFromProps(this.props);
   }

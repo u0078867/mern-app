@@ -1,6 +1,10 @@
 {
   "type": "object",
   "properties": {
+    "name": {
+      "type": "string",
+      "title": "Description:"
+    },
     "researchers": {
       "type": "array",
       "title": "Researchers",
@@ -38,11 +42,6 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "default": ""
-          },
-          "role": {
-            "type": "string",
-            "title": "Role",
             "default": ""
           }
         }

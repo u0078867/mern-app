@@ -9,7 +9,7 @@ const submSchema = new Schema({
   data: { type: 'Mixed', required: true },
   form: { type: Schema.ObjectId, required: true, ref: 'Form' },
   slug: { type: 'String', required: true },
-  cuid: { type: 'String', default: cuid, required: true },
+  cuid: { type: 'String', default: cuid, required: true, index: true },
   date_added: { type: 'Date', default: Date.now, required: true },
 });
 

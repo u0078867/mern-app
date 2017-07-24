@@ -12,7 +12,7 @@ const SWToolSchema = new Schema({
   uri: { type: 'String', required: true, index: true },
 
   slug: { type: 'String', required: true },
-  cuid: { type: 'String', default: cuid, required: true },
+  cuid: { type: 'String', default: cuid, required: true, index: true },
   date_added: { type: 'Date', default: Date.now, required: true },
 }, { strict: false } );
 

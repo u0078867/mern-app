@@ -73,7 +73,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     .catch(err => console.log(err));
   }
 
-  dummyData(false);
+  dummyData(true);
   if (process.env.NODE_ENV === 'development') {
     // feed some dummy data in DB.
     var readline = require('readline');
@@ -86,7 +86,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     rl.on('line', (line) => {
       console.log(`typed '${line}'`);
       if (line == 'fill') {
-        dummyData(false);
+        dummyData(true);
       }
     });
   }

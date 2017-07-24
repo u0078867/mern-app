@@ -1,4 +1,16 @@
 {
+  "ui:order": [
+    "name",
+    "researchers",
+    "subjects",
+    "devices",
+    "software",
+    "other_resources",
+    "outputs"
+  ],
+  "name": {
+    "ui:readonly": true
+  },
   "researchers": {
     "items": {
       "id": {
@@ -31,6 +43,13 @@
     "items": {
       "id": {
         "ui:widget": "output"
+      }
+    }
+  },
+  "outputs": {
+    "items": {
+      "uri": {
+        "ui:widget": "file"
       }
     }
   }

@@ -10,6 +10,8 @@ import mongoose from 'mongoose';
 mongoose.Promise = global.Promise;
 const ObjectId = mongoose.Types.ObjectId;
 
+import cuid from 'cuid';
+
 import Chance from 'chance';
 let chance = new Chance();
 
@@ -178,35 +180,40 @@ function dummyData(verbose) {
         var i = activities.length;
 
         var researchers = [
-          { id: ObjectId(d.researchers[chance.integer({min: 0, max: d.researchers.length-1})]._id) }
+          //{ id: ObjectId(d.researchers[chance.integer({min: 0, max: d.researchers.length-1})]._id) }
+          { id: d.researchers[chance.integer({min: 0, max: d.researchers.length-1})].cuid }
         ];
 
         var useSubject = chance.bool({likelihood: 15});
         var subjects = [];
         if (useSubject) {
           subjects = [
-            { id: ObjectId(d.subjects[chance.integer({min: 0, max: d.subjects.length-1})]._id) }
+            //{ id: ObjectId(d.subjects[chance.integer({min: 0, max: d.subjects.length-1})]._id) }
+            { id: d.subjects[chance.integer({min: 0, max: d.subjects.length-1})].cuid }
           ];
         }
 
         var devices = [];
         for (let j = 0; j < chance.natural({min: 1, max: 5}); j++) {
           devices.push(
-            { id: ObjectId(d.devices[chance.integer({min: 0, max: d.devices.length-1})]._id) }
+            //{ id: ObjectId(d.devices[chance.integer({min: 0, max: d.devices.length-1})]._id) }
+            { id: d.devices[chance.integer({min: 0, max: d.devices.length-1})].cuid }
           )
         }
 
         var software = [];
         for (let j = 0; j < chance.natural({min: 1, max: 5}); j++) {
           software.push(
-            { id: ObjectId(d.SWTools[chance.integer({min: 0, max: d.SWTools.length-1})]._id) }
+            //{ id: ObjectId(d.SWTools[chance.integer({min: 0, max: d.SWTools.length-1})]._id) }
+            { id: d.SWTools[chance.integer({min: 0, max: d.SWTools.length-1})].cuid }
           )
         }
 
         var outputs = [];
         for (let j = 0; j < chance.natural({min: 1, max: 5}); j++) {
           outputs.push({
-            _id: ObjectId(),
+            //_id: ObjectId(),
+            cuid: cuid(),
             name: chance.word(),
             uri: chance.url(),
           })
@@ -229,7 +236,8 @@ function dummyData(verbose) {
                   ok = true;
                   var output = activities[ii].outputs[chance.integer({min: 0, max: activities[ii].outputs.length-1})];
                   other_resources.push({
-                    'id': output._id
+                    //'id': output._id
+                    'id': output.cuid
                   });
                   break;
                 }
@@ -248,7 +256,7 @@ function dummyData(verbose) {
         }
 
         let activity = {
-          description: chance.sentence(),
+          name: chance.sentence(),
           researchers,
           subjects,
           devices,
@@ -283,7 +291,9 @@ function dummyData(verbose) {
       title: "sample lab activity",
       json_schema: require('../../examples/sample_forms/activity/lab_activity_schema.json'),
       ui_schema: require('../../examples/sample_forms/activity/lab_activity_ui_schema.json'),
-      init_data: {},
+      init_data: {
+        name: "sample lab activity",
+      },
       dest_collection: 'activities',
       insert_on_submit: false,
       slug: "sample-lab-activity",
@@ -294,7 +304,9 @@ function dummyData(verbose) {
       title: "Insert new software",
       json_schema: require('../../examples/sample_forms/insert_new_software_schema.json'),
       ui_schema: {},
-      init_data: {},
+      init_data: {
+        name: "Insert new software",
+      },
       dest_collection: 'swtools',
       insert_on_submit: true,
       slug: "insert-new-software",

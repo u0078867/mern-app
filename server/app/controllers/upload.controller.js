@@ -11,7 +11,7 @@ export function uploadFile(req, res) {
   if (!req.files)
     return res.status(400).send('No files were uploaded.');
 
-  console.log(req.files)
+  //console.log(req.files)
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   let sampleFile = req.files.file;
 
@@ -29,35 +29,49 @@ export function uploadData(req, res) {
 
   let subm = req.body;
 
-  if (subm.form.insert_on_submit) {
-
-    // Insert in target collection
-    let models = mongoose.connection.models;
-    let model = Object.keys(models).filter(m => {
-      return models[m].collection.collectionName == subm.form.dest_collection
-    })[0];
-    const TargetModel = models[model];
-    const newDoc = new TargetModel(subm.data);
-    newDoc.slug = slug(`${model}`, { lowercase: true });
-    newDoc.save((err, saved) => {
-      if (err) {
-        return res.status(500).send(err);
+  Promise.resolve()
+  .then(() => new Promise((resolve, reject) => {
+      if (subm.form.insert_on_submit) {
+        // Insert in target collection
+        let models = mongoose.connection.models;
+        let model = Object.keys(models).filter(m => {
+          return models[m].collection.collectionName == subm.form.dest_collection
+        })[0];
+        const TargetModel = models[model];
+        const newDoc = new TargetModel(subm.data);
+        newDoc.slug = slug(`${model}`, { lowercase: true });
+        newDoc.save((err, saved) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve({ saved });
+        });
+      } else {
+        resolve({ });
       }
-      res.json({ saved });
-    });
-
-  } else {
-
+  }))
+  .then(obj => new Promise((resolve, reject) => {
     // Write to JSON file for later insertion
+    if (obj.saved) {
+      subm.saved = obj.saved;
+    }
     const stringData = JSON.stringify(subm, null, 2);
     const fileName = cuid();
     fs.writeFile(path.join(config.workDir, fileName + '.json'), stringData, (err) => {
       if (err) {
-        return res.status(500).send(err);
+        return reject(err);
       };
-      res.json({ fileName });
       console.log("File has been created");
+      obj.fileName = fileName;
+      resolve(obj);
     });
-  }
+  }))
+  .then(obj => {
+    res.json(obj);
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).send(err);
+  })
 
 }
