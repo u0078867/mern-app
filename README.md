@@ -1,6 +1,9 @@
 ### Usage:
 
 ##### Form creation:
+### Usage:
+
+##### Form creation:
 
 By cliking on ``Add form``, the user can create ``Forms`` by defining **what** fields to show and **how**; all this is available out-of-the box thanks to the graceful [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) library :+1:.
 
@@ -10,10 +13,10 @@ For the UI schema, these ``string``-type components (``ui:widget`` property) wer
 - ``subjects``
 - ``device``
 - ``software``
-- ``file`` (*)
+- ``file`` (\*)
 - ``output``
 
-(*) For this widget to work properly, ``WORK_DIR`` environment variable must be set to point to an existing path. Every time a file widget is used (either in the preview part of the form editor, in the form instance or in a submission), the file is uploaded in that folder.
+(\*) For this widget to work properly, ``WORK_DIR`` environment variable must be set to point to an existing path. Every time a file widget is used (either in the preview part of the form editor, in the form instance or in a submission), the file is uploaded in that folder.
 
 ``Target collection`` indicates where the form submission will be inserted.
 
@@ -40,11 +43,12 @@ When accepting a submission, a JSON file will be created in the ``WORK_DIR`` fol
 The following APIs are available:
 
 ###### /api/\<entities>:
-Gets a list of all entities. Entities string can be: ``researchers``, ``subjects``, ``devices``, ``sw-tools``, ``outputs``, ``forms``, ``subms``.
+* ``GET``: it will get a list of all entities. Entities string can be: ``researchers``, ``subjects``, ``devices``, ``sw-tools``, ``outputs``, ``forms``, ``subms``.
+* ``POST``: it will create a new entity; request body must be a JSON object containing the entity name (same as above but without final 's') as a field, and this one should be an object whose schema is indicated in Data models.
 
 ###### /api/\<entities>/\<cuid>:
 * ``GET``: it will get the information about one entity with specific ``cuid``.
-* ``PUT`` (only for ``forms`` and ``subms``): it will replace it; request body must .....
+* ``PUT`` (only for ``forms`` and ``subms``): it will replace it; see ``POST`` request.
 * ``DELETE`` (only for ``forms`` and ``subms``): it will delete it.
 
 See above for the list of available entities.
@@ -53,7 +57,9 @@ See above for the list of available entities.
 Gets information about the collections.
 
 ###### /search-api/\<entities>?q=\<terms>:
-It searches for entities by using full-text and partial-text search (Mongo engine is used ofr this). For full-text search, all indexable string documents (sub)fields are used. For partial-text search, only the requied fields of data models are used. For further details, see data models -> put README.md inside models/ folder)
+It searches for entities by using full-text and partial-text search (Mongo engine is used for this). For full-text search, all indexable string documents (sub)fields are used. For partial-text search, only the required fields of data models are used. For partial-text search, only tokenized terms that are longer or equal than 3 characters are considered, to limit the amount of results.
+
+For further details, see Data models.
 
 See above for the list of available entities (``forms`` and ``subms`` are not allowed here).
 
@@ -65,6 +71,11 @@ These services are available:
 - ``Work-flow client``: when activated, a publishing of specific messages on the listened port will trigger a redirect to a specific form to fill. This is useful when form presentation has to be automatized, for instance bit a workflow engine.
 
 *(to add many details)*
+
+
+### Data models:
+
+See [here](server/app/models/README.md).
 
 
 ### Installation (production):
@@ -85,7 +96,7 @@ Deploy - set environment variables:
 - ``MONGO_URL``: ``"mongodb://<user>:<password>@<url>:<port>/<dbname>"``;
 - ``PORT``: server port; default: 8000;
 - ``WORK_DIR``: directory for data uploads (submissions + files); default: ``./upload``;
-- ``PREFILL_DB``: if 1, fill with fictitious data empty collections; 0 otherwise; default: 1;
+- ``PREFILL_DB``: ìf 0, it will not touch the db; if 1, it will fill with fictitious data the ``forms`` collections; if 2, it will fill with fictitious data all collections (but ``subms``); default: 1;
 
 Deploy - run:
 ```

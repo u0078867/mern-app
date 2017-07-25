@@ -34,16 +34,20 @@ class FormDetailPage extends Component {
       form: this.props.form._id,
       data: formData,
     };
+    var postSubmit = () => {
+      this.context.router.push('/');
+      this.sender.send('exited');
+    }
     switch (this.state.submitType) {
       case 'submit_later':
         this.props.dispatch(addSubmRequest(subm))
-        .then(this.context.router.push('/'));
+        .then(() => postSubmit());
         break;
       case 'submit_now':
         this.props.dispatch(addSubmRequest(subm))
         .then(res => this.props.dispatch(updateSubmRequest(res.subm)))
         .then(res => this.props.dispatch(acceptSubmRequest(res.subm)))
-        .then(() => this.context.router.push('/'))
+        .then(() => postSubmit());
         break;
     }
   }
@@ -55,7 +59,6 @@ class FormDetailPage extends Component {
   }
 
   onClick = (event) => {
-    this.sender.send('exited');
     this.setState({submitType: event.target.id})
   }
 

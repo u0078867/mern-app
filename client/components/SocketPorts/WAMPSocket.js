@@ -78,7 +78,7 @@ class WAMPSocket extends React.Component {
 
                 React.Children.map(this.props.children, (child) => {
                     if (React.isValidElement(child)) {
-                        if (child.type == InPort) { // child.type.name == "InPort" does not work after uglify
+                        if (child.type == InPort || child.type.name == "InPort") { // child.type.name == "InPort" does not work after uglify
                             let topic = child.props.port;
                             session.subscribe(topic, (args) => {
                                 this.props.onData(topic, args[0]);

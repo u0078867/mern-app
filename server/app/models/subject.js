@@ -11,7 +11,8 @@ const subjectSchema = new Schema({
   birthdate: { type: 'String', required: true, index: true },*/
   attributes: [{
     name: { type: 'String', required: true},
-    value: { type: 'String', required: true, index: true },
+    value: { type: 'Mixed', required: true, index: true },
+    //uom: { type: 'String', required: true},
     _id: false,
   }],
 

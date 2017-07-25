@@ -18,7 +18,7 @@ let chance = new Chance();
 import callApi from '../../client/util/apiCaller';
 
 
-function dummyData(verbose) {
+function dummyData(verbose, fillLevel) {
 
   return Promise.resolve()
 
@@ -27,7 +27,10 @@ function dummyData(verbose) {
   .then(count => {
     if (count > 0) {
       console.log('subjects collection was filled');
-      return
+      return [];
+    }
+    if (fillLevel < 2) {
+      return [];
     }
     console.log('filling subjects collection ...');
     let subjects = [];
@@ -60,14 +63,24 @@ function dummyData(verbose) {
     }
     return Subject.create(subjects);
   })
-  .then(() => console.log('subjects filled'))
+  .then(res => {
+    if (res.length) {
+      console.log('subjects filled')
+    }
+    else {
+      console.log('subjects skipped')
+    }
+  })
 
 
   .then(() => Researcher.count().exec())
   .then(count => {
     if (count > 0) {
       console.log('researchers collection was filled');
-      return
+      return [];
+    }
+    if (fillLevel < 2) {
+      return [];
     }
     console.log('filling researchers collection ...');
     let researchers = [];
@@ -82,14 +95,24 @@ function dummyData(verbose) {
     }
     return Researcher.create(researchers);
   })
-  .then(() => console.log('researchers filled'))
+  .then(res => {
+    if (res.length) {
+      console.log('researchers filled')
+    }
+    else {
+      console.log('researchers skipped')
+    }
+  })
 
 
   .then(() => Device.count().exec())
   .then(count => {
     if (count > 0) {
       console.log('devices collection was filled');
-      return
+      return [];
+    }
+    if (fillLevel < 2) {
+      return [];
     }
     console.log('filling devices collection ...');
     let devices = [];
@@ -112,14 +135,24 @@ function dummyData(verbose) {
     }
     return Device.create(devices);
   })
-  .then(() => console.log('devices filled'))
+  .then(res => {
+    if (res.length) {
+      console.log('devices filled')
+    }
+    else {
+      console.log('devices skipped')
+    }
+  })
 
 
   .then(() => SWTool.count().exec())
   .then(count => {
     if (count > 0) {
       console.log('sw-tools collection was filled');
-      return
+      return [];
+    }
+    if (fillLevel < 2) {
+      return [];
     }
     console.log('filling sw-tools collection ...');
     let swTools = [];
@@ -147,16 +180,25 @@ function dummyData(verbose) {
     }
     return SWTool.create(swTools);
   })
-  .then(() => console.log('sw-tools filled'))
+  .then(res => {
+    if (res.length) {
+      console.log('swtools filled')
+    }
+    else {
+      console.log('swtools skipped')
+    }
+  })
 
 
   .then(() => Activity.count().exec())
   .then(count => {
     if (count > 0) {
       console.log('activities collection was filled');
-      return
+      return [];
     }
-
+    if (fillLevel < 2) {
+      return [];
+    }
     console.log('filling activities collection ...');
     return Promise.all([
       callApi(`researchers`),
@@ -275,47 +317,92 @@ function dummyData(verbose) {
     })
     .then(activities => Activity.create(activities))
   })
-  .then(() => console.log('activities filled'))
+  .then(res => {
+    if (res.length) {
+      console.log('activities filled')
+    }
+    else {
+      console.log('activities skipped')
+    }
+  })
 
 
   .then(() => Form.count().exec())
   .then(count => {
     if (count > 0) {
       console.log('forms collection was filled');
-      return
+      return [];
     }
     console.log('filling forms collection ...');
     let forms = [];
 
     let form1 = {
       title: "sample lab activity",
-      json_schema: require('../../examples/sample_forms/activity/lab_activity_schema.json'),
-      ui_schema: require('../../examples/sample_forms/activity/lab_activity_ui_schema.json'),
+      json_schema: require('../../examples/sample_forms/activity/activity_schema.json'),
+      ui_schema: require('../../examples/sample_forms/activity/activity_ui_schema.json'),
       init_data: {
         name: "sample lab activity",
       },
       dest_collection: 'activities',
-      insert_on_submit: false,
+      insert_on_submit: true,
       slug: "sample-lab-activity",
     };
     forms.push(form1);
 
     let form2 = {
       title: "Insert new software",
-      json_schema: require('../../examples/sample_forms/insert_new_software_schema.json'),
-      ui_schema: {},
-      init_data: {
-        name: "Insert new software",
-      },
+      json_schema: require('../../examples/sample_forms/software/software_schema.json'),
+      ui_schema: require('../../examples/sample_forms/software/software_ui_schema.json'),
+      init_data: {},
       dest_collection: 'swtools',
       insert_on_submit: true,
       slug: "insert-new-software",
     };
     forms.push(form2);
 
+    let form3 = {
+      title: "Insert new device",
+      json_schema: require('../../examples/sample_forms/device/device_schema.json'),
+      ui_schema: require('../../examples/sample_forms/device/device_ui_schema.json'),
+      init_data: {},
+      dest_collection: 'devices',
+      insert_on_submit: true,
+      slug: "insert-new-device",
+    };
+    forms.push(form3);
+
+    let form4 = {
+      title: "Insert new researcher",
+      json_schema: require('../../examples/sample_forms/researcher/researcher_schema.json'),
+      ui_schema: require('../../examples/sample_forms/researcher/researcher_ui_schema.json'),
+      init_data: {},
+      dest_collection: 'researchers',
+      insert_on_submit: true,
+      slug: "insert-new-researcher",
+    };
+    forms.push(form4);
+
+    let form5 = {
+      title: "Insert new subject",
+      json_schema: require('../../examples/sample_forms/subject/subject_schema.json'),
+      ui_schema: require('../../examples/sample_forms/subject/subject_ui_schema.json'),
+      init_data: {},
+      dest_collection: 'subjects',
+      insert_on_submit: true,
+      slug: "insert-new-subject",
+    };
+    forms.push(form5);
+
     return Form.create(forms);
   })
-  .then(() => console.log('forms filled'))
+  .then(res => {
+    if (res.length) {
+      console.log('forms filled')
+    }
+    else {
+      console.log('forms skipped')
+    }
+  })
 
 }
 

@@ -67,13 +67,15 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
   }
   console.log('Connected to db')
 
-  var dummyData = (verbose) => {
-    require('./app/dummyData')(verbose)
+  var fillLevel = serverConfig.prefillDb;
+
+  var dummyData = (verbose, fillLevel) => {
+    require('./app/dummyData')(verbose, fillLevel)
     .then(() => console.log('db filled with fictitious data when necessary'))
     .catch(err => console.log(err));
   }
 
-  dummyData(true);
+  dummyData(false, fillLevel);
   if (process.env.NODE_ENV === 'development') {
     // feed some dummy data in DB.
     var readline = require('readline');
@@ -86,7 +88,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     rl.on('line', (line) => {
       console.log(`typed '${line}'`);
       if (line == 'fill') {
-        dummyData(true);
+        dummyData(false, fillLevel);
       }
     });
   }

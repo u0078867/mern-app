@@ -29,7 +29,6 @@ const activitySchema = new Schema({
     _id: false,
   }],
   outputs: [{
-    //_id: { type: ObjectId, required: true, index: true },
     _id: false,
     cuid: { type: 'String', default: cuid, required: true, index: true },
     name: { type: 'String', required: true, index: true },

@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "attributes": {
+      "type": "array",
+      "title": "Attributes",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "default": ""
+          },
+          "value": {
+            "type": "string",
+            "title": "Value",
+            "default": ""
+          },
+          "uom": {
+            "type": "string",
+            "title": "Measurement unit",
+            "default": ""
+          }
+        }
+      }
+    }
+  }
+}

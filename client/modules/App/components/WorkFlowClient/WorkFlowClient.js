@@ -17,7 +17,7 @@ class WorkFlowClient extends Component {
 
     handleReceiveMessage = (data) => {
       if (this.state.enabled) {
-        this.props.onEnterTask(data);
+        this.props.onEnterTask(data.url);
       }
     }
 
