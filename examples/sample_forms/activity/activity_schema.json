@@ -103,17 +103,12 @@
                   "default": ""
                 },
                 "value": {
-                  "type": "number",
+                  "type": "string",
                   "title": "Value",
                   "default": ""
                 },
                 "uom": {
                   "type": "string",
-                  "enum": [
-                    "mm",
-                    "cm",
-                    "m"
-                  ],
                   "title": "Measurement unit",
                   "default": ""
                 }

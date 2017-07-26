@@ -53,7 +53,6 @@ export function getOutputs(req, res) {
           "from": "activities",
           "startWith": "$other_resources.id",
           "connectFromField": "other_resources.id",
-          //"connectToField": "outputs._id",
           "connectToField": "outputs.cuid",
           "as": "prev",
       }},

@@ -1,9 +1,6 @@
 ### Usage:
 
-##### Form creation:
-### Usage:
-
-##### Form creation:
+##### Forms creation:
 
 By cliking on ``Add form``, the user can create ``Forms`` by defining **what** fields to show and **how**; all this is available out-of-the box thanks to the graceful [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) library :+1:.
 
@@ -28,15 +25,17 @@ Initial form data will be presented when using the form later.
 
 Once saved, forms are shown in list, the topmost being the most recently-added form.
 
-##### Form usage:
+##### Forms usage:
 
 By clicking one the form title in the list, a form instance will be presented.
 
-After filling it, the user can submit it immediately (no chance to be able to edit the content later on!), or submit it for later check. If the second option is taken, the form content will be added in the ``Submissions`` list. Submissions are listed in chronological order, topmost being the oldest.
+After filling it, the user can submit it immediately (no chance to be able to edit the content later on!), or submit it for later check. If the second option is taken, the form content will be added in the ``Submissions`` list.
 
-A submission can be changed and saved an unlimited number of times (by clinking on it and saving it), but definitely submitted only once. Saving a submission will not change the time of its creation.
+When a form is submitted (either immediately or not), a string message ``'exited'`` is automatically published to the output port ``wf-task-exit``. This can be used by an external app such as a workflow engine to know that it has to proceed to the next task.
 
-When accepting a submission, a JSON file will be created in the ``WORK_DIR`` folder.
+Submissions are listed in chronological order, topmost being the oldest. A submission can be changed and saved an unlimited number of times (by clinking on it and saving it), but definitely accepted only once. Saving a submission will not change the time of its creation.
+
+When accepting a submission, a JSON file will be created in the ``WORK_DIR`` folder. If ``Insert on submit`` was checked for the form, the field ``saved`` is added in the object in the JSON file, with the inserted document.
 
 ##### RESTful APIs:
 
@@ -54,12 +53,10 @@ The following APIs are available:
 See above for the list of available entities.
 
 ###### /api/database/collections:
-Gets information about the collections.
+(``GET``) it gets information about the collections.
 
 ###### /search-api/\<entities>?q=\<terms>:
-It searches for entities by using full-text and partial-text search (Mongo engine is used for this). For full-text search, all indexable string documents (sub)fields are used. For partial-text search, only the required fields of data models are used. For partial-text search, only tokenized terms that are longer or equal than 3 characters are considered, to limit the amount of results.
-
-For further details, see Data models.
+(``GET``) It searches for entities by using full-text and partial-text search (Mongo engine is used for this). For details see [here](server/app/controllers).
 
 See above for the list of available entities (``forms`` and ``subms`` are not allowed here).
 
@@ -67,10 +64,16 @@ See above for the list of available entities (``forms`` and ``subms`` are not al
 
 These services are available:
 
-- ``WAMP connection``: it allows to connect to a [WAMP](http://crossbar.io/) router and, via ports, publish/subscribe to contents within the app, eveywhere.
-- ``Work-flow client``: when activated, a publishing of specific messages on the listened port will trigger a redirect to a specific form to fill. This is useful when form presentation has to be automatized, for instance bit a workflow engine.
-
-*(to add many details)*
+- ``WAMP connection``: it allows to connect to a [WAMP](http://crossbar.io/) router and, via ports, publish/subscribe to contents within the app, eveywhere in the app. Input ports are subscribed WAMP topics, and output ports are publishing WAMP topics. The input port ``ws-status`` is reserved for storing the WAMP connection status.
+- ``Work-flow client``: when activated, a publishing of specific messages on the listened port (``wf-task-enter``) will trigger a redirect to a specific form to fill. This is useful when form presentation has to be automatized, for instance by a workflow engine. The client expects a JSON object of this kind:
+```js
+{
+  "data": {
+    "url": `${form.slug}-${form.cuid}`
+  }
+}
+```
+A small work-flow engine example can be found [here](https://github.com/u0078867/bpmn-engine-wamp), and a mock one [here](WAMP-demo/wf-engine-mock).
 
 
 ### Data models:
@@ -82,27 +85,33 @@ See [here](server/app/models/README.md).
 
 Install dependencies:
 ```
-$ npm install
+npm install
 ```
 Build:
 ```
-$ npm run build:server
+npm run build:server
 ```
 ```
-$ npm run build:client
+npm run build:client
 ```
 Deploy - set environment variables:
 
 - ``MONGO_URL``: ``"mongodb://<user>:<password>@<url>:<port>/<dbname>"``;
 - ``PORT``: server port; default: 8000;
 - ``WORK_DIR``: directory for data uploads (submissions + files); default: ``./upload``;
-- ``PREFILL_DB``: ìf 0, it will not touch the db; if 1, it will fill with fictitious data the ``forms`` collections; if 2, it will fill with fictitious data all collections (but ``subms``); default: 1;
+- ``PREFILL_DB``: ìf 0, it will not touch the db; if 1, it will fill with fictitious data the ``forms`` collections; if 2, it will fill with fictitious data all collections (but ``subms``); default: 1. Value 1 is suggested for production, to have no static entities (subjects, researchers, devices, software), but already good form templates. Value 2 is suggested for playground deployment (e.g. Heroku).
+
+Prefill DB details can be found [here](server/app).
 
 Deploy - run:
 ```
-$ npm start
+npm start
 ```
 
+All together (clean dist - build all - run):
+```
+npm run bs
+```
 
 ### Boilerplate:
 

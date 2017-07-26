@@ -22,7 +22,9 @@ connection.onopen = function (session) {
 
     if (msg == 'exited') {
       let pckg = {
-        data: urls[chance.integer({min: 0, max: urls.length-1})],
+        data: {
+          url: urls[chance.integer({min: 0, max: urls.length-1})],
+        }
       };
       console.log(pckg);
 
@@ -34,7 +36,7 @@ connection.onopen = function (session) {
 
 };
 
-/*fetch('http://localhost:8000/api/forms', {
+fetch('http://localhost:8000/api/forms', {
     headers: { 'content-type': 'application/json' },
     method: 'get',
   })
@@ -44,5 +46,3 @@ connection.onopen = function (session) {
   console.log(urls);
 })
 .then(() => connection.open());
-*/
-connection.open()

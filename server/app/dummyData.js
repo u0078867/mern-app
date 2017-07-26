@@ -20,9 +20,11 @@ import callApi from '../../client/util/apiCaller';
 
 function dummyData(verbose, fillLevel) {
 
+  if (fillLevel == 0) {
+    return
+  }
+
   return Promise.resolve()
-
-
   .then(() => Subject.count().exec())
   .then(count => {
     if (count > 0) {

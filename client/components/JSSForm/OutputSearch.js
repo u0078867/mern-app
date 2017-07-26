@@ -41,7 +41,7 @@ class OutputSearchOption extends Component {
         <div><b>CUID:</b> {this.props.option.cuid}</div>
         <div><b>Name:</b> {this.props.option.name}</div>
         <div><b>Uri:</b> {this.props.option.uri}</div>
-        <div><b>Activity:</b> {this.props.option.activity.description}</div>
+        <div><b>Activity:</b> {this.props.option.activity.name}</div>
         {this.props.option.activity.subjects.map(subject => {
           return <div key={subject.cuid}>
             <b>Subject involved:</b>
