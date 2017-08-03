@@ -65,7 +65,7 @@ activitySchema.virtual('activity.prev.subject', {
 
 //let jsonSchema = JSON.parse(fs.readFileSync(path.posix.normalize(__dirname) + '/activity.json'));
 //let jsonSchema = JSON.parse(fs.readFileSync(path.resolve('./activity.json')));
-var dirName = __dirname.replace("\\","/");
+var dirName = __dirname.replace(/\\/g, "/");
 let jsonSchema = JSON.parse(fs.readFileSync(dirName + '/activity.json'));
 
 activitySchema.statics.getJSONSchema = () => {
