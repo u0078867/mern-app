@@ -3,6 +3,7 @@ const config = {
   port: process.env.PORT || 8000,
   workDir: process.env.WORK_DIR || './upload',
   prefillDb: parseInt(process.env.PREFILL_DB) || 1,
+  schemasDir: process.env.SCHEMAS_DIR || './examples/sample_schemas',
 };
 
 export default config;

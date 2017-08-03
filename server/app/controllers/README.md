@@ -10,6 +10,8 @@ For all collections, all indexable string (sub)fields are used (see Data models)
 
 For all collections, only required fields of data models are used (see Data models).
 
+**WARNING**: this feature is temporarily disabled to remove coupling between query and data schema. It will be restored when a suitable un-coupling technique is found and tested.
+
 #### Special case: outputs search
 
 Algorithm (see [source](./output.search.controller.js)):

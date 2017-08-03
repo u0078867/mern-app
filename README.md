@@ -4,7 +4,9 @@
 
 By cliking on ``Add form``, the user can create ``Forms`` by defining **what** fields to show and **how**; all this is available out-of-the box thanks to the graceful [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) library :+1:.
 
-For the UI schema, these ``string``-type components (``ui:widget`` property) were developed, with searching features:
+``Form JSON Schema`` is the JSON schema of the form, while ``Form JSON Schema (master)`` (read-only) is the JSON schema of the data that is accepted before being inserted in the target collection. The form JSON schema **must comply to** the master schema. This double-schema framework was created for use-cases such as this one; suppose you have a ``device`` collection with a string ``type`` field, and you want to create one form per kind of device, without needing to enter the kind of device. You can create two forms ``Insert device X`` and ``Insert device Y``, with the same target collection and master form JSON schema, but different form JSON schema. Then you can add a read-only property to the ``type`` field, and a default value of ``X`` in one form and ``Y`` in the other.
+
+For the ``Form UI Schema``, these ``string``-type components (``ui:widget`` property) were developed, with searching features:
 
 - ``researcher``
 - ``subjects``
@@ -99,7 +101,12 @@ Deploy - set environment variables:
 - ``MONGO_URL``: ``"mongodb://<user>:<password>@<url>:<port>/<dbname>"``;
 - ``PORT``: server port; default: 8000;
 - ``WORK_DIR``: directory for data uploads (submissions + files); default: ``./upload``;
-- ``PREFILL_DB``: ìf 0, it will not touch the db; if 1, it will fill with fictitious data the ``forms`` collections; if 2, it will fill with fictitious data all collections (but ``subms``); default: 1. Value 1 is suggested for production, to have no static entities (subjects, researchers, devices, software), but already good form templates. Value 2 is suggested for playground deployment (e.g. Heroku).
+- ``PREFILL_DB``: ìf 0, it will not touch the db; if 1, it will fill with fictitious data the ``forms`` collections; if 2, it will fill with fictitious data all collections (but ``subms``); default: 1. Value 1 is suggested for production, to have no static entities (subjects, researchers, devices, software), but already good form templates. Value 2 is suggested for playground deployment (e.g. Heroku);
+- ``SCHEMAS_DIR``: folder path (default: ``./examples/sample_schemas``) containing the JSON Schema (master) files for the static collections; the following files **must** be in the folder:
+	- ``device.json``
+	- ``researcher.json``
+	- ``software.json``
+	- ``subject.json``
 
 Prefill DB details can be found [here](server/app).
 

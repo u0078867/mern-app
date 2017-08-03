@@ -9,14 +9,14 @@ export function getOutputs(req, res) {
   let q_regex = '(' + q.trim().replace(/\s+/g,'|') + ')';
   let pattern = new RegExp(q_regex, 'i');
 
-  let longEnoughTerms = q
+  /*let longEnoughTerms = q
     .trim()
     .split(' ')
     .reduce((acc, v) => (acc && v.length >= 3), true);
 
   if (!longEnoughTerms) {
     return res.json({ outputs: [] });
-  }
+  }*/
 
   Subject.find({
     $or: [
@@ -24,7 +24,7 @@ export function getOutputs(req, res) {
       /*{'name': pattern},
       {'surname': pattern},
       {'birthdate': pattern},*/
-      {'attributes.value': pattern},
+      //{'attributes.value': pattern},
     ]
   })
   .exec()
@@ -39,9 +39,9 @@ export function getOutputs(req, res) {
       // text search in activities
       { $match: { $or: [
           {$text: {$search: q}},
-          {'name': pattern},
+          /*{'name': pattern},
           {'outputs.name': pattern},
-          {'outputs.uri': pattern},
+          {'outputs.uri': pattern},*/
           {'subjects.id': {$in: subjectIds}},
         ]}
       },

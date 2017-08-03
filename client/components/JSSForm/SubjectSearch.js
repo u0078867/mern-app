@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
-import SubjectViewer from './components/SubjectViewer';
+import AttributesViewer from './components/AttributesViewer';
 import callSearchApi from '../../util/apiSearchCaller';
 import callApi from '../../util/apiCaller';
+
+import styles from './ComponentSearch.css';
 
 class SubjectSearchOption extends Component {
 
@@ -29,7 +31,7 @@ class SubjectSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        <SubjectViewer {...this.props.option} />
+        <AttributesViewer item={this.props.option} />
         {/*<div><b>CUID:</b> {this.props.option.cuid}</div>
         <div><b>Attributes:</b></div>
         {this.props.option.attributes && this.props.option.attributes.map(attribute => {
@@ -45,9 +47,10 @@ class SubjectSearchValue extends Component {
 
   render() {
     return (
-      <div className="Select-value">
+      <div className={styles["Select-value-fit"]}>
         <span className="Select-value-label">
-          <b>{this.props.value.cuid}</b>
+          {/*<b>{this.props.value.cuid}</b>*/}
+          <AttributesViewer item={this.props.value} />
         </span>
       </div>
     );

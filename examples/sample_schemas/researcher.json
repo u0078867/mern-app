@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": [
+    "name",
+    "surname",
+    "birthdate"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "surname": {
+      "type": "string",
+      "title": "Surname"
+    },
+    "birthdate": {
+      "type": "string",
+      "title": "Birthdate"
+    }
+  }
+}

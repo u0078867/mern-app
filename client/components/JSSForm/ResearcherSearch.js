@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
+import AttributesViewer from './components/AttributesViewer';
 import callSearchApi from '../../util/apiSearchCaller';
 import callApi from '../../util/apiCaller';
+
+import styles from './ComponentSearch.css';
 
 class ResearcherSearchOption extends Component {
 
@@ -28,10 +31,11 @@ class ResearcherSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        <div><b>CUID:</b> {this.props.option.cuid}</div>
+        {/*<div><b>CUID:</b> {this.props.option.cuid}</div>
         <div><b>Name:</b> {this.props.option.name}</div>
         <div><b>Surname:</b> {this.props.option.surname}</div>
-        <div><b>Birthdate:</b> {this.props.option.birthdate}</div>
+        <div><b>Birthdate:</b> {this.props.option.birthdate}</div>*/}
+        <AttributesViewer item={this.props.option} />
       </div>
     );
   }
@@ -42,9 +46,10 @@ class ResearcherSearchValue extends Component {
 
   render() {
     return (
-      <div className="Select-value">
+      <div className={styles["Select-value-fit"]}>
         <span className="Select-value-label">
-          <b>{this.props.value.cuid}</b>
+          {/*<b>{this.props.value.cuid}</b>*/}
+          <AttributesViewer item={this.props.value} />
         </span>
       </div>
     );

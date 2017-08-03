@@ -12,7 +12,7 @@ export function getSubjects(req, res) {
         /*{'name': pattern},
         {'surname': pattern},
         {'birthdate': pattern},*/
-        {'attributes.value': pattern},
+        //{'attributes.value': pattern},
       ]
     }, { score: { $meta: "textScore" } } )
     .sort( { score: { $meta: "textScore" } } )

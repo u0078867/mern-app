@@ -9,10 +9,10 @@ export function getDevices(req, res) {
   Device.find({
       $or: [
         {$text: {$search: q}},
-        {'name': pattern},
+        /*{'name': pattern},
         {'type': pattern},
         {'producer': pattern},
-        {'uri': pattern},
+        {'uri': pattern},*/
       ]
     }, { score: { $meta: "textScore" } } )
     .sort( { score: { $meta: "textScore" } } )

@@ -9,10 +9,10 @@ export function getSWTools(req, res) {
   SWTool.find({
       $or: [
         {$text: {$search: q}},
-        {'name': pattern},
+        /*{'name': pattern},
         {'version': pattern},
         {'producer': pattern},
-        {'uri': pattern},
+        {'uri': pattern},*/
       ]
     }, { score: { $meta: "textScore" } } )
     .sort( { score: { $meta: "textScore" } } )

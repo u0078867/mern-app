@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 import cuid from 'cuid';
 
+import fs from 'fs';
+
 if ('Activity' in mongoose.connection.models)
   delete mongoose.connection.models['Activity'];
 
@@ -59,6 +61,12 @@ activitySchema.virtual('activity.prev.subject', {
   foreignField: 'cuid',
   justOne: true
 });
+
+let jsonSchema = JSON.parse(fs.readFileSync(__dirname + '/activity.json'));
+
+activitySchema.statics.getJSONSchema = () => {
+  return jsonSchema;
+};
 
 activitySchema.index({ "$**": "text" });
 

@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
+import AttributesViewer from './components/AttributesViewer';
 import callSearchApi from '../../util/apiSearchCaller';
 import callApi from '../../util/apiCaller';
+
+import styles from './ComponentSearch.css';
 
 class SWToolSearchOption extends Component {
 
@@ -28,11 +31,12 @@ class SWToolSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        <div><b>CUID:</b> {this.props.option.cuid}</div>
+        {/*<div><b>CUID:</b> {this.props.option.cuid}</div>
         <div><b>Name:</b> {this.props.option.name}</div>
         <div><b>Version:</b> {this.props.option.version}</div>
         <div><b>Producer:</b> {this.props.option.producer}</div>
-        <div><b>Uri:</b> {this.props.option.uri}</div>
+        <div><b>Uri:</b> {this.props.option.uri}</div>*/}
+        <AttributesViewer item={this.props.option} />
       </div>
     );
   }
@@ -43,9 +47,10 @@ class SWToolSearchValue extends Component {
 
   render() {
     return (
-      <div className="Select-value">
+      <div className={styles["Select-value-fit"]}>
         <span className="Select-value-label">
-          <b>{this.props.value.cuid}</b>
+          {/*<b>{this.props.value.cuid}</b>*/}
+          <AttributesViewer item={this.props.value} />
         </span>
       </div>
     );

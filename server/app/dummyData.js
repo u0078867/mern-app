@@ -37,27 +37,25 @@ function dummyData(verbose, fillLevel) {
     console.log('filling subjects collection ...');
     let subjects = [];
     for (let i = 0; i < 1000; i++) {
-      var isHuman = chance.bool({likelihood: 50});
+      //var isHuman = chance.bool({likelihood: 50});
+      var isHuman = false;
       if (isHuman) {
         // human subject
         var subject = new Subject({
-          attributes: [
-            {name: "name", value: chance.first()},
-            {name: "surname", value: chance.last()},
-            {name: "birthdate", value: chance.birthday({string: true})},
-          ],
+          name: chance.first(),
+          surname: chance.last(),
+          birthdate: chance.birthday({string: true}),
+          diseases: ['CP'],
           slug: 'test-human-subject',
         });
       } else {
         // specimen subject
         var subject = new Subject({
-          attributes: [
-            {name: "name", value: chance.first()},
-            {name: "surname", value: chance.last()},
-            {name: "deathdate", value: chance.birthday({string: true})},
-            {name: "anatomical_segment", value: "foot"},
-            {name: "anatomical_side", value: chance.character({pool: 'RL'})},
-          ],
+          owner_name: chance.first(),
+          owner_surname: chance.last(),
+          owner_deathdate: chance.birthday({string: true}),
+          anatomical_region: "foot",
+          anatomical_side: chance.character({pool: 'RL'}),
           slug: 'test-specimen-subject',
         });
       }

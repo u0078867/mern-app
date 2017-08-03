@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
+import AttributesViewer from './components/AttributesViewer';
 import SubjectViewer from './components/SubjectViewer';
 import callSearchApi from '../../util/apiSearchCaller';
 import callApi from '../../util/apiCaller';
+
+import styles from './ComponentSearch.css';
 
 class OutputSearchOption extends Component {
 
@@ -38,14 +41,14 @@ class OutputSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        <div><b>CUID:</b> {this.props.option.cuid}</div>
+        {/*<div><b>CUID:</b> {this.props.option.cuid}</div>
         <div><b>Name:</b> {this.props.option.name}</div>
         <div><b>Uri:</b> {this.props.option.uri}</div>
         <div><b>Activity:</b> {this.props.option.activity.name}</div>
         {this.props.option.activity.subjects.map(subject => {
           return <div key={subject.cuid}>
             <b>Subject involved:</b>
-            <div style={{paddingLeft: "10px"}}><SubjectViewer {...subject} /></div>
+            <div style={{paddingLeft: "10px"}}><AttributesViewer item={subject} /></div>
           </div>
         })}
         {(() => {
@@ -56,9 +59,10 @@ class OutputSearchOption extends Component {
             return null;
           return <div>
             <b>Subject involved previously:</b>
-            <div style={{paddingLeft: "10px"}}><SubjectViewer {...subject} /></div>
+            <div style={{paddingLeft: "10px"}}><AttributesViewer item={subject} /></div>
           </div>
-        })()}
+        })()}*/}
+        <AttributesViewer item={this.props.option} />
       </div>
     );
 
@@ -70,9 +74,10 @@ class OutputSearchValue extends Component {
 
   render() {
     return (
-      <div className="Select-value">
+      <div className={styles["Select-value-fit"]}>
         <span className="Select-value-label">
-          <b>{this.props.value.cuid}</b>
+          {/*<b>{this.props.value.cuid}</b>*/}
+          <AttributesViewer item={this.props.value} />
         </span>
       </div>
     );

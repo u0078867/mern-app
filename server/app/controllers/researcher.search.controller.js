@@ -9,9 +9,9 @@ export function getResearchers(req, res) {
   Researcher.find({
       $or: [
         {$text: {$search: q}},
-        {'name': pattern},
+        /*{'name': pattern},
         {'surname': pattern},
-        {'birthdate': pattern},
+        {'birthdate': pattern},*/
       ]
     }, { score: { $meta: "textScore" } } )
     .sort( { score: { $meta: "textScore" } } )
