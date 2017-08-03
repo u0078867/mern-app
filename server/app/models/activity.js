@@ -4,6 +4,7 @@ var ObjectId = Schema.ObjectId;
 import cuid from 'cuid';
 
 import fs from 'fs';
+import path from 'path';
 
 if ('Activity' in mongoose.connection.models)
   delete mongoose.connection.models['Activity'];
@@ -62,7 +63,7 @@ activitySchema.virtual('activity.prev.subject', {
   justOne: true
 });
 
-let jsonSchema = JSON.parse(fs.readFileSync(__dirname + '/activity.json'));
+let jsonSchema = JSON.parse(fs.readFileSync(path.join(__dirname, './activity.json')));
 
 activitySchema.statics.getJSONSchema = () => {
   return jsonSchema;
