@@ -15,19 +15,21 @@ export function getCollections(req, res) {
       return res.status(500).send(err);
     }
     // Filter out internal use collections
-    console.log(colls);
+    //console.log(colls);
     try {
       var collections = colls.filter(c => !['forms','subms'].includes(c.name));
       let models = mongoose.connection.models;
-      console.log('models:');
-      console.log(models);
+      //console.log('models:');
+      //console.log(models);
       collections = collections.map(c => {
         // Search corresponding model
         console.log('model:');
         let model = Object.keys(models).filter(m => {
+          console.log(models[m].collection.collectionName);
           return models[m].collection.collectionName == c.name
         })[0];
-        console.log('model found');
+        console.log('model found:');
+        console.log(model);
         const Model = models[model];
         console.log('model class extracted');
         console.log(Model);
