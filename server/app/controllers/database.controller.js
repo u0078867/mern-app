@@ -8,13 +8,15 @@ import mongoose from 'mongoose';
  */
 export function getCollections(req, res) {
   //console.log(mongoose.connection.models)
-  mongoose.connection.db.listCollections().toArray((err, collections) => {
+  mongoose.connection.db.listCollections().toArray((err, colls) => {
     if (err) {
+      console.log(err);
       return res.status(500).send(err);
     }
     // Filter out internal use collections
-    collections = collections.filter(c => !['forms','subms'].includes(c.name));
+    console.log(colls);
     try {
+      collections = colls.filter(c => !['forms','subms'].includes(c.name));
       let models = mongoose.connection.models;
       collections = collections.map(c => {
         // Search corresponding model
