@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
  */
 export function getCollections(req, res) {
   //console.log(mongoose.connection.models)
+  try {
   mongoose.connection.db.listCollections().toArray((err, colls) => {
     if (err) {
       console.log(err);
@@ -35,4 +36,7 @@ export function getCollections(req, res) {
       return res.status(500).send(err);
     }
   });
+  } catch (err) {
+    return res.status(500).send(err);
+  }
 }
