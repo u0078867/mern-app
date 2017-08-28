@@ -51,6 +51,7 @@ function dummyData(verbose, fillLevel) {
       } else {
         // specimen subject
         var subject = new Subject({
+          barcode_id: "" + Math.floor(Math.random() * 899999 + 100000),
           owner_name: chance.first(),
           owner_surname: chance.last(),
           owner_deathdate: chance.birthday({string: true}),
@@ -89,6 +90,7 @@ function dummyData(verbose, fillLevel) {
         name: chance.first(),
         surname: chance.last(),
         birthdate: chance.birthday({string: true}),
+        institution_id: chance.character() + Math.floor(Math.random() * 899999 + 100000),
         slug: 'test-researcher',
       });
       researchers.push(researcher);
@@ -336,7 +338,7 @@ function dummyData(verbose, fillLevel) {
     console.log('filling forms collection ...');
     let forms = [];
 
-    let form1 = {
+    let form = {
       title: "sample lab activity",
       json_schema: require('../../examples/sample_forms/activity/activity_schema.json'),
       ui_schema: require('../../examples/sample_forms/activity/activity_ui_schema.json'),
@@ -347,9 +349,22 @@ function dummyData(verbose, fillLevel) {
       insert_on_submit: true,
       slug: "sample-lab-activity",
     };
-    forms.push(form1);
+    forms.push(form);
 
-    let form2 = {
+    form = {
+      title: "sample lab activity (locked researcher)",
+      json_schema: require('../../examples/sample_forms/activity/activity_schema.json'),
+      ui_schema: require('../../examples/sample_forms/activity/activity_ui_schema_locked_researcher.json'),
+      init_data: {
+        name: "sample lab activity",
+      },
+      dest_collection: 'activities',
+      insert_on_submit: true,
+      slug: "sample-lab-activity-locked-researcher",
+    };
+    forms.push(form);
+
+    form = {
       title: "Insert new software",
       json_schema: require('../../examples/sample_forms/software/software_schema.json'),
       ui_schema: require('../../examples/sample_forms/software/software_ui_schema.json'),
@@ -358,9 +373,9 @@ function dummyData(verbose, fillLevel) {
       insert_on_submit: true,
       slug: "insert-new-software",
     };
-    forms.push(form2);
+    forms.push(form);
 
-    let form3 = {
+    form = {
       title: "Insert new device",
       json_schema: require('../../examples/sample_forms/device/device_schema.json'),
       ui_schema: require('../../examples/sample_forms/device/device_ui_schema.json'),
@@ -369,9 +384,9 @@ function dummyData(verbose, fillLevel) {
       insert_on_submit: true,
       slug: "insert-new-device",
     };
-    forms.push(form3);
+    forms.push(form);
 
-    let form4 = {
+    form = {
       title: "Insert new researcher",
       json_schema: require('../../examples/sample_forms/researcher/researcher_schema.json'),
       ui_schema: require('../../examples/sample_forms/researcher/researcher_ui_schema.json'),
@@ -380,9 +395,9 @@ function dummyData(verbose, fillLevel) {
       insert_on_submit: true,
       slug: "insert-new-researcher",
     };
-    forms.push(form4);
+    forms.push(form);
 
-    let form5 = {
+    form = {
       title: "Insert new subject",
       json_schema: require('../../examples/sample_forms/subject/subject_schema.json'),
       ui_schema: require('../../examples/sample_forms/subject/subject_ui_schema.json'),
@@ -391,7 +406,7 @@ function dummyData(verbose, fillLevel) {
       insert_on_submit: true,
       slug: "insert-new-subject",
     };
-    forms.push(form5);
+    forms.push(form);
 
     return Form.create(forms);
   })

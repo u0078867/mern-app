@@ -131,6 +131,9 @@ app.use(API_URL, function(req, res, next) {
 app.use(API_URL, function(req, res, next) {
   require('./app/routes/database.routes')(req, res, next);
 });
+app.use(API_URL, function(req, res, next) {
+  require('./app/routes/utils.routes')(req, res, next);
+});
 app.use(SEARCH_API_URL, function(req, res, next) {
   require('./app/routes/subject.search.routes')(req, res, next);
 });

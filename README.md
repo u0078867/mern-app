@@ -4,16 +4,17 @@
 
 By cliking on ``Add form``, the user can create ``Forms`` by defining **what** fields to show and **how**; all this is available out-of-the box thanks to the graceful [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) library :+1:.
 
-``Form JSON Schema`` is the JSON schema of the form, while ``Form JSON Schema (master)`` (read-only) is the JSON schema of the data that is accepted before being inserted in the target collection. The form JSON schema **must comply to** the master schema. This double-schema framework was created for use-cases such as this one; suppose you have a ``device`` collection with a string ``type`` field, and you want to create one form per kind of device, without needing to enter the kind of device. You can create two forms ``Insert device X`` and ``Insert device Y``, with the same target collection and master form JSON schema, but different form JSON schema. Then you can add a read-only property to the ``type`` field, and a default value of ``X`` in one form and ``Y`` in the other.
+``Form JSON Schema`` is the JSON schema of the form, while ``Database JSON Schema (read-only)`` is the JSON schema of the data that is accepted before being inserted in the target collection. The form JSON schema **must comply to** the database schema. This double-schema framework was created for use-cases such as this one; suppose you have a ``device`` collection with a string ``type`` field, and you want to create one form per kind of device, without needing to enter the kind of device. You can create two forms ``Insert device X`` and ``Insert device Y``, with the same target collection and master form JSON schema, but different form JSON schema. Then you can add a read-only property to the ``type`` field, and a default value of ``X`` in one form and ``Y`` in the other.
 
 For the ``Form UI Schema``, these ``string``-type components (``ui:widget`` property) were developed, with searching features:
 
-- ``researcher``
-- ``subjects``
-- ``device``
-- ``software``
-- ``file`` (\*)
-- ``output``
+- ``researcher``: researcher CUID;
+- ``subjects``: subject CUID;
+- ``device``: device CUID;
+- ``software``: software CUID;
+- ``file`` (\*): file CUID;
+- ``output``: file CUID;
+- ``cam-capture``: base64-encoded image;
 
 (\*) For this widget to work properly, ``WORK_DIR`` environment variable must be set to point to an existing path. Every time a file widget is used (either in the preview part of the form editor, in the form instance or in a submission), the file is uploaded in that folder.
 
@@ -68,6 +69,7 @@ These services are available:
 
 - ``WAMP connection``: it allows to connect to a [WAMP](http://crossbar.io/) router and, via ports, publish/subscribe to contents within the app, eveywhere in the app. Input ports are subscribed WAMP topics, and output ports are publishing WAMP topics. The input port ``ws-status`` is reserved for storing the WAMP connection status.
 - ``Work-flow client``: when activated, a publishing of specific messages on the listened port (``wf-task-enter``) will trigger a redirect to a specific form to fill. This is useful when form presentation has to be automatized, for instance by a workflow engine. The client expects a JSON object of this kind:
+
 ```js
 {
   "data": {
@@ -76,6 +78,9 @@ These services are available:
 }
 ```
 A small work-flow engine example can be found [here](https://github.com/u0078867/bpmn-engine-wamp), and a mock one [here](WAMP-demo/wf-engine-mock).
+This service depends on ``WAMP connection``.
+- ``KULeuven badge``: when activated, it will wait for an user to badge with KULeuven badge; from the string provided in format ``name;surname;unumber;applicationid``, it will extract the u-number; it will then use it to get full user data from ``search-api/researchers?q="u-number"``) and write it to internal topic ``int-cache-researcher``, and to the global Redux app state ``user`` field (as a OAuth/Shibboleth would do in the future);
+- ``Cache researcher``: when activated, it listens to port ``int-cache-researcher`` and gets from it the researcher record to the global Redux app state ``cache`.researcher`` field. Form widgets of type ``"ui:widget": "researcher"`` are sensitive to this cache and will use it if available;
 
 
 ### Data models:

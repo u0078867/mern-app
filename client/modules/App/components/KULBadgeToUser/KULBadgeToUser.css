@@ -1,0 +1,20 @@
+
+.summary {
+    padding: 20px;
+}
+
+.inputs input[type="text"] {
+    min-width: 200px;
+}
+
+.inputs td {
+    padding: 15px;
+}
+
+.pos-right {
+    float: right;
+}
+
+.pos-left {
+    float: left;
+}

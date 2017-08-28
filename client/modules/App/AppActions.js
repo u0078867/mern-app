@@ -1,9 +1,19 @@
+
 // Export Constants
-/*export const TOGGLE_ADD_POST = 'TOGGLE_ADD_POST';
+export const SET_USER = 'SET_USER';
+export const UPDATE_CACHE = 'UPDATE_CACHE';
 
 // Export Actions
-export function toggleAddPost() {
+export function setUser(user) {
   return {
-    type: TOGGLE_ADD_POST,
+    type: SET_USER,
+    user,
   };
-}*/
+}
+
+export function updateCache(data) {
+  return {
+    type: UPDATE_CACHE,
+    data,
+  };
+}

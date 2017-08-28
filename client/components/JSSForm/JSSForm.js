@@ -8,8 +8,11 @@ import DeviceSearch from './DeviceSearch';
 import SWToolSearch from './SWToolSearch';
 import RawFileWidget from './RawFileWidget';
 import OutputSearch from './OutputSearch';
+import CamCapture from './CamCapture';
 
 import pubsub from 'pubsub-js';
+
+import callApi from '../../util/apiCaller';
 
 
 const customFields = {};
@@ -20,6 +23,7 @@ const customWidgets = {
   "software": SWToolSearch,
   "file": RawFileWidget,
   "output": OutputSearch,
+  "cam-capture": CamCapture,
 };
 
 class JSSForm extends Component {
@@ -36,20 +40,61 @@ class JSSForm extends Component {
     super(props);
     this.state = {
       valid: false,
-      schema: props.schema,
-      uiSchema: props.uiSchema,
-      formData: props.formData,
+      schema: undefined,
+      uiSchema: undefined,
+      formData: undefined,
     }
   }
 
   componentDidMount = () => {
-    this._update(this.state);
+    // convert super-schema to JSONSchema-compliant
+    if (this.props.schema) {
+      callApi('utils/staticize-json-schema', 'post', {
+        schema: this.props.schema
+      })
+      .then(res => {
+        console.log(res.schema)
+        let formProps = {
+          schema: res.schema, // new converted schema
+          uiSchema: this.props.uiSchema,
+          formData: this.props.formData,
+        }
+        this._update(formProps);
+      })
+    }
     this._listenToInternalEvents(this.props.listenToInternalEvents);
   }
 
   componentWillReceiveProps (nextProps) {
+    /*console.log(nextProps.schema != this.props.schema);
+    console.log(nextProps.uiSchema != this.props.uiSchema);
+    console.log(nextProps.formData != this.props.formData);*/
     if (nextProps.schema != this.props.schema || nextProps.uiSchema != this.props.uiSchema || nextProps.formData != this.props.formData) {
-      this._update(nextProps);
+      if (nextProps.schema != this.props.schema) {
+        // schema changed, re-convert it super-schema to JSONSchema-compliant
+        callApi('utils/staticize-json-schema', 'post', {
+          schema: nextProps.schema
+        })
+        .then(res => {
+          console.log("converted")
+          console.log(res.schema)
+          let formProps = {
+            schema: res.schema, // new converted schema
+            uiSchema: this.props.uiSchema,
+            formData: this.props.formData,
+          }
+          this._update(formProps);
+        })
+      } else {
+        // schema did not change, use the old one (already converted), and use new uiSchema and data
+        let formProps = {
+          schema: this.state.schema, // old converted schema
+          uiSchema: nextProps.uiSchema,
+          formData: nextProps.formData,
+        }
+        this._update(formProps);
+      }
+
     }
     this._listenToInternalEvents(nextProps.listenToInternalEvents);
   }
@@ -71,15 +116,23 @@ class JSSForm extends Component {
 
   _update = (formProps) => {
     let {schema, uiSchema, formData} = formProps;
+    let schema_ = schema;
+    let uiSchema_ = uiSchema;
+    let formData_ = formData;
+    if (!schema || !uiSchema || !formData) { // proper form invalidation
+      schema_ = undefined;
+      uiSchema_ = undefined;
+      formData_ = undefined;
+    }
     let valid = true;
     try {
       const test = renderToString(  // done only to catch render() exceptions in Form
         <Form
           fields={customFields}
           widgets={customWidgets}
-          schema={schema}
-          uiSchema={uiSchema}
-          formData={formData}
+          schema={schema_}
+          uiSchema={uiSchema_}
+          formData={formData_}
         />
       );
       if (/unsupported/i.test(test))
@@ -92,14 +145,14 @@ class JSSForm extends Component {
     if (valid) {
       this.setState({
         valid: true,
-        schema: schema,
-        uiSchema:uiSchema,
-        formData: formData,
+        schema: schema_,
+        uiSchema: uiSchema_,
+        formData: formData_,
       });
     } else {
       this.setState({
         valid: false,
-        formData: formData,
+        formData: formData_,
       });
     }
   };
@@ -107,8 +160,9 @@ class JSSForm extends Component {
   render() {
     var form = null;
     let {schema, uiSchema, formData, ...props} = this.props;
+    //console.log(this.state.schema)
 
-    var form = <pre>{JSON.stringify(formData, null, 2)}</pre>;
+    var form = <pre>{JSON.stringify(this.state.formData, null, 2)}</pre>;
     if (this.state.valid) {
       var form = (<Form
                 fields={customFields}

@@ -14,10 +14,15 @@ if (process.env.NODE_ENV === 'development')
 
 import WAMPConnection from './components/WAMPConnection/WAMPConnection';
 import WorkFlowClient from './components/WorkFlowClient/WorkFlowClient';
+import KULBadgeToUser from './components/KULBadgeToUser/KULBadgeToUser';
+import CacheResearcher from './components/CacheResearcher/CacheResearcher';
 
 // Import Actions
-//import { toggleAddPost } from './AppActions';
+import { setUser, updateCache } from './AppActions';
 import { switchLanguage } from '../../modules/Intl/IntlActions';
+
+import pubsub from 'pubsub-js';
+
 
 export class App extends Component {
   constructor(props) {
@@ -32,6 +37,24 @@ export class App extends Component {
 
   redirectToForm = (url) => {
     this.context.router.push(`/forms/${url}`);
+  }
+
+  setUser = (data) => {
+    this.props.dispatch(setUser(data));
+    /* NOTE:
+    to decouple services, we can even call directly:
+    
+    this.updateCache({
+      researcher: data,
+    });
+    */
+    pubsub.publishSync("int-cache-researcher", data);
+  }
+
+  updateCache = (data) => {
+    console.log('cached:');
+    console.log(data);
+    this.props.dispatch(updateCache(data));
   }
 
   render() {
@@ -62,10 +85,14 @@ export class App extends Component {
               data={[
                 {'label': 'WAMP connection'},
                 {'label': 'Work-flow client'},
+                {'label': 'KULeuven badge'},
+                {'label': 'Cache researcher'},
               ]}
             >
               <WAMPConnection/>
               <WorkFlowClient onEnterTask={this.redirectToForm} />
+              <KULBadgeToUser onUserFound={this.setUser} />
+              <CacheResearcher onNewValue={this.updateCache}/>
             </Services>
           </Header>
           <div className={styles.container}>

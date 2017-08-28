@@ -1,6 +1,7 @@
 {
   "type": "object",
   "required": [
+    "barcode_id",
     "owner_name",
     "owner_surname",
     "owner_deathdate",
@@ -8,6 +9,17 @@
     "anatomical_side"
   ],
   "properties": {
+    "barcode_id": {
+      "type": "string",
+      "title": "Barcode ID",
+      "not": {
+        "enum": {
+          "select": "jp;$.subjects[*].barcode_id",
+          "query": "api;subjects/",
+          "__replacer__": true
+        }
+      }
+    },
     "owner_name": {
       "type": "string",
       "title": "Owner name"
@@ -31,6 +43,10 @@
         "R",
         "L"
       ]
+    },
+    "scatch": {
+      "type": "string",
+      "title": "Scatch"
     }
   }
 }

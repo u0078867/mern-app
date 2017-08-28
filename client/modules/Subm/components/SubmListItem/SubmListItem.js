@@ -10,11 +10,12 @@ function SubmListItem(props) {
     <div className={styles['single-subm']}>
       <h3 className={styles['subm-title']}>
         <Link to={`/subms/${props.subm.slug}-${props.subm.cuid}`} >
-          {`${props.subm.form.title} (created: ${props.subm.date_added})`}
+          {`${props.subm.form.title}`}
         </Link>
       </h3>
+      <p className={styles['subm-summary']}>{`(created: ${props.subm.date_added})`}</p>
       <p className={styles['subm-action']}><a href="#" onClick={props.onDelete}><FormattedMessage id="deleteSubm" /></a></p>
-      <p className={styles['subm-action']}><a href="#" onClick={props.onAccept}><FormattedMessage id="acceptSubm" /></a></p>
+      {/*<p className={styles['subm-action']}><a href="#" onClick={props.onAccept}><FormattedMessage id="acceptSubm" /></a></p>*/}
       <hr className={styles.divider} />
     </div>
   );

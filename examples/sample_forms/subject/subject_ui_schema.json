@@ -1,2 +1,5 @@
 {
+  "scatch": {
+    "ui:widget": "cam-capture"
+  }
 }

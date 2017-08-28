@@ -41,7 +41,9 @@ export class FormEditWidget extends Component {
   }
 
   componentWillMount = () => {
-    this.setState(this._parse(this.state));
+    this.setJSONSchema({target: { value: this.state.JSONSchema }});
+    this.setUISchema({target: { value: this.state.UISchema }});
+    this.setInitData({target: { value: this.state.initData }});
     this.checkTitle(this.state.title);
   }
 
@@ -80,8 +82,14 @@ export class FormEditWidget extends Component {
 
   setJSONSchema = (event) => {
     let schema = event.target.value;
-    let _formProps = this._parse({...this.state, JSONSchema: schema})
-    this.setState({..._formProps, JSONSchema: schema});
+    var _schema = undefined;
+    try {
+      _schema = JSON.parse(schema);
+    } catch (e) {};
+    this.setState({
+      JSONSchema: schema,
+      _JSONSchema: _schema,
+    });
   }
 
   setJSONSchemaMaster = (collectionName) => {
@@ -93,14 +101,26 @@ export class FormEditWidget extends Component {
 
   setUISchema = (event) => {
     let schema = event.target.value;
-    let _formProps = this._parse({...this.state, UISchema: schema})
-    this.setState({..._formProps, UISchema: schema});
+    var _schema = undefined;
+    try {
+      _schema = JSON.parse(schema);
+    } catch (e) {};
+    this.setState({
+      UISchema: schema,
+      _UISchema: _schema,
+    });
   }
 
   setInitData = (event) => {
     let data = event.target.value;
-    let _formProps = this._parse({...this.state, initData: data})
-    this.setState({..._formProps, initData: data});
+    var _data = undefined;
+    try {
+      _data = JSON.parse(data);
+    } catch (e) {};
+    this.setState({
+      initData: data,
+      _initData: _data,
+    });
   }
 
   setDestCollection = (event) => {
@@ -114,8 +134,12 @@ export class FormEditWidget extends Component {
 
   onChange = ({formData}) => {
     let data = JSON.stringify(formData, null, 2);
-    let _formProps = this._parse({...this.state, initData: data})
-    this.setState({..._formProps, initData: data});
+    //let _formProps = this._parse({...this.state, initData: data})
+    //this.setState({..._formProps, initData: data});
+    this.setState({
+      initData: data,
+      _initData: formData,
+    });
   }
 
   onSubmit = ({formData}) => {
@@ -126,31 +150,13 @@ export class FormEditWidget extends Component {
     this.setState({isFormValid: valid});
   }
 
-  _parse = (formProps) => {
-    let {JSONSchema, UISchema, initData} = formProps;
-    try {
-      // parse JSON schema
-      var _JSONSchema = JSON.parse(JSONSchema);
-      // parse UI schema
-      var _UISchema = JSON.parse(UISchema);
-      // parse init data
-      var _initData = JSON.parse(initData);
-    } catch(e) {
-      //console.log(e);
-      var _JSONSchema = undefined;
-      var _UISchema = undefined;
-      var _initData = undefined;
-    }
-    return {
-      _JSONSchema,
-      _UISchema,
-      _initData,
-    }
-  }
 
   render() {
     const cls = `${styles['input-form']} ${(this.props.showEditForm ? styles.appear : '')}`;
     const valid = this.state.isFormValid && this.state.isTitleValid;
+    if (!this.props.showEditForm) { // important when list, to avoid eager loading
+      return null
+    }
     return  (
       <div className={cls}>
         <div className={styles['input-form-content']}>
@@ -172,9 +178,9 @@ export class FormEditWidget extends Component {
             </tr>
 
             <tr>
-              <td><div className={styles['input-form-field-label']}>{this.props.intl.messages.formJSONSchema + ' (master)'}:</div></td>
+              <td><div className={styles['input-form-field-label']}>{this.props.intl.messages.dbJSONSchema + ' (read-only)'}:</div></td>
               <td>
-                <textarea readOnly placeholder={this.props.intl.messages.formJSONSchema + ' (master)'} className={styles['input-form-field']} ref="JSONSchemaMaster" value={this.state.JSONSchemaMaster } />
+                <textarea readOnly placeholder={this.props.intl.messages.dbJSONSchema + ' (read-only)'} className={styles['input-form-field']} ref="JSONSchemaMaster" value={this.state.JSONSchemaMaster } />
               </td>
             </tr>
 
@@ -228,35 +234,7 @@ export class FormEditWidget extends Component {
         </div>
       </div>
     )
-    /*return (
-      <div className={cls}>
-        <div className={styles['input-form-content']}>
-          <h2 className={styles['input-form-title']}><FormattedMessage id="editForm" /></h2>
-          <input placeholder={this.props.intl.messages.formTitle} className={styles['input-form-field']} onChange={this.setTitle} value={this.state.title} ref="title" />
-          <textarea placeholder={this.props.intl.messages.formJSONSchema} className={styles['input-form-field']} ref="JSONSchema" value={this.state.JSONSchema} onChange={this.setJSONSchema} />
-          <textarea placeholder={this.props.intl.messages.formUISchema} className={styles['input-form-field']} ref="UISchema" value={this.state.UISchema} onChange={this.setUISchema} />
-          <textarea placeholder={this.props.intl.messages.formInitData} className={styles['input-form-field']} ref="InitData" value={this.state.initData} onChange={this.setInitData} />
-          Target collection: <select placeholder={this.props.intl.messages.formDestCollection} className={styles['input-form-field']} ref="DestCollection" value={this.state.destCollection} onChange={this.setDestCollection} >
-          {this.state.collections.map(collection => {
-            return <option key={collection.name} value={collection.name}>{collection.name}</option>
-          })}
-          </select>
-          <label className={styles['input-form-field']}><input type="checkbox" onChange={this.setInsertOnSubmit} checked={this.state.insertOnSubmit} ref="InsertOnSubmit" /> Insert on submit</label><br/>
-          <a className={valid ? styles['form-submit-button'] : styles['form-submit-button-disabled']} href="#" onClick={this.saveForm}><FormattedMessage id="save" /></a>
-        </div>
-        <div>
-          <h2 className={styles['input-form-title']}><FormattedMessage id="formPreview" /></h2>
-          <JSSForm className={styles['input-form-field']} ref="ciao"
-            schema={this.state._JSONSchema}
-            uiSchema={this.state._UISchema}
-            formData={this.state._initData}
-            onSubmit={this.onSubmit}
-            onChange={this.onChange}
-            onFormPropsChange={this.onFormPropsChange}
-          />
-        </div>
-      </div>
-    );*/
+
   }
 }
 

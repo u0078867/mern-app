@@ -43,5 +43,8 @@ export const getSubms = state => state.subms.data;
 // Get subm by cuid
 export const getSubm = (state, cuid) => state.subms.data.filter(subm => subm.cuid === cuid)[0];
 
+// Get cache
+export const getCache = state => state.app.cache;
+
 // Export Reducer
 export default SubmReducer;

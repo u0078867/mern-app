@@ -3,6 +3,7 @@ import Select from 'react-select';
 import AttributesViewer from './components/AttributesViewer';
 import callSearchApi from '../../util/apiSearchCaller';
 import callApi from '../../util/apiCaller';
+import pubsub from 'pubsub-js';
 
 import styles from './ComponentSearch.css';
 
@@ -64,7 +65,13 @@ class ResearcherSearch extends Component {
     this.state = {};
   }
 
-  componentWillMount = () => {
+  /*componentWillMount = () => {
+    console.log('componentWillMount');
+    console.log(this.props.formContext);
+    this.setValueFromProps(this.props);
+  }*/
+
+  componentDidMount = () => {
     this.setValueFromProps(this.props);
   }
 
@@ -74,6 +81,9 @@ class ResearcherSearch extends Component {
 
   setValueFromProps = (props) => {
     let cuid = props.value;
+    if (props.formContext.cache.researcher) {
+      cuid = props.formContext.cache.researcher.cuid;
+    }
     callApi(`researchers/${cuid}`).then(res => {
       let value = res.researcher;
       if (!value) {
@@ -94,7 +104,9 @@ class ResearcherSearch extends Component {
 	}
 
   onChange = (value) => {;
-      this.props.onChange(value.cuid);
+    this.props.onChange(value.cuid);
+
+    pubsub.publishSync("int-cache-researcher", value);
   }
 
   render() {
@@ -108,6 +120,7 @@ class ResearcherSearch extends Component {
           optionComponent={ResearcherSearchOption}
           valueComponent={ResearcherSearchValue}
           filterOption={(option, filter) => true} // disables local filtering (already performed server-side)
+          disabled={this.props.readonly}
         />
       </div>
     );

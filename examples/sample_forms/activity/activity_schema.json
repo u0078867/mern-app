@@ -8,6 +8,7 @@
     "researchers": {
       "type": "array",
       "title": "Researchers",
+      "minItems": 1,
       "items": {
         "type": "object",
         "properties": {

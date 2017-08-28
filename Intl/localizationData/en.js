@@ -37,6 +37,7 @@ export default {
     createNewForm: 'Create new form',
     formTitle: 'Form Title',
     formJSONSchema: 'Form JSON Schema',
+    dbJSONSchema: 'Database JSON Schema',
     formUISchema: 'Form UI Schema',
     formInitData: 'Form initial data',
     formPreview: 'Form preview',

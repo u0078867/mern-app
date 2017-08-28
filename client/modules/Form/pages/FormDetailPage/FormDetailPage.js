@@ -6,6 +6,8 @@ import { FormattedMessage } from 'react-intl';
 import JSSForm from '../../../../components/JSSForm/JSSForm';
 import OutPortFeeder from '../../../../components/SocketPorts/OutPortFeeder';
 
+import callApi from '../../../../util/apiCaller';
+
 // Import Style
 import styles from '../../components/FormListItem/FormListItem.css';
 
@@ -14,7 +16,7 @@ import { fetchForm, submitForm } from '../../FormActions';
 import { addSubmRequest, fetchSubm, updateSubmRequest, acceptSubmRequest } from '../../../Subm/SubmActions';
 
 // Import Selectors
-import { getForm } from '../../FormReducer';
+import { getForm, getCache } from '../../FormReducer';
 
 
 class FormDetailPage extends Component {
@@ -23,8 +25,14 @@ class FormDetailPage extends Component {
     super(props);
     this.state = {
       formData: this.props.form.init_data,
+      validateForm: true,
     };
     this.sender = new OutPortFeeder({dataOutPort: 'wf-task-exit'});
+    //console.log(props.user);
+  }
+
+  componentDidMount() {
+
   }
 
   onSubmit = ({formData}) => {
@@ -44,7 +52,7 @@ class FormDetailPage extends Component {
         .then(() => postSubmit());
         break;
       case 'submit_now':
-        this.props.dispatch(addSubmRequest(subm))
+        this.props.dispatch(addSubmRequest(subm)) // if there are erros in later actions, at least I have it in submissions
         .then(res => this.props.dispatch(updateSubmRequest(res.subm)))
         .then(res => this.props.dispatch(acceptSubmRequest(res.subm)))
         .then(() => postSubmit());
@@ -59,10 +67,16 @@ class FormDetailPage extends Component {
   }
 
   onClick = (event) => {
-    this.setState({submitType: event.target.id})
+    this.setState({
+      submitType: event.target.id,
+      validateForm: event.target.id == "submit_now" ? true : false,
+    })
   }
 
   render() {
+    let formContext = {
+      cache: this.props.cache,
+    };
     return (
       <div>
         <Helmet title={this.props.form.title} />
@@ -76,9 +90,12 @@ class FormDetailPage extends Component {
           onSubmit={this.onSubmit}
           onChange={this.onChange}
           listenToInternalEvents={true}
+          formContext={formContext}
+          noHtml5Validate={!this.state.validateForm}
+          noValidate={!this.state.validateForm}
         >
-          <button type="submit" className="btn btn-info" id="submit_now" onClick={this.onClick}>Submit (accept now)</button>
-          <button type="submit" className="btn btn-info" id="submit_later" onClick={this.onClick}>Submit (accept later)</button>
+          <button type="submit" className="btn btn-info" id="submit_now" onClick={this.onClick}>Send to database</button>
+          <button title="Content will be added to submissions. Required fields check will be relaxed." type="submit" className="btn btn-info" id="submit_later" onClick={this.onClick}>Save to submissions and review later</button>
         </JSSForm>
       </div>
     );
@@ -86,14 +103,16 @@ class FormDetailPage extends Component {
 }
 
 // Actions required to provide data for this component to render in sever side.
-FormDetailPage.need = [params => {
-  return fetchForm(params.cuid);
-}];
+FormDetailPage.need = [
+  params => {return fetchForm(params.cuid)},
+  //(params, state) => {return getUser(state)},
+];
 
 // Retrieve data from store as props
 function mapStateToProps(state, props) {
   return {
     form: getForm(state, props.params.cuid),
+    cache: getCache(state),
   };
 }
 

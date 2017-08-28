@@ -3,7 +3,8 @@
   "required": [
     "name",
     "surname",
-    "birthdate"
+    "birthdate",
+    "institution_id"
   ],
   "properties": {
     "name": {
@@ -17,6 +18,10 @@
     "birthdate": {
       "type": "string",
       "title": "Birthdate"
+    },
+    "institution_id": {
+      "type": "string",
+      "title": "Institution ID"
     }
   }
 }

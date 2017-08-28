@@ -1,0 +1,57 @@
+{
+  "ui:order": [
+    "name",
+    "researchers",
+    "subjects",
+    "devices",
+    "software",
+    "other_resources",
+    "outputs"
+  ],
+  "name": {
+    "ui:readonly": true
+  },
+  "researchers": {
+    "items": {
+      "id": {
+        "ui:widget": "researcher",
+        "ui:readonly": true
+      }
+    }
+  },
+  "subjects": {
+    "items": {
+      "id": {
+        "ui:widget": "subject"
+      }
+    }
+  },
+  "devices": {
+    "items": {
+      "id": {
+        "ui:widget": "device"
+      }
+    }
+  },
+  "software": {
+    "items": {
+      "id": {
+        "ui:widget": "software"
+      }
+    }
+  },
+  "other_resources": {
+    "items": {
+      "id": {
+        "ui:widget": "output"
+      }
+    }
+  },
+  "outputs": {
+    "items": {
+      "uri": {
+        "ui:widget": "file"
+      }
+    }
+  }
+}

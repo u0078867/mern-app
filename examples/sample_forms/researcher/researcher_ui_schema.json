@@ -2,6 +2,7 @@
   "ui:order": [
     "name",
     "surname",
-    "birthdate"
+    "birthdate",
+    "institution_id"
   ]
 }

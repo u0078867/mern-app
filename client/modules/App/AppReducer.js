@@ -1,17 +1,24 @@
 // Import Actions
-import { TOGGLE_ADD_POST } from './AppActions';
+import { SET_USER, UPDATE_CACHE } from './AppActions';
 
 // Initial State
 const initialState = {
-  showAddPost: false,
+  user: null,
+  cache: {},
 };
 
 const AppReducer = (state = initialState, action) => {
   switch (action.type) {
-    case TOGGLE_ADD_POST:
-      return {
-        showAddPost: !state.showAddPost,
-      };
+
+    case SET_USER:
+      return Object.assign({}, state, {
+        user: action.user,
+      });
+
+    case UPDATE_CACHE:
+      return Object.assign({}, state, {
+        cache: action.data,
+      });
 
     default:
       return state;
@@ -20,8 +27,11 @@ const AppReducer = (state = initialState, action) => {
 
 /* Selectors */
 
-// Get showAddPost
-export const getShowAddPost = state => state.app.showAddPost;
+// Get user
+export const getUser = state => state.app.user;
+
+// Get cache
+export const getCache = state => state.app.cache;
 
 // Export Reducer
 export default AppReducer;

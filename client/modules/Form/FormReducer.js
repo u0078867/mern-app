@@ -48,8 +48,11 @@ export const getForms = state => state.forms.data;
 // Get form by cuid
 export const getForm = (state, cuid) => state.forms.data.filter(form => form.cuid === cuid)[0];
 
-// Get showAddPost
+// Get showAddForm
 export const getShowAddForm = state => /*state.app.showAddPost*/state.forms.showAddForm;
+
+// Get cache
+export const getCache = state => state.app.cache;
 
 // Export Reducer
 export default FormReducer;
