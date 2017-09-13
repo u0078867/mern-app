@@ -1,0 +1,11 @@
+{
+  "barcode_id": {
+    "ui:widget": "form-filler",
+    "ui:options": {
+      "collection": "subjects"
+    }
+  },
+  "scatch": {
+    "ui:widget": "cam-capture"
+  }
+}

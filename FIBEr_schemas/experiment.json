@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "title": "Experiment:",
+  "required": [
+    "researcher_id",
+    "sample_id",
+    "test_type",
+    "scatch"
+  ],
+  "properties": {
+    "researcher_id": {
+      "type": "string",
+      "title": "Researcher ID:"
+    },
+    "sample_id": {
+      "type": "string",
+      "title": "Sample ID:"
+    },
+    "test_type": {
+      "type": "string",
+      "title": "Type of test:"
+    },
+    "temperature": {
+      "type": "string",
+      "title": "Temperature (if relevant):"
+    },
+    "scatch": {
+      "type": "string",
+      "title": "Sketch:"
+    },
+    "remarks": {
+      "type": "string",
+      "title": "Remarks:"
+    }
+  }
+}

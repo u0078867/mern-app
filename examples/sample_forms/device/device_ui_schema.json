@@ -1,8 +1,0 @@
-{
-  "ui:order": [
-    "name",
-    "type",
-    "producer",
-    "uri"
-  ]
-}

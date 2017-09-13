@@ -1,0 +1,13 @@
+{
+  "name": "express-apis-mongo-gaitlabs-pellenberg",
+  "version": "0.1.0",
+  "description": "APIs used for data searching in MongoDB for gait-labs at UZPellenerg",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "repository": {}
+}

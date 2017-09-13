@@ -40,6 +40,8 @@ class SubmDetailPage extends Component {
   }
 
   onSubmit = ({formData}) => {
+    console.log('acting...');
+    console.log(this.state.action);
     let subm = Object.assign({}, this.props.subm, {
       'form': this.props.subm.form._id,
       'data': formData,

@@ -32,7 +32,8 @@ class FormDetailPage extends Component {
   }
 
   componentDidMount() {
-
+    console.log(this.props.params.cuid)
+    this.props.dispatch(fetchForm(this.props.params.cuid));
   }
 
   onSubmit = ({formData}) => {
@@ -43,7 +44,8 @@ class FormDetailPage extends Component {
       data: formData,
     };
     var postSubmit = () => {
-      this.context.router.push('/');
+      //this.context.router.push('/');
+      this.context.router.push(this.props.redirectUrl);
       this.sender.send('exited');
     }
     switch (this.state.submitType) {
@@ -73,9 +75,15 @@ class FormDetailPage extends Component {
     })
   }
 
+  onUpdateFormData = (data) => {
+    let formData = Object.assign({}, this.state.formData, data);
+    this.onChange({formData});
+  }
+
   render() {
     let formContext = {
       cache: this.props.cache,
+      updateFormData: this.onUpdateFormData,
     };
     return (
       <div>
@@ -95,7 +103,7 @@ class FormDetailPage extends Component {
           noValidate={!this.state.validateForm}
         >
           <button type="submit" className="btn btn-info" id="submit_now" onClick={this.onClick}>Send to database</button>
-          <button title="Content will be added to submissions. Required fields check will be relaxed." type="submit" className="btn btn-info" id="submit_later" onClick={this.onClick}>Save to submissions and review later</button>
+          {/*<button title="Content will be added to submissions. Required fields check will be relaxed." type="submit" className="btn btn-info" id="submit_later" onClick={this.onClick}>Save to submissions and review later</button>*/}
         </JSSForm>
       </div>
     );
@@ -113,6 +121,7 @@ function mapStateToProps(state, props) {
   return {
     form: getForm(state, props.params.cuid),
     cache: getCache(state),
+    redirectUrl: props.location.query.red
   };
 }
 

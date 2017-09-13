@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "title": "Experiment:",
+  "required": [
+    "researcher_id",
+    "sample_id",
+    "test_type",
+    "scatch"
+  ],
+  "properties": {
+    "researcher_id": {
+      "type": "string",
+      "title": "Researcher ID:",
+      "enum": {
+        "select": "jp;$.items[*].kul_id",
+        "query": "api;researchers/",
+        "__replacer__": true
+      }
+    },
+    "sample_id": {
+      "type": "string",
+      "title": "Sample ID:",
+      "enum": {
+        "select": "jp;$.items[*].id",
+        "query": "api;samples/",
+        "__replacer__": true
+      }
+    },
+    "test_type": {
+      "type": "string",
+      "title": "Type of test:"
+    },
+    "temperature": {
+      "type": "string",
+      "title": "Temperature (if relevant):"
+    },
+    "scatch": {
+      "type": "string",
+      "title": "Sketch:"
+    },
+    "remarks": {
+      "type": "string",
+      "title": "Remarks:"
+    }
+  }
+}

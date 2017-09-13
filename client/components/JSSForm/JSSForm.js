@@ -1,30 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import Form from "react-jsonschema-form";
 import { renderToString } from 'react-dom/server';
+import { getWidgetsMap } from 'JSS_WIDGETS_PATH';
+//import LayoutField from 'react-jsonschema-form-layout';
+import LayoutField from './LayoutField';
 
-import ResearcherSearch from './ResearcherSearch';
-import SubjectSearch from './SubjectSearch';
-import DeviceSearch from './DeviceSearch';
-import SWToolSearch from './SWToolSearch';
-import RawFileWidget from './RawFileWidget';
-import OutputSearch from './OutputSearch';
-import CamCapture from './CamCapture';
 
 import pubsub from 'pubsub-js';
 
 import callApi from '../../util/apiCaller';
 
+// Get custom widgets
+const customWidgets = getWidgetsMap();
 
-const customFields = {};
-const customWidgets = {
-  "researcher": ResearcherSearch,
-  "subject": SubjectSearch,
-  "device": DeviceSearch,
-  "software": SWToolSearch,
-  "file": RawFileWidget,
-  "output": OutputSearch,
-  "cam-capture": CamCapture,
-};
+// Get custom fields
+const customFields = {
+  layout: LayoutField,
+}
 
 class JSSForm extends Component {
 
@@ -48,7 +40,7 @@ class JSSForm extends Component {
 
   componentDidMount = () => {
     // convert super-schema to JSONSchema-compliant
-    if (this.props.schema) {
+    if (this.props.schema != undefined) {
       callApi('utils/staticize-json-schema', 'post', {
         schema: this.props.schema
       })
@@ -61,6 +53,13 @@ class JSSForm extends Component {
         }
         this._update(formProps);
       })
+    } else {
+      let formProps = {
+        schema: undefined,
+        uiSchema: this.props.uiSchema,
+        formData: this.props.formData,
+      }
+      this._update(formProps);
     }
     this._listenToInternalEvents(this.props.listenToInternalEvents);
   }
@@ -71,20 +70,29 @@ class JSSForm extends Component {
     console.log(nextProps.formData != this.props.formData);*/
     if (nextProps.schema != this.props.schema || nextProps.uiSchema != this.props.uiSchema || nextProps.formData != this.props.formData) {
       if (nextProps.schema != this.props.schema) {
-        // schema changed, re-convert it super-schema to JSONSchema-compliant
-        callApi('utils/staticize-json-schema', 'post', {
-          schema: nextProps.schema
-        })
-        .then(res => {
-          console.log("converted")
-          console.log(res.schema)
+        if (nextProps.schema != undefined) {
+          // schema changed, re-convert it super-schema to JSONSchema-compliant
+          callApi('utils/staticize-json-schema', 'post', {
+            schema: nextProps.schema
+          })
+          .then(res => {
+            console.log("converted")
+            console.log(res.schema)
+            let formProps = {
+              schema: res.schema, // new converted schema
+              uiSchema: this.props.uiSchema,
+              formData: this.props.formData,
+            }
+            this._update(formProps);
+          });
+        } else {
           let formProps = {
-            schema: res.schema, // new converted schema
-            uiSchema: this.props.uiSchema,
-            formData: this.props.formData,
+            schema: undefined,
+            uiSchema: nextProps.uiSchema,
+            formData: nextProps.formData,
           }
           this._update(formProps);
-        })
+        }
       } else {
         // schema did not change, use the old one (already converted), and use new uiSchema and data
         let formProps = {
@@ -119,10 +127,9 @@ class JSSForm extends Component {
     let schema_ = schema;
     let uiSchema_ = uiSchema;
     let formData_ = formData;
-    if (!schema || !uiSchema || !formData) { // proper form invalidation
+    if (schema == undefined || uiSchema == undefined || formData == undefined) { // proper form invalidation
       schema_ = undefined;
       uiSchema_ = undefined;
-      formData_ = undefined;
     }
     let valid = true;
     try {
@@ -138,7 +145,7 @@ class JSSForm extends Component {
       if (/unsupported/i.test(test))
         throw new Error(test);
     } catch (err) {
-      //console.log(err);
+      console.log(err);
       valid = false;
     }
     this.props.onFormPropsChange({valid});

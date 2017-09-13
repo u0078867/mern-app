@@ -1,0 +1,44 @@
+{
+  "researcher_id": {
+    "ui:widget": "researcher",
+    "ui:readonly": true,
+    "ui:options": {
+      "field": "kul_id"
+    }
+  },
+  "sample_id": {
+    "ui:widget": "text"
+  },
+  "scatch": {
+    "ui:widget": "cam-capture"
+  },
+  "remarks": {
+    "ui:widget": "textarea"
+  },
+  "ui:field": "layout",
+  "ui:layout": [
+    {
+      "group": {
+        "md": 6,
+        "layout": [
+          {
+            "researcher_id": { "md": 12 }
+          },
+          {
+            "sample_id": { "md": 12 }
+          },
+          {
+            "test_type": { "md": 12 }
+          },
+          {
+            "temperature": { "md": 12 }
+          }
+        ]
+      },
+      "scatch": { "md": 6 }
+    },
+    {
+      "remarks": { "md": 12 }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": [
+    "name",
+    "surname",
+    "kul_id"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "surname": {
+      "type": "string",
+      "title": "Surname"
+    },
+    "kul_id": {
+      "type": "string",
+      "title": "KULeuven ID"
+    }
+  }
+}

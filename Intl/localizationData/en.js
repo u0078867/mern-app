@@ -36,6 +36,7 @@ export default {
     deleteForm: 'Delete Form',
     createNewForm: 'Create new form',
     formTitle: 'Form Title',
+    formKey: 'Form Key',
     formJSONSchema: 'Form JSON Schema',
     dbJSONSchema: 'Database JSON Schema',
     formUISchema: 'Form UI Schema',

@@ -16,10 +16,11 @@ export class FormEditWidget extends Component {
   static defaultProps = {
     initialForm: {
       title: '',
+      key: '',
       json_schema: undefined,
       ui_schema: undefined,
       init_data: undefined,
-      dest_collection: 'devices',
+      dest_collection: undefined,
       insert_on_submit: false,
     }
   };
@@ -28,6 +29,7 @@ export class FormEditWidget extends Component {
     super(props);
     this.state = {
       title: props.initialForm.title,
+      key: props.initialForm.key,
       JSONSchema: JSON.stringify(props.initialForm.json_schema, null, 2),
       JSONSchemaMaster: '',
       UISchema: JSON.stringify(props.initialForm.ui_schema, null, 2),
@@ -37,6 +39,7 @@ export class FormEditWidget extends Component {
       insertOnSubmit: props.initialForm.insert_on_submit,
       isFormValid: false,
       isTitleValid: false,
+      isKeyValid: false,
     };
   }
 
@@ -45,6 +48,7 @@ export class FormEditWidget extends Component {
     this.setUISchema({target: { value: this.state.UISchema }});
     this.setInitData({target: { value: this.state.initData }});
     this.checkTitle(this.state.title);
+    this.checkKey(this.state.key);
   }
 
   componentDidMount = () => {
@@ -80,6 +84,17 @@ export class FormEditWidget extends Component {
     this.setState({ isTitleValid });
   }
 
+  setKey = (event) => {
+    let key = event.target.value;
+    this.setState({ key });
+    this.checkKey(key);
+  }
+
+  checkKey = (key) => {
+    let isKeyValid = key.trim().length > 0;
+    this.setState({ isKeyValid });
+  }
+
   setJSONSchema = (event) => {
     let schema = event.target.value;
     var _schema = undefined;
@@ -94,9 +109,11 @@ export class FormEditWidget extends Component {
 
   setJSONSchemaMaster = (collectionName) => {
     let collection = this.state.collections.filter(c => c.name === collectionName)[0];
-    this.setState({
-      JSONSchemaMaster: JSON.stringify(collection.JSONSchema, null, 2),
-    });
+    if (collection) {
+      this.setState({
+        JSONSchemaMaster: JSON.stringify(collection.JSONSchema, null, 2),
+      });
+    }
   }
 
   setUISchema = (event) => {
@@ -150,13 +167,22 @@ export class FormEditWidget extends Component {
     this.setState({isFormValid: valid});
   }
 
+  onUpdateFormData = (data) => {
+    let formData = Object.assign({}, this.state._initData, data);
+    this.onChange({formData});
+  }
+
 
   render() {
     const cls = `${styles['input-form']} ${(this.props.showEditForm ? styles.appear : '')}`;
-    const valid = this.state.isFormValid && this.state.isTitleValid;
+    const valid = this.state.isFormValid && this.state.isTitleValid && this.state.isKeyValid;
     if (!this.props.showEditForm) { // important when list, to avoid eager loading
       return null
     }
+    let formContext = {
+      formDataFiller: this.onChange,
+      updateFormData: this.onUpdateFormData,
+    };
     return  (
       <div className={cls}>
         <div className={styles['input-form-content']}>
@@ -167,6 +193,13 @@ export class FormEditWidget extends Component {
               <td><div className={styles['input-form-field-label']}>{this.props.intl.messages.formTitle}:</div></td>
               <td>
                 <input placeholder={this.props.intl.messages.formTitle} className={styles['input-form-field']} onChange={this.setTitle} value={this.state.title} ref="title" />
+              </td>
+            </tr>
+
+            <tr>
+              <td><div className={styles['input-form-field-label']}>{this.props.intl.messages.formKey}:</div></td>
+              <td>
+                <input placeholder={this.props.intl.messages.formKey} className={styles['input-form-field']} onChange={this.setKey} value={this.state.key} ref="key" />
               </td>
             </tr>
 
@@ -229,6 +262,7 @@ export class FormEditWidget extends Component {
             formData={this.state._initData}
             onSubmit={this.onSubmit}
             onChange={this.onChange}
+            formContext={formContext}
             onFormPropsChange={this.onFormPropsChange}
           />
         </div>

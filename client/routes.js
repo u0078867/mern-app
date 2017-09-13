@@ -2,6 +2,7 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from './modules/App/App';
+import { setShowServices } from 'MODULE_APP/AppActions';
 
 // require.ensure polyfill for node
 if (typeof require.ensure !== 'function') {
@@ -20,64 +21,109 @@ if (process.env.NODE_ENV !== 'production') {
   require('./modules/Form/pages/FormDetailPage/FormDetailPage');
   require('./modules/Subm/pages/SubmListPage/SubmListPage');
   require('./modules/Subm/pages/SubmDetailPage/SubmDetailPage');
+
+  require('MODULE_LOGIN/pages/LoginPage/LoginPage');
+  require('CONTAINER_CLASS/Container');
+
+  require('./components/EnsureLoggedInContainer')
+  require('MODULE_DASHBOARD/pages/DashboardPage/DashboardPage');
 }
 
 // react-router setup with code-splitting
 // More info: http://blog.mxstbr.com/2016/01/react-apps-with-pages/
-export default (
+export default function getRoutes(store) {
+  return (
   <Route path="/" component={App}>
-    <IndexRoute
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Form/pages/FormListPage/FormListPage').default);
-        });
-      }}
-    />
+
     <Route
-      path="/forms/:slug-:cuid"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
-          cb(null, require('./modules/Form/pages/FormDetailPage/FormDetailPage').default);
+          cb(null, require('CONTAINER_CLASS/Container').default);
         });
       }}
-    />
-    <Route
-      path="/subms"
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Subm/pages/SubmListPage/SubmListPage').default);
-        });
-      }}
-    />
-    <Route
-      path="/subms/:slug-:cuid"
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Subm/pages/SubmDetailPage/SubmDetailPage').default);
-        });
-      }}
-    />
+    >
+
+      <IndexRoute
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            store.dispatch(setShowServices(false));
+            cb(null, require('MODULE_LOGIN/pages/LoginPage/LoginPage').default);
+          });
+        }}
+      />
+
+      <Route
+        path="/login"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            store.dispatch(setShowServices(false));
+            cb(null, require('MODULE_LOGIN/pages/LoginPage/LoginPage').default);
+          });
+        }}
+      />
+
+      <Route
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            cb(null, require('./components/EnsureLoggedInContainer').default);
+          });
+        }}
+      >
+
+        <Route
+          path="/dashboard"
+          getComponent={(nextState, cb) => {
+            require.ensure([], require => {
+              store.dispatch(setShowServices(false));
+              cb(null, require('MODULE_DASHBOARD/pages/DashboardPage/DashboardPage').default);
+            });
+          }}
+        />
+
+      </Route>
+
+
+      <Route
+        path="/forms"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            store.dispatch(setShowServices(true));
+            cb(null, require('./modules/Form/pages/FormListPage/FormListPage').default);
+          });
+        }}
+      />
+      <Route
+        path="/forms/:slug-:cuid"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            store.dispatch(setShowServices(false));
+            cb(null, require('./modules/Form/pages/FormDetailPage/FormDetailPage').default);
+          });
+        }}
+      />
+      <Route
+        path="/subms"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            store.dispatch(setShowServices(true));
+            cb(null, require('./modules/Subm/pages/SubmListPage/SubmListPage').default);
+          });
+        }}
+      />
+      <Route
+        path="/subms/:slug-:cuid"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            store.dispatch(setShowServices(false));
+            cb(null, require('./modules/Subm/pages/SubmDetailPage/SubmDetailPage').default);
+          });
+        }}
+      />
+
+    </Route>
+
   </Route>
 
-);
+  )
 
-/*
-export default (
-  <Route path="/" component={App}>
-    <IndexRoute
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Form/pages/FormListPage/FormListPage').default);
-        });
-      }}
-    />
-    <Route
-      path="/forms/:slug-:cuid"
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Form/pages/FormDetailPage/FormDetailPage').default);
-        });
-      }}
-    />
-  </Route>
-);*/
+};

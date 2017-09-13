@@ -39,6 +39,7 @@ if (process.env.NODE_ENV === 'development') {
 
 }
 
+
 // React And Redux Setup
 import { configureStore } from '../client/store';
 import { Provider } from 'react-redux';
@@ -48,13 +49,32 @@ import { match, RouterContext } from 'react-router';
 import Helmet from 'react-helmet';
 
 // Import required modules
-import routes from '../client/routes';
+import getRoutes from '../client/routes';
 import { fetchComponentData } from './app/util/fetchData';
-//import dummyData from './app/dummyData';
 import serverConfig from './config';
 
 // Display server config
 console.log(serverConfig);
+
+// Specify routes for internal APIs
+const API_URL = '/api';
+const SEARCH_API_URL = '/search-api';
+
+// Build Osmos WAMP driver
+var buildOsmosDriver = require('./buildOsmosDriver');
+console.log('Instantiation chosen Osmos driver ...');
+var postOsmosBuild = () => {
+  // Specify internal APIs needing Osmos models
+  app.use(API_URL, function(req, res, next) {
+    require('./app/routes/database.routes')(req, res, next);
+  });
+  app.use(API_URL, function(req, res, next) {
+    require('./app/routes/upload.routes')(req, res, next);
+  });
+  // Specify external APIs
+  require('API_PATH').setAPIs(app);
+}
+buildOsmosDriver(serverConfig, postOsmosBuild);
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -69,26 +89,26 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 
   var fillLevel = serverConfig.prefillDb;
 
-  var dummyData = (verbose, fillLevel) => {
-    require('./app/dummyData')(verbose, fillLevel)
-    .then(() => console.log('db filled with fictitious data when necessary'))
+  var DBPrefiller = (verbose, fillLevel) => {
+    require('DB_PREFILLER_PATH').prefiller(verbose, fillLevel)
+    .then(() => console.log('DB filled with data when necessary'))
     .catch(err => console.log(err));
   }
 
-  dummyData(false, fillLevel);
+  DBPrefiller(false, fillLevel);
   if (process.env.NODE_ENV === 'development') {
-    // feed some dummy data in DB.
+    // feed some data in DB.
     var readline = require('readline');
     var rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
       terminal: false
     });
-    console.log('Type "fill" to fill Mongo with fictitious data ...');
+    console.log('Type "fill" to fill DB with data ...');
     rl.on('line', (line) => {
       console.log(`typed '${line}'`);
       if (line == 'fill') {
-        dummyData(false, fillLevel);
+        DBPrefiller(false, fillLevel);
       }
     });
   }
@@ -101,54 +121,22 @@ app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
 app.use(fileUpload());
 
-// Specify APIs
-const API_URL = '/api';
-const SEARCH_API_URL = '/search-api';
+// Specify internal APIs
 app.use(API_URL, function(req, res, next) {
   require('./app/routes/form.routes')(req, res, next);
 });
 app.use(API_URL, function(req, res, next) {
   require('./app/routes/subm.routes')(req, res, next);
 });
-app.use(API_URL, function(req, res, next) {
-  require('./app/routes/upload.routes')(req, res, next);
-});
-app.use(API_URL, function(req, res, next) {
-  require('./app/routes/subject.routes')(req, res, next);
-});
-app.use(API_URL, function(req, res, next) {
-  require('./app/routes/researcher.routes')(req, res, next);
-});
-app.use(API_URL, function(req, res, next) {
-  require('./app/routes/device.routes')(req, res, next);
-});
-app.use(API_URL, function(req, res, next) {
-  require('./app/routes/swtool.routes')(req, res, next);
-});
-app.use(API_URL, function(req, res, next) {
-  require('./app/routes/output.routes')(req, res, next);
-});
-app.use(API_URL, function(req, res, next) {
+/*app.use(API_URL, function(req, res, next) {
   require('./app/routes/database.routes')(req, res, next);
-});
+});*/
 app.use(API_URL, function(req, res, next) {
   require('./app/routes/utils.routes')(req, res, next);
 });
-app.use(SEARCH_API_URL, function(req, res, next) {
-  require('./app/routes/subject.search.routes')(req, res, next);
-});
-app.use(SEARCH_API_URL, function(req, res, next) {
-  require('./app/routes/researcher.search.routes')(req, res, next);
-});
-app.use(SEARCH_API_URL, function(req, res, next) {
-  require('./app/routes/device.search.routes')(req, res, next);
-});
-app.use(SEARCH_API_URL, function(req, res, next) {
-  require('./app/routes/swtool.search.routes')(req, res, next);
-});
-app.use(SEARCH_API_URL, function(req, res, next) {
-  require('./app/routes/output.search.routes')(req, res, next);
-});
+/*app.use(API_URL, function(req, res, next) {
+  require('./app/routes/upload.routes')(req, res, next);
+});*/
 app.use('/test-hmr-api', function(req, res, next) {
   require('./app/routes/test.hmr.routes')(req, res, next);
 });
@@ -211,7 +199,7 @@ const renderError = err => {
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
-  match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
+  match({ routes: getRoutes(configureStore()), location: req.url }, (err, redirectLocation, renderProps) => {
     if (err) {
       return res.status(500).end(renderError(err));
     }

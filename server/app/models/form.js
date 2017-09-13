@@ -7,6 +7,7 @@ if ('Form' in mongoose.connection.models)
 
 const formSchema = new Schema({
   title: { type: 'String', required: true },
+  key: { type: 'String', required: true },
   json_schema: { type: 'Mixed', required: true },
   ui_schema: { type: 'Mixed', required: true },
   init_data: { type: 'Mixed', required: true },

@@ -7,9 +7,9 @@
 .content {
   width: 100%;
   max-width: 980px;
-  height: 450px;
+  height: 0px;
   margin: auto;
-  padding: 64px 16px;
+  /*padding: 64px 16px;*/
   overflow: auto;
   background-color: #FFF;
 }

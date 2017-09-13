@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Models from '../models/entity';
 
 /**
  * Get all collections
@@ -7,7 +8,7 @@ import mongoose from 'mongoose';
  * @returns void
  */
 export function getCollections(req, res) {
-  mongoose.connection.db.listCollections().toArray((err, colls) => {
+  /*mongoose.connection.db.listCollections().toArray((err, colls) => {
     if (err) {
       console.log(err);
       return res.status(500).send(err);
@@ -33,5 +34,19 @@ export function getCollections(req, res) {
     } catch (err) {
       return res.status(500).send(err);
     }
-  });
+  });*/
+
+  try {
+    var collections = [];
+    for (var collection in Models) {
+      collections.push({
+        name: collection,
+        JSONSchema: Models[collection].getJSONSchema(),
+      })
+    }
+    res.json({ collections: collections });
+  } catch (err) {
+    console.log(err)
+    return res.status(500).send(err);
+  }
 }

@@ -1,0 +1,17 @@
+[
+  {
+    "name": "researcher",
+    "json_schema_file": "researcher.json",
+    "collection_name": "researchers"
+  },
+  {
+    "name": "sample",
+    "json_schema_file": "sample.json",
+    "collection_name": "samples"
+  },
+  {
+    "name": "experiment",
+    "json_schema_file": "experiment.json",
+    "collection_name": "experiments"
+  }
+]

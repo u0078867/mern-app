@@ -11,8 +11,8 @@ export function Header(props, context) {
   );
 
   const panels = [
-    {name: 'Forms', 'url': '/'},
-    {name: 'Submissions', 'url': '/subms'},
+    //{name: 'Forms', 'url': '/'},
+    //{name: 'Submissions', 'url': '/subms'},
   ];
 
   return (

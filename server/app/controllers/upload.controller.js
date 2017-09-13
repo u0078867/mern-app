@@ -4,7 +4,7 @@ import slug from 'limax';
 import sanitizeHtml from 'sanitize-html';
 import config from '../../config';
 import fs from 'fs';
-import mongoose from 'mongoose';
+import Models from 'MODELS_PATH/entity';
 
 
 export function uploadFile(req, res) {
@@ -33,19 +33,32 @@ export function uploadData(req, res) {
   .then(() => new Promise((resolve, reject) => {
       if (subm.form.insert_on_submit) {
         // Insert in target collection
-        let models = mongoose.connection.models;
-        let model = Object.keys(models).filter(m => {
-          return models[m].collection.collectionName == subm.form.dest_collection
-        })[0];
-        const TargetModel = models[model];
-        const newDoc = new TargetModel(subm.data);
-        newDoc.slug = slug(`${model}`, { lowercase: true });
-        newDoc.save((err, saved) => {
-          if (err) {
-            return reject(err);
+        var collection = subm.form.dest_collection;
+        if (!(collection in Models)) {
+          return res.status(500).send("Collection does not exist");
+        }
+        var Model = Models[collection];
+        Promise.resolve()
+        .then(() => {
+          if (subm.data.cuid == undefined) {
+            console.log('creating new document')
+            return Model.createAndInit();
+          } else {
+            console.log('updating document')
+            return Model.get(subm.data.cuid);
           }
+        })
+        .then(newDoc => {
+          newDoc.slug = slug(`${collection}`, { lowercase: true });
+          for (var prop in subm.data) {
+            newDoc[prop] = subm.data[prop];
+          }
+          return newDoc.save();
+        })
+        .then(saved => {
+          //console.log(saved);
           resolve({ saved });
-        });
+        })
       } else {
         resolve({ });
       }

@@ -3,6 +3,10 @@ var fs = require('fs');
 var path = require('path');
 var ExternalsPlugin = require('webpack-externals-plugin');
 
+var API_PATH = path.resolve(__dirname, process.env.API_PATH || 'server/app/FIBEr_api');
+var MODELS_PATH = path.resolve(__dirname, 'server/app/models');
+var DB_PREFILLER_PATH = path.resolve(__dirname, process.env.DB_PREFILLER_PATH || 'server/app/FIBEr_db_prefiller');
+
 module.exports = {
 
   entry: path.resolve(__dirname, 'server/server.js'),
@@ -25,6 +29,11 @@ module.exports = {
       'client',
       'node_modules',
     ],
+    alias: {
+      "API_PATH": API_PATH,
+      "MODELS_PATH": MODELS_PATH,
+      "DB_PREFILLER_PATH": DB_PREFILLER_PATH,
+    },
   },
 
   module: {
