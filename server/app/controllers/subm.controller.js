@@ -36,7 +36,7 @@ export function addSubm(req, res) {
   const newSubm = new Subm(req.body.subm);
 
   // Let's sanitize inputs
-  console.log(newSubm.data);
+  //console.log(newSubm.data);
   //newSubm.data = JSON.parse(newSubm.data);
 
   newSubm.slug = 'submission';

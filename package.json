@@ -52,7 +52,7 @@
     "mongodb": "^2.2.31",
     "mongoose": "^4.4.20",
     "native-or-bluebird": "^1.2.0",
-    "osmos-lite": "git+https://github.com/limianwang/osmos-lite.git",
+    "osmos-lite": "git+https://github.com/u0078867/osmos-lite.git",
     "pubsub-js": "^1.5.7",
     "react": "^15.1.0",
     "react-addons-update": "^15.6.0",

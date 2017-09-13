@@ -28,6 +28,7 @@ export function uploadFile(req, res) {
 export function uploadData(req, res) {
 
   let subm = req.body;
+  console.log(subm.data.parent_id);
 
   Promise.resolve()
   .then(() => new Promise((resolve, reject) => {
@@ -53,10 +54,20 @@ export function uploadData(req, res) {
           for (var prop in subm.data) {
             newDoc[prop] = subm.data[prop];
           }
+          for (var prop of Object.keys(newDoc)) {
+            if (!(prop in subm.data) && !['model','__originalData__','schema'].includes(prop)) {
+              newDoc[prop] = undefined;
+            }
+          }
+          if (!subm.validate_before_insert) {
+            Model.disableValidation();
+          }
           return newDoc.save();
         })
         .then(saved => {
-          //console.log(saved);
+          if (!subm.validate_before_insert) {
+            Model.enableValidation();
+          }
           resolve({ saved });
         })
       } else {

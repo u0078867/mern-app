@@ -70,6 +70,24 @@ schemasConfig.forEach(schemaInfo => {
     })
     return Promise.all(promises);
   }.bind(model);
+  model.disableValidation = function() {
+    this.validator2 = {
+      validateMultiple: (data, schema) => {
+        let result = {
+          errors: []
+        }
+        return result;
+      }
+    };
+    var temp = this.schema.validator;
+    this.schema.validator = this.validator2;
+    this.validator2 = temp;
+  }.bind(model);
+  model.enableValidation = function() {
+    var temp = this.schema.validator;
+    this.schema.validator = this.validator2;
+    this.validator2 = temp;
+  }.bind(model);
   // add model to Models
   Models[collection] = model;
 });

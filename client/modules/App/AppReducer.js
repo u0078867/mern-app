@@ -4,7 +4,7 @@ import { SET_USER, SET_REDIRECT_URL, UPDATE_CACHE, SET_SHOW_SERVICES } from './A
 // Initial State
 const initialState = {
   user: null,
-  redirectUrl: null,
+  redirectUrl: '/login',
   cache: {},
   showServices: true,
 };

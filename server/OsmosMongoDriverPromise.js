@@ -46,13 +46,13 @@ Driver.prototype = {
     }
     var keyField = document.model.schema.primaryKey;
     var key = document[keyField];
+    var update = {};
+    if (Object.keys(set).length > 0) update.$set = set;
+    if (Object.keys(unset).length > 0) update.$unset = unset;
     return this.ensureTextSearch(document.model.bucket)
     .then(() => {
       return this.db.collection(document.model.bucket).findOneAndUpdate({[keyField] : key},
-        {
-          $set: set,
-          $unset: unset,
-        },
+        update,
         {
           returnOriginal: false,
           upsert: true,

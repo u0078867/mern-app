@@ -26,9 +26,9 @@ class FormDetailPage extends Component {
     this.state = {
       formData: this.props.form.init_data,
       validateForm: true,
+      validateSubm: true,
     };
     this.sender = new OutPortFeeder({dataOutPort: 'wf-task-exit'});
-    //console.log(props.user);
   }
 
   componentDidMount() {
@@ -42,6 +42,7 @@ class FormDetailPage extends Component {
     let subm = {
       form: this.props.form._id,
       data: formData,
+      validate_before_insert: this.state.validateSubm,
     };
     var postSubmit = () => {
       //this.context.router.push('/');
@@ -54,6 +55,7 @@ class FormDetailPage extends Component {
         .then(() => postSubmit());
         break;
       case 'submit_now':
+      case 'submit_now_no_validate':
         this.props.dispatch(addSubmRequest(subm)) // if there are erros in later actions, at least I have it in submissions
         .then(res => this.props.dispatch(updateSubmRequest(res.subm)))
         .then(res => this.props.dispatch(acceptSubmRequest(res.subm)))
@@ -72,6 +74,7 @@ class FormDetailPage extends Component {
     this.setState({
       submitType: event.target.id,
       validateForm: event.target.id == "submit_now" ? true : false,
+      validateSubm: event.target.id == "submit_now_no_validate" ? false : true,
     })
   }
 
@@ -103,6 +106,7 @@ class FormDetailPage extends Component {
           noValidate={!this.state.validateForm}
         >
           <button type="submit" className="btn btn-info" id="submit_now" onClick={this.onClick}>Send to database</button>
+          <button type="submit" className="btn btn-warning" id="submit_now_no_validate" onClick={this.onClick}>Send to database (don't validate schema)</button>
           {/*<button title="Content will be added to submissions. Required fields check will be relaxed." type="submit" className="btn btn-info" id="submit_later" onClick={this.onClick}>Save to submissions and review later</button>*/}
         </JSSForm>
       </div>
