@@ -60,22 +60,6 @@ console.log(serverConfig);
 const API_URL = '/api';
 const SEARCH_API_URL = '/search-api';
 
-// Build Osmos WAMP driver
-var buildOsmosDriver = require('./buildOsmosDriver');
-console.log('Instantiation chosen Osmos driver ...');
-var postOsmosBuild = () => {
-  // Specify internal APIs needing Osmos models
-  app.use(API_URL, function(req, res, next) {
-    require('./app/routes/database.routes')(req, res, next);
-  });
-  app.use(API_URL, function(req, res, next) {
-    require('./app/routes/upload.routes')(req, res, next);
-  });
-  // Specify external APIs
-  require('API_PATH').setAPIs(app);
-}
-buildOsmosDriver(serverConfig, postOsmosBuild);
-
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -95,23 +79,48 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     .catch(err => console.log(err));
   }
 
-  DBPrefiller(false, fillLevel);
-  if (process.env.NODE_ENV === 'development') {
-    // feed some data in DB.
-    var readline = require('readline');
-    var rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      terminal: false
+  var postOsmosBuild = () => {
+
+    // The following operations need Osmos models ready
+
+    // Specify internal APIs needing Osmos models
+    app.use(API_URL, function(req, res, next) {
+      require('./app/routes/database.routes')(req, res, next);
     });
-    console.log('Type "fill" to fill DB with data ...');
-    rl.on('line', (line) => {
-      console.log(`typed '${line}'`);
-      if (line == 'fill') {
-        DBPrefiller(false, fillLevel);
-      }
+    app.use(API_URL, function(req, res, next) {
+      require('./app/routes/upload.routes')(req, res, next);
     });
+
+    // Specify external APIs
+    require('API_PATH').setAPIs(app);
+
+    // Fill DB
+    DBPrefiller(false, fillLevel);
+
+    if (process.env.NODE_ENV === 'development') {
+      // feed some data in DB.
+      var readline = require('readline');
+      var rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        terminal: false
+      });
+      console.log('Type "fill" to fill DB with data ...');
+      rl.on('line', (line) => {
+        console.log(`typed '${line}'`);
+        if (line == 'fill') {
+          DBPrefiller(false, fillLevel);
+        }
+      });
+    }
+
   }
+
+  // Build Osmos WAMP driver
+  var buildOsmosDriver = require('./buildOsmosDriver');
+  console.log('Instantiation chosen Osmos driver ...');
+  buildOsmosDriver(serverConfig, postOsmosBuild);
+
 });
 
 // Apply body Parser and server public assets and routes (non-APIs)
