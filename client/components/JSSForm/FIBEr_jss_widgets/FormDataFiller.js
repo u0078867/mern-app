@@ -19,9 +19,9 @@ class FormDataFiller extends Component {
   onChange = (event) => {
     let value = event.target.value;
     this.props.onChange(value);
-    var p = this.props.id.split("_").slice(1);  // tokenize path
+    var p = this.props.options.field || this.props.id.split("_").slice(1);  // tokenize path
     callSearchApi(this.props.options.collection, value).then(res => {
-      if (res.items.length == 1) {
+      /*if (res.items.length == 1) {
         let item = res.items[0];
         let itemValue = _.get(item, p);
         if (value == itemValue) {
@@ -32,6 +32,18 @@ class FormDataFiller extends Component {
         }
       } else {
         console.log("0 or more than 1 item found");
+        this.props.formContext.updateFormData({cuid: undefined});
+      }*/
+      let goodItems = [];
+      for (var item of res.items) {
+        let itemValue = _.get(item, p);
+        if (value == itemValue) {
+          goodItems.push(item);
+        }
+      }
+      if (goodItems.length == 1) {
+        this.props.formContext.updateFormData(goodItems[0]);
+      } else {
         this.props.formContext.updateFormData({cuid: undefined});
       }
     });

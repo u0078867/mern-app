@@ -30,33 +30,58 @@ class DashboardPage extends Component {
     this.props.dispatch(fetchForms());
   }
 
-  redirectTo = key => {
+  redirectTo = info => {
     callApi('forms').then(res => {
-      var form = res.forms.find(form => form.key == key);
+      var form = res.forms.find(form => form.key == info.formKey);
       if (form) {
-        this.context.router.push(`/forms/${form.slug}-${form.cuid}?red=/dashboard`);
+        this.context.router.push(`/forms/${form.slug}-${form.cuid}${info.query}`);
       } else {
-        alert(`No form with key "${key}"`);
+        alert(`No form with key "${info.formKey}"`);
       }
     })
   }
 
   onInsertNewSample = () => {
-    this.redirectTo('insert-sample');
+    this.redirectTo({
+      formKey: 'insert-sample',
+      query: '',  // or could be: ?red=/dashboard
+    });
   }
 
   onUpdateSample = () => {
-    this.redirectTo('update-sample');
+    this.redirectTo({
+      formKey: 'update-sample',
+      query: '',
+    });
   }
 
   onStartExperiment = () => {
-    this.redirectTo('run-experiment');
+    this.redirectTo({
+      formKey: 'run-experiment',
+      query: '',
+    });
   }
- 
+
   render() {
     const wellStyles = {maxWidth: 400, margin: '0 auto 10px'};
     return (
-      <div style={wellStyles}>
+      <div className={styles['buttons']}>
+        <Grid>
+          <Row className={styles['row-spacing']}>
+            <Col md={4}><Button bsStyle="primary" bsSize="large" block onClick={this.onInsertNewSample}>Store sample</Button></Col>
+            <Col md={4}><Button bsStyle="primary" bsSize="large" block onClick={this.onUpdateSample}>Update sample</Button></Col>
+          </Row>
+          <Row className={styles['row-spacing']}>
+            <Col md={4}><Button bsStyle="primary" bsSize="large" block disabled>Thaw sample</Button></Col>
+            <Col md={4}><Button bsStyle="primary" bsSize="large" block onClick={this.onStartExperiment}>Start experiment</Button></Col>
+          </Row>
+          <Row className={styles['row-spacing']}>
+            <Col md={4}><Button bsStyle="primary" bsSize="large" block disabled>View my experiments</Button></Col>
+            <Col md={4}><Button bsStyle="primary" bsSize="large" block disabled>View my samples</Button></Col>
+          </Row>
+        </Grid>
+      </div>
+  /*    <div className={styles['buttons']}>
         <Button bsStyle="primary" bsSize="large" block onClick={this.onInsertNewSample}>Insert sample</Button>
         <Button bsStyle="primary" bsSize="large" block onClick={this.onUpdateSample}>Update sample</Button>
         <Button bsStyle="primary" bsSize="large" block onClick={this.onStartExperiment}>Start experiment</Button>
@@ -64,6 +89,7 @@ class DashboardPage extends Component {
         <Button bsStyle="primary" bsSize="large" block disabled>Thaw sample</Button>
         <Button bsStyle="primary" bsSize="large" block disabled>View my samples</Button>
       </div>
+      */
     );
   }
 }

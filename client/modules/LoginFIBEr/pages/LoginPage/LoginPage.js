@@ -10,7 +10,7 @@ import callApi from 'CLIENT_UTIL/apiCaller';
 // Import Style
 
 // Import Components
-import { FormGroup, ControlLabel, FormControl, Col, Button } from 'react-bootstrap';
+import {HelpBlock, Form, FormGroup, ControlLabel, FormControl, Col, Button } from 'react-bootstrap';
 
 // Import Actions
 import { setUser } from 'MODULE_APP/AppActions'; // action from App
@@ -26,6 +26,7 @@ class LoginPage extends Component {
       uNumber: '',
       name: '',
       surname: '',
+      loginFailed: false,
     };
   }
 
@@ -34,6 +35,7 @@ class LoginPage extends Component {
       this.onChangeName({target: {value: tokens[0]}});
       this.onChangeSurname({target: {value: tokens[1]}});
       this.onChangeUNumber({target: {value: tokens[2]}});
+      this.onLogin();
     })
   }
 
@@ -50,6 +52,8 @@ class LoginPage extends Component {
   onChangeUNumber = (event) => {
     let value = event.target.value;
     this.setState({uNumber: value});
+
+    //this.onLogin();
   }
 
   onLogin = () => {
@@ -57,15 +61,20 @@ class LoginPage extends Component {
     callApi('researchers')
     .then(res => {
       var items = res.items.filter(e => {
-        return (e.name == this.state.name && e.surname == this.state.surname && e.kul_id == this.state.uNumber);
+        let pass = e.kul_id == this.state.uNumber;
+        /*if (!pass)
+          return false;
+        if (this.state.name.length) {
+          pass = pass && (e.name == this.state.name);
+        }
+        if (this.state.surname.length) {
+          pass = pass && (e.surname == this.state.surname);
+        }*/
+        return pass;
       });
       let L = items.length;
       if (L == 0) {
-        alert("No matching researcher found");
-        return;
-      }
-      if (L > 1) {
-        alert("More than one researcher found");
+        this.setState({ loginFailed: true });
         return;
       }
       var user = items[0];
@@ -78,23 +87,35 @@ class LoginPage extends Component {
     })
   }
 
+
+  getValidationState () {
+    const staffid = /^[a-zA-Z]\d{7}$/;
+    if (staffid.test(this.state.uNumber)) return 'success';
+    else if(this.state.uNumber.length > 0) return 'error';
+    }
+
   render() {
     return (
       <div>
-        <h2 className="text-center">Please enter your u-number or scan your badge</h2>
-        <FormGroup>
-          <ControlLabel>u-number:</ControlLabel>
-          <FormControl type="text" ref="uNumber" value={this.state.uNumber} onChange={this.onChangeUNumber} />
+      { this.state.loginFailed ? <div className="alert alert-danger"><strong>Login failed!</strong> Please ask for authorization before trying to login </div> : null }
+      <Form>
+        <FormGroup
+            controlId="formBasicText"
+            validationState={this.getValidationState()}
+          >
+            <FormControl
+              bsSize="large"
+              type="text"
+              value={this.state.uNumber}
+              placeholder="Please scan badge or enter staff ID"
+              onChange={this.onChangeUNumber}
+            />
+            <FormControl.Feedback />
+            <HelpBlock>Validation is based on KU Leuven ID, i.e. 1 character, followed by 7 digits.</HelpBlock>
+          {' '}
+          <Button bsStyle="primary" bsSize="large" block onClick={this.onLogin}>Login</Button>
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>Name:</ControlLabel>
-          <FormControl type="text" ref="name" value={this.state.name} onChange={this.onChangeName} />
-        </FormGroup>
-        <FormGroup>
-          <ControlLabel>Surname:</ControlLabel>
-          <FormControl type="text" ref="surname" value={this.state.surname} onChange={this.onChangeSurname} />
-        </FormGroup>
-        <Button bsStyle="primary" bsSize="large" onClick={this.onLogin}>Login</Button>
+        </Form>
       </div>
     );
   }

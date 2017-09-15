@@ -7,7 +7,38 @@
     }
   },
   "parent_id": {
-    "ui:widget": "text"
+    "ui:description": "(will fill form with parent data on match)",
+    "ui:widget": "form-filler",
+    "ui:options": {
+      "collection": "samples",
+      "field": "id"
+    }
+  },
+  "origin": {
+    "ui:widget": "select-creatable",
+    "ui:options": {
+      "suggestions": [
+        "Human",
+        "Sheep",
+        "Pig",
+        "Mouse",
+        "Rat"
+      ]
+    }
+  },
+  "tissue": {
+    "ui:widget": "select-creatable",
+    "ui:options": {
+      "suggestions": [
+        "Aorta",
+        "Pulmonary artery",
+        "Reinforced aorta",
+        "Reinforced pulmonary artery",
+        "Pulmonary in aortic position",
+        "Dura mater",
+        "Mitral valve"
+      ]
+    }
   },
   "scatch": {
     "ui:widget": "cam-capture"

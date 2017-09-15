@@ -23,6 +23,7 @@
     "id": {
       "type": "string",
       "title": "ID (scan or type):",
+      "pattern": "^[0-9]{10}$",
       "not": {
         "enum": {
           "select": "jp;$.items[*].id",
@@ -33,7 +34,8 @@
     },
     "parent_id": {
       "type": "string",
-      "title": "Parent ID:",
+      "title": "Parent ID (scan or type):",
+      "pattern": "^[0-9]{10}$",
       "enum": {
         "select": "jp;$.items[*].id",
         "query": "api;samples/",

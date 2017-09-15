@@ -15,6 +15,9 @@
   "remarks": {
     "ui:widget": "textarea"
   },
+  "data_bucket_id": {
+    "ui:widget": "cuid"
+  },
   "ui:field": "layout",
   "ui:layout": [
     {
@@ -39,6 +42,9 @@
     },
     {
       "remarks": { "md": 12 }
+    },
+    {
+      "data_bucket_id": { "md": 12 }
     }
   ]
 }
