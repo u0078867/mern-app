@@ -75,7 +75,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 
   var DBPrefiller = (verbose, fillLevel) => {
     require('DB_PREFILLER_PATH').prefiller(verbose, fillLevel)
-    .then(() => console.log('DB filled with data when necessary'))
+    .then(() => console.log('DB filled with data'))
     .catch(err => console.log(err));
   }
 

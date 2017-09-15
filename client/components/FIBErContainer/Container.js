@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 // Import Style
 import styles from './Container.css';
@@ -46,12 +47,21 @@ export class Container extends Component {
     this.props.dispatch(updateCache(data));
   }
 
+  logout = () => {
+    this.props.dispatch(setUser(null));
+    pubsub.publishSync("int-cache-researcher", undefined);
+    this.context.router.push(`/login`);
+  }
+
   render() {
     const cls = `${styles['services']} ${(this.props.showServices ? styles.appear : '')}`;
     var welcomeMessage = null;
     var user = this.props.user;
     if (user) {
-      welcomeMessage = <h2 className="text-center">Welcome <i>{user.name} {user.surname} ({user.kul_id})</i></h2>;
+      welcomeMessage =
+      <h2 className="text-center">
+        Welcome <i>{user.name} {user.surname} ({user.kul_id})</i>. <a href="#" onClick={this.logout}>Switch user</a>
+      </h2>;
     }
     return (
       <div>

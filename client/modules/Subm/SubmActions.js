@@ -60,8 +60,13 @@ export function deleteSubmRequest(cuid) {
 
 export function acceptSubmRequest(subm) {
   return (dispatch) => {
+    let uploadRes = null;
     return callApi('upload/data', 'post', subm)
-    .then(() => dispatch(deleteSubmRequest(subm.cuid)))
+    .then(res => {
+      uploadRes = res;
+      return dispatch(deleteSubmRequest(subm.cuid))
+    })
+    .then(() => uploadRes)
   };
 }
 

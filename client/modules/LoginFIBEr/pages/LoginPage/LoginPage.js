@@ -57,7 +57,16 @@ class LoginPage extends Component {
     callApi('researchers')
     .then(res => {
       var items = res.items.filter(e => {
-        return (e.name == this.state.name && e.surname == this.state.surname && e.kul_id == this.state.uNumber);
+        let pass = e.kul_id == this.state.uNumber;
+        if (!pass)
+          return false;
+        if (this.state.name.length) {
+          pass = pass && (e.name == this.state.name);
+        }
+        if (this.state.surname.length) {
+          pass = pass && (e.surname == this.state.surname);
+        }
+        return pass;
       });
       let L = items.length;
       if (L == 0) {

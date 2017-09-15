@@ -41,6 +41,10 @@
     "remarks": {
       "type": "string",
       "title": "Remarks:"
+    },
+    "data_bucket_id": {
+      "type": "string",
+      "title": "Data bucket ID:"
     }
   }
 }

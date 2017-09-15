@@ -8,7 +8,8 @@
     "origin",
     "tissue",
     "orientation",
-    "scatch"
+    "scatch",
+    "remarks"
   ],
   "properties": {
     "researcher_id": {
@@ -23,6 +24,7 @@
     "id": {
       "type": "string",
       "title": "ID (scan or type):",
+      "pattern": "^[0-9]{10}$",
       "enum": {
         "select": "jp;$.items[*].id",
         "query": "api;samples/",
@@ -31,7 +33,8 @@
     },
     "parent_id": {
       "type": "string",
-      "title": "Parent ID:",
+      "title": "Parent ID (scan or type):",
+      "pattern": "^[0-9]{10}$",
       "enum": {
         "select": "jp;$.items[*].id",
         "query": "api;samples/",

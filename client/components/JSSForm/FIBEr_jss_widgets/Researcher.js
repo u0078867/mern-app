@@ -22,7 +22,7 @@ class Researcher extends Component {
 
   setValueFromProps = (props) => {
     if (props.value == undefined) {
-      if (props.formContext.cache.researcher) {
+      if (props.formContext.cache && props.formContext.cache.researcher) {
         let value = props.formContext.cache.researcher[props.options.field];
         this.props.onChange(value);
       }
