@@ -63,25 +63,22 @@ class DashboardPage extends Component {
   }
 
   render() {
-    const wellStyles = {maxWidth: 400, margin: '0 auto 10px'};
     return (
-      <div className={styles['buttons']}>
+      /*<div>
         <Grid>
-          <Row className={styles['row-spacing']}>
-            <Col md={4}><Button bsStyle="primary" bsSize="large" block onClick={this.onInsertNewSample}>Store sample</Button></Col>
-            <Col md={4}><Button bsStyle="primary" bsSize="large" block onClick={this.onUpdateSample}>Update sample</Button></Col>
+          <Row>
+            <Col md={4}><Button bsStyle="primary" bsSize="large" onClick={this.onInsertNewSample}>Insert sample</Button></Col>
+            <Col md={4}><Button bsStyle="primary" bsSize="large" onClick={this.onUpdateSample}>Update sample</Button></Col>
+            <Col md={4}></Col>
           </Row>
-          <Row className={styles['row-spacing']}>
-            <Col md={4}><Button bsStyle="primary" bsSize="large" block disabled>Thaw sample</Button></Col>
-            <Col md={4}><Button bsStyle="primary" bsSize="large" block onClick={this.onStartExperiment}>Start experiment</Button></Col>
-          </Row>
-          <Row className={styles['row-spacing']}>
-            <Col md={4}><Button bsStyle="primary" bsSize="large" block disabled>View my experiments</Button></Col>
-            <Col md={4}><Button bsStyle="primary" bsSize="large" block disabled>View my samples</Button></Col>
+          <Row bsClass={styles['row-spacing']}>
+            <Col md={4}></Col>
+            <Col md={4}><Button bsStyle="primary" bsSize="large" onClick={this.onStartExperiment}>Start experiment</Button></Col>
+            <Col md={4}></Col>
           </Row>
         </Grid>
-      </div>
-  /*    <div className={styles['buttons']}>
+      </div>*/
+      <div className={styles['buttons']}>
         <Button bsStyle="primary" bsSize="large" block onClick={this.onInsertNewSample}>Insert sample</Button>
         <Button bsStyle="primary" bsSize="large" block onClick={this.onUpdateSample}>Update sample</Button>
         <Button bsStyle="primary" bsSize="large" block onClick={this.onStartExperiment}>Start experiment</Button>
@@ -89,7 +86,6 @@ class DashboardPage extends Component {
         <Button bsStyle="primary" bsSize="large" block disabled>Thaw sample</Button>
         <Button bsStyle="primary" bsSize="large" block disabled>View my samples</Button>
       </div>
-      */
     );
   }
 }
