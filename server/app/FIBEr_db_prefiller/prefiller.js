@@ -85,6 +85,7 @@ function prefiller(verbose, fillLevel) {
       init_data: {},
       dest_collection: 'researchers',
       insert_on_submit: true,
+      submitter: '1-1',
       slug: "insert-researcher",
     };
     forms.push(form);
@@ -97,6 +98,7 @@ function prefiller(verbose, fillLevel) {
       init_data: {},
       dest_collection: 'samples',
       insert_on_submit: true,
+      submitter: '1-1',
       slug: "insert-sample",
     };
     forms.push(form);
@@ -109,6 +111,7 @@ function prefiller(verbose, fillLevel) {
       init_data: {},
       dest_collection: 'samples',
       insert_on_submit: true,
+      submitter: '1-1',
       slug: "update-sample",
     };
     forms.push(form);
@@ -121,7 +124,21 @@ function prefiller(verbose, fillLevel) {
       init_data: {},
       dest_collection: 'experiments',
       insert_on_submit: true,
+      submitter: '1-1',
       slug: "update-sample",
+    };
+    forms.push(form);
+
+    form = {
+      title: "sample preparation",
+      key: "prepare-sample",
+      json_schema: require('./forms/sample/sample_prepare_schema.json'),
+      ui_schema: require('./forms/sample/sample_prepare_ui_schema.json'),
+      init_data: {},
+      dest_collection: 'samples',
+      insert_on_submit: true,
+      submitter: 'split-samples',
+      slug: "prepare-sample",
     };
     forms.push(form);
 

@@ -62,6 +62,13 @@ class DashboardPage extends Component {
     });
   }
 
+  onPrepareSample = () => {
+    this.redirectTo({
+      formKey: 'prepare-sample',
+      query: '',
+    });
+  }
+
   render() {
     return (
       /*<div>
@@ -83,7 +90,7 @@ class DashboardPage extends Component {
         <Button bsStyle="primary" bsSize="large" block onClick={this.onUpdateSample}>Update sample</Button>
         <Button bsStyle="primary" bsSize="large" block onClick={this.onStartExperiment}>Start experiment</Button>
         <Button bsStyle="primary" bsSize="large" block disabled>View my experiments</Button>
-        <Button bsStyle="primary" bsSize="large" block disabled>Thaw sample</Button>
+        <Button bsStyle="primary" bsSize="large" block onClick={this.onPrepareSample}>Prepare sample</Button>
         <Button bsStyle="primary" bsSize="large" block disabled>View my samples</Button>
       </div>
     );

@@ -1,0 +1,57 @@
+{
+  "researcher_id": {
+    "ui:widget": "researcher",
+    "ui:readonly": true,
+    "ui:options": {
+      "field": "kul_id"
+    }
+  },
+  "parent_id": {
+    "ui:description": "(will fill form with parent data on match)",
+    "ui:widget": "form-filler",
+    "ui:options": {
+      "collection": "samples",
+      "field": "id"
+    }
+  },
+  "origin": {
+    "ui:widget": "select-creatable",
+    "ui:options": {
+      "suggestions": [
+        "Human",
+        "Sheep",
+        "Pig",
+        "Mouse",
+        "Rat"
+      ]
+    }
+  },
+  "tissue": {
+    "ui:widget": "select-creatable",
+    "ui:options": {
+      "suggestions": [
+        "Aorta",
+        "Pulmonary artery",
+        "Reinforced aorta",
+        "Reinforced pulmonary artery",
+        "Pulmonary in aortic position",
+        "Dura mater",
+        "Mitral valve"
+      ]
+    }
+  },
+  "remarks": {
+    "ui:widget": "textarea"
+  },
+  "ui:order": [
+    "researcher_id",
+    "parent_id",
+    "ids",
+    "name",
+    "origin",
+    "tissue",
+    "orientation",
+    "artery_opening_angle",
+    "remarks"
+  ]
+}

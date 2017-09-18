@@ -35,14 +35,23 @@ schemasConfig.forEach(schemaInfo => {
   jsonSchema.properties.date_added = {
     type: "string"
   };
+  // Register schema
+  Schema.registerSchema(schemaInfo.name, jsonSchema);
+  // Add history
+  var jsonSchemaHistory = JSON.parse(JSON.stringify(jsonSchema));
+  jsonSchemaHistory.properties.history = {
+    "type": "array",
+    "items": {
+      "$ref": schemaInfo.name
+    }
+  };
   // create Schema object
-  var schema = new Schema(`schema-${schemaInfo.name}`, jsonSchema);
-  //console.log(jsonSchema);
+  var schema = new Schema(`schema-${schemaInfo.name}`, jsonSchemaHistory);
   // add necessary primary key
   schema.primaryKey = 'cuid';
   // create Model object
   var model = new Model(`Model-${collection}`, schema, collection, 'db');
-  model.updateableProperties = Object.keys(jsonSchema.properties);
+  model.updateableProperties = Object.keys(jsonSchemaHistory.properties);
   // Add model instance methods
   model.getJSONSchema = () => {
     return jsonSchemaRaw;

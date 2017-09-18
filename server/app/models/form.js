@@ -13,6 +13,7 @@ const formSchema = new Schema({
   init_data: { type: 'Mixed', required: true },
   dest_collection: { type: 'String', required: true },
   insert_on_submit: { type: 'Boolean', required: true },
+  submitter: { type: 'String', required: true },
   slug: { type: 'String', required: true },
   cuid: { type: 'String', default: cuid, required: true, index: true },
   date_added: { type: 'Date', default: Date.now, required: true },

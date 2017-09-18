@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import JSSForm from '../../../../components/JSSForm/JSSForm';
 import OutPortFeeder from '../../../../components/SocketPorts/OutPortFeeder';
+import Submitter from './FIBErSubmitter';
 import { Button } from 'react-bootstrap';
 
 import callApi from '../../../../util/apiCaller';
@@ -28,8 +29,9 @@ class FormDetailPage extends Component {
       formData: this.props.form.init_data,
       validateForm: true,
       validateSubm: true,
-      fileLink: null,
-      showFileLink: false,
+      //fileLink: null,
+      //showFileLink: false,
+      isFormRefreshing: false,
     };
     this.sender = new OutPortFeeder({dataOutPort: 'wf-task-exit'});
   }
@@ -40,6 +42,7 @@ class FormDetailPage extends Component {
   }
 
   onSubmit = ({formData}) => {
+    console.log(this.props.form)
     console.log('submitting...');
     console.log(this.state.submitType);
     let subm = {
@@ -47,33 +50,9 @@ class FormDetailPage extends Component {
       data: formData,
       validate_before_insert: this.state.validateSubm,
     };
-    var setFileLink = (res) => {
-      var data = res.data;
-      var json = JSON.stringify(data, null, 2);
-      var blob = new Blob([json], {type: "application/json"});
-      var url  = URL.createObjectURL(blob);
-      this.setState({fileLink: url, showFileLink: true})
-    }
-    var postSubmit = () => {
-      this.context.router.push(this.props.redirectUrl);
-      this.sender.send('exited');
-    }
-    switch (this.state.submitType) {
-      case 'submit_later':
-        this.props.dispatch(addSubmRequest(subm))
-        .then(() => postSubmit())
-        .catch(err => console.log(err))
-        break;
-      case 'submit_now':
-      case 'submit_now_no_validate':
-        this.props.dispatch(addSubmRequest(subm)) // if there are erros in later actions, at least I have it in submissions
-        .then(res => this.props.dispatch(updateSubmRequest(res.subm)))
-        .then(res => this.props.dispatch(acceptSubmRequest(res.subm)))
-        .then(res => setFileLink(res))
-        //.then(() => postSubmit())
-        .catch(err => console.log(err))
-        break;
-    }
+    this.setState({
+      subm: subm
+    });
   }
 
   onChange = ({formData}) => {
@@ -82,22 +61,15 @@ class FormDetailPage extends Component {
     });
   }
 
-  onClick = (event) => {
-    this.setState({
-      submitType: event.target.id,
-      validateForm: event.target.id == "submit_now" ? true : false,
-      validateSubm: event.target.id == "submit_now_no_validate" ? false : true,
-    })
-  }
-
   onUpdateFormData = (data) => {
     let formData = Object.assign({}, this.state.formData, data);
     this.onChange({formData});
   }
 
-  onRedirectDashboard = () => {
-    this.context.router.push('/dashboard');
+  onClick = (o) => {
+    this.setState(o);
   }
+
 
   render() {
     /*
@@ -127,13 +99,14 @@ class FormDetailPage extends Component {
           formContext={formContext}
           noHtml5Validate={!this.state.validateForm}
           noValidate={!this.state.validateForm}
+          inRefresh={this.state.isFormRefreshing}
+          postRefreshCallback={() => this.setState({isFormRefreshing: false})}
         >
-          <button type="submit" className="btn btn-info" id="submit_now" onClick={this.onClick}>Validate and submit</button>
-          {/*<button type="submit" className="btn btn-warning" id="submit_now_no_validate" onClick={this.onClick}>Send to database (don't validate schema)</button>*/}
-          {/*<button title="Content will be added to submissions. Required fields check will be relaxed." type="submit" className="btn btn-info" id="submit_later" onClick={this.onClick}>Save to submissions and review later</button>*/}
-          <button type="button" className="btn btn-info" id="redirect_dashboard" onClick={this.onRedirectDashboard}>Back to dashboard</button>
-          {this.state.showFileLink ? <a href={this.state.fileLink} className="btn btn-link" download="submission.json">Download submitted data</a> : null}
-          {/*this.state.showFileLink ? <Button bsStyle="link" href={this.state.fileLink}>File</Button> : null*/}
+          <Submitter {...this.props}
+            subm={this.state.subm}
+            onClick={this.onClick}
+            policy={this.props.form.submitter}
+          />
         </JSSForm>
       </div>
     );

@@ -1,0 +1,71 @@
+{
+  "type": "object",
+  "title": "Sample:",
+  "required": [
+    "researcher_id",
+    "name",
+    "origin",
+    "tissue",
+    "orientation"
+  ],
+  "properties": {
+    "researcher_id": {
+      "type": "string",
+      "title": "Researcher ID:",
+      "enum": {
+        "select": "jp;$.items[*].kul_id",
+        "query": "api;researchers/",
+        "__replacer__": true
+      }
+    },
+    "ids": {
+      "type": "array",
+      "title": "Subsample IDs (scan or type):",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]{10}$",
+        "not": {
+          "enum": {
+            "select": "jp;$.items[*].id",
+            "query": "api;samples/",
+            "__replacer__": true
+          }
+        }
+      }
+    },
+    "parent_id": {
+      "type": "string",
+      "title": "Parent ID (scan or type):",
+      "pattern": "^[0-9]{10}$",
+      "enum": {
+        "select": "jp;$.items[*].id",
+        "query": "api;samples/",
+        "__replacer__": true
+      }
+    },
+    "name": {
+      "type": "string",
+      "title": "Name of specimen:"
+    },
+    "origin": {
+      "type": "string",
+      "title": "Origin"
+    },
+    "tissue": {
+      "type": "string",
+      "title": "Type of tissue:"
+    },
+    "orientation": {
+      "type": "string",
+      "title": "Orientation of sample:"
+    },
+    "artery_opening_angle": {
+      "type": "string",
+      "title": "If artery, opening angle:"
+    },
+    "remarks": {
+      "type": "string",
+      "title": "Remarks:"
+    }
+  }
+}

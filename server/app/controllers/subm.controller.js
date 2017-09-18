@@ -77,6 +77,8 @@ export function deleteSubm(req, res) {
     if (err) {
       return res.status(500).send(err);
     }
+    if (!subm)
+      return res.status(200).json(null);
 
     subm.remove((err) => {
       //res.status(200).send({});

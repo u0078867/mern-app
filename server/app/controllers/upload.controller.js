@@ -30,6 +30,7 @@ export function uploadData(req, res) {
 
   let subm = req.body;
   let filePath = null;
+  //console.log()
 
   Promise.resolve()
   .then(() => {
@@ -44,6 +45,7 @@ export function uploadData(req, res) {
       return Promise.resolve()
       .then(() => {
         if (subm.data.cuid == undefined) {
+          //throw new Error('');
           console.log('creating new document')
           return Model.createAndInit();
         } else {
@@ -52,12 +54,19 @@ export function uploadData(req, res) {
         }
       })
       .then(newDoc => {
+        if (subm.data.cuid) {
+          if (!newDoc.history) newDoc.history = [];
+          subm.data.date_added = newDoc.date_added;
+          newDoc.history.push(subm.data);
+          newDoc.date_added = subm.date_added;
+        }
         newDoc.slug = slug(`${collection}`, { lowercase: true });
         for (var prop in subm.data) {
+          if (['cuid','slug','date_added','history'].includes(prop)) continue;
           newDoc[prop] = subm.data[prop];
         }
         for (var prop of Object.keys(newDoc)) {
-          if (!(prop in subm.data) && !['model','__originalData__','schema'].includes(prop)) {
+          if (!(prop in subm.data) && !['model','__originalData__','schema','cuid','slug','date_added','history'].includes(prop)) {
             newDoc[prop] = undefined;
           }
         }

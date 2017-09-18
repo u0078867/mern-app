@@ -104,6 +104,26 @@ class JSSForm extends Component {
       }
 
     }
+
+    if (nextProps.inRefresh) {
+      // refresh wanted, re-convert it super-schema to JSONSchema-compliant
+      console.log('refreshing ...');
+      callApi('utils/staticize-json-schema', 'post', {
+        schema: nextProps.schema
+      })
+      .then(res => {
+        console.log("converted")
+        console.log(res.schema)
+        let formProps = {
+          schema: res.schema, // new converted schema
+          uiSchema: this.props.uiSchema,
+          formData: this.props.formData,
+        }
+        this._update(formProps);
+        this.props.postRefreshCallback();
+      });
+    }
+
     this._listenToInternalEvents(nextProps.listenToInternalEvents);
   }
 
