@@ -1,0 +1,26 @@
+{
+  "ui:order": [
+    "registered_by",
+    "name",
+    "type",
+    "producer",
+    "uri"
+  ],
+  "registered_by": {
+    "ui:readonly": true
+  },
+  "ui:field": "layout",
+  "ui:layout": [
+    {
+      "registered_by": { "md": 12 }
+    },
+    {
+      "name": { "md": 6 },
+      "type": { "md": 6 }
+    },
+    {
+      "producer": { "md": 12 },
+      "uri": { "md": 12 }
+    }
+  ]
+}

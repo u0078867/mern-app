@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "name",
+    "description",
+    "begin_period",
+    "end_period",
+    "uri"
+  ],
+  "properties": {
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "begin_period": {
+      "type": "string",
+      "title": "Begin period"
+    },
+    "end_period": {
+      "type": "string",
+      "title": "End period"
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    }
+  }
+}

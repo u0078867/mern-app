@@ -4,13 +4,7 @@ var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
 var path = require('path');
 
-// client vars
-var JSS_WIDGETS_PATH = path.resolve(__dirname, process.env.JSS_WIDGETS_PATH || 'client/components/JSSForm/FIBEr_jss_widgets');
-var CLIENT_UTIL = path.resolve(__dirname, 'client/util');
-var MODULE_APP = path.resolve(__dirname, 'client/modules/App');
-var MODULE_LOGIN = path.resolve(__dirname, process.env.MODULE_LOGIN || 'client/modules/LoginFIBEr');
-var MODULE_DASHBOARD = path.resolve(__dirname, process.env.MODULE_DASHBOARD || 'client/modules/DashboardFIBEr');
-var CONTAINER_CLASS = path.resolve(__dirname, process.env.CONTAINER_CLASS || 'client/components/FIBErContainer');
+const v = require('./webpack.vars');
 
 
 module.exports = {
@@ -38,18 +32,21 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx', '.css'],
+    //extensions: ['', '.js', '.jsx', '.css'],
+    extensions: ['.js', '.jsx', '.css'],
     modules: [
       'client',
       'node_modules',
     ],
     alias: {
-      "JSS_WIDGETS_PATH": JSS_WIDGETS_PATH,
-      "CLIENT_UTIL": CLIENT_UTIL,
-      "MODULE_APP": MODULE_APP,
-      "MODULE_LOGIN": MODULE_LOGIN,
-      "MODULE_DASHBOARD": MODULE_DASHBOARD,
-      "CONTAINER_CLASS": CONTAINER_CLASS,
+      "JSS_WIDGETS_PATH": v.JSS_WIDGETS_PATH,
+      "CLIENT_UTIL": v.CLIENT_UTIL,
+      "MODULE_APP": v.MODULE_APP,
+      "MODULE_LOGIN": v.MODULE_LOGIN,
+      "MODULE_DASHBOARD": v.MODULE_DASHBOARD,
+      "CONTAINER_CLASS": v.CONTAINER_CLASS,
+      "LOGGED_CONTAINER_CLASS": v.LOGGED_CONTAINER_CLASS,
+      "SUBMITTERS_PATH": v.SUBMITTERS_PATH,
     },
   },
 
@@ -76,11 +73,12 @@ module.exports = {
       }, {
         test: require.resolve("cbor"),
         loader: "null-loader"
-      }
+      },
     ],
   },
 
   plugins: [
+    //new webpack.NoErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

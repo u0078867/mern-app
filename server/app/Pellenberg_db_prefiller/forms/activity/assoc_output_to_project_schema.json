@@ -1,0 +1,61 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by"
+  ],
+  "properties": {
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Description"
+    },
+    "researchers": {
+      "type": "array",
+      "title": "Researchers",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "default": ""
+          }
+        }
+      }
+    },
+    "data": {
+      "type": "array",
+      "title": "Data",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "default": ""
+          }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "title": "Projects",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "default": ""
+          }
+        }
+      }
+    }
+  }
+}

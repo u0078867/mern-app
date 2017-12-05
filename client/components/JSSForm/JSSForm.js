@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Form from "react-jsonschema-form";
 import { renderToString } from 'react-dom/server';
-import { getWidgetsMap } from 'JSS_WIDGETS_PATH';
-//import LayoutField from 'react-jsonschema-form-layout';
-import LayoutField from './LayoutField';
+import { getWidgetsMap, getFieldsMap } from 'JSS_WIDGETS_PATH';
 
 
 import pubsub from 'pubsub-js';
@@ -14,9 +12,7 @@ import callApi from '../../util/apiCaller';
 const customWidgets = getWidgetsMap();
 
 // Get custom fields
-const customFields = {
-  layout: LayoutField,
-}
+const customFields = getFieldsMap();
 
 class JSSForm extends Component {
 
@@ -39,91 +35,29 @@ class JSSForm extends Component {
   }
 
   componentDidMount = () => {
-    // convert super-schema to JSONSchema-compliant
-    if (this.props.schema != undefined) {
-      callApi('utils/staticize-json-schema', 'post', {
-        schema: this.props.schema
-      })
-      .then(res => {
-        console.log(res.schema)
-        let formProps = {
-          schema: res.schema, // new converted schema
-          uiSchema: this.props.uiSchema,
-          formData: this.props.formData,
-        }
-        this._update(formProps);
-      })
-    } else {
-      let formProps = {
-        schema: undefined,
-        uiSchema: this.props.uiSchema,
-        formData: this.props.formData,
-      }
-      this._update(formProps);
+    let formProps = {
+      schema: this.props.schema,
+      uiSchema: this.props.uiSchema,
+      formData: this.props.formData,
     }
+    this._update(formProps);
     this._listenToInternalEvents(this.props.listenToInternalEvents);
   }
 
   componentWillReceiveProps (nextProps) {
-    /*console.log(nextProps.schema != this.props.schema);
-    console.log(nextProps.uiSchema != this.props.uiSchema);
-    console.log(nextProps.formData != this.props.formData);*/
     if (nextProps.schema != this.props.schema || nextProps.uiSchema != this.props.uiSchema || nextProps.formData != this.props.formData) {
-      if (nextProps.schema != this.props.schema) {
-        if (nextProps.schema != undefined) {
-          // schema changed, re-convert it super-schema to JSONSchema-compliant
-          callApi('utils/staticize-json-schema', 'post', {
-            schema: nextProps.schema
-          })
-          .then(res => {
-            console.log("converted")
-            console.log(res.schema)
-            let formProps = {
-              schema: res.schema, // new converted schema
-              uiSchema: this.props.uiSchema,
-              formData: this.props.formData,
-            }
-            this._update(formProps);
-          });
-        } else {
-          let formProps = {
-            schema: undefined,
-            uiSchema: nextProps.uiSchema,
-            formData: nextProps.formData,
-          }
-          this._update(formProps);
-        }
-      } else {
-        // schema did not change, use the old one (already converted), and use new uiSchema and data
-        let formProps = {
-          schema: this.state.schema, // old converted schema
-          uiSchema: nextProps.uiSchema,
-          formData: nextProps.formData,
-        }
-        this._update(formProps);
+      let formProps = {
+        schema: nextProps.schema,
+        uiSchema: nextProps.uiSchema,
+        formData: nextProps.formData,
       }
-
+      this._update(formProps);
     }
-
     if (nextProps.inRefresh) {
-      // refresh wanted, re-convert it super-schema to JSONSchema-compliant
-      console.log('refreshing ...');
-      callApi('utils/staticize-json-schema', 'post', {
-        schema: nextProps.schema
-      })
-      .then(res => {
-        console.log("converted")
-        console.log(res.schema)
-        let formProps = {
-          schema: res.schema, // new converted schema
-          uiSchema: this.props.uiSchema,
-          formData: this.props.formData,
-        }
-        this._update(formProps);
+      this.setState({ valid: false }, () => {
         this.props.postRefreshCallback();
-      });
+      })
     }
-
     this._listenToInternalEvents(nextProps.listenToInternalEvents);
   }
 
@@ -147,9 +81,13 @@ class JSSForm extends Component {
     let schema_ = schema;
     let uiSchema_ = uiSchema;
     let formData_ = formData;
+    /*console.log(schema_)
+    console.log(uiSchema_)
+    console.log(formData_)*/
     if (schema == undefined || uiSchema == undefined || formData == undefined) { // proper form invalidation
       schema_ = undefined;
       uiSchema_ = undefined;
+      //formData_ = undefined;
     }
     let valid = true;
     try {

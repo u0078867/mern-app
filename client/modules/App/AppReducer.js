@@ -1,5 +1,12 @@
 // Import Actions
-import { SET_USER, SET_REDIRECT_URL, UPDATE_CACHE, SET_SHOW_SERVICES } from './AppActions';
+import {
+  SET_USER,
+  SET_REDIRECT_URL,
+  UPDATE_CACHE,
+  SET_SHOW_SERVICES,
+  SET_GLOBAL_VARIABLES,
+  UPDATE_GLOBAL_VARIABLES,
+} from './AppActions';
 
 // Initial State
 const initialState = {
@@ -7,6 +14,7 @@ const initialState = {
   redirectUrl: '/login',
   cache: {},
   showServices: true,
+  globalVariables: {},
 };
 
 const AppReducer = (state = initialState, action) => {
@@ -24,12 +32,22 @@ const AppReducer = (state = initialState, action) => {
 
     case UPDATE_CACHE:
       return Object.assign({}, state, {
-        cache: action.data,
+        cache: Object.assign({}, state.cache, action.data),
       });
 
     case SET_SHOW_SERVICES:
       return Object.assign({}, state, {
         showServices: action.data,
+      });
+
+    case SET_GLOBAL_VARIABLES:
+      return Object.assign({}, state, {
+        globalVariables: action.data,
+      });
+
+    case UPDATE_GLOBAL_VARIABLES:
+      return Object.assign({}, state, {
+        globalVariables: Object.assign({}, state.globalVariables, action.data),
       });
 
     default:
@@ -50,6 +68,9 @@ export const getCache = state => state.app.cache;
 
 // Get show services
 export const getShowServices = state => state.app.showServices;
+
+// Get global variables
+export const getGlobalVariables = state => state.app.globalVariables;
 
 // Export Reducer
 export default AppReducer;

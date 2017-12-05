@@ -3,6 +3,9 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
 import FormEditWidget from '../FormEditWidget/FormEditWidget';
+import {
+  Alert,
+} from 'react-bootstrap';
 
 // Import Style
 import styles from './FormListItem.css';
@@ -13,6 +16,9 @@ class FormListItem extends Component {
     super(props);
     this.state = {
       isEditShown: false,
+      showMessage: false,
+      message: '',
+      isError: false,
     };
   }
 
@@ -20,8 +26,40 @@ class FormListItem extends Component {
     this.setState({isEditShown: !this.state.isEditShown});
   }
 
+  onFormSavingAttempt = (err, res) => {
+    if (err) {
+      this.setState({
+        message: err,
+        isError: true,
+        showMessage: true
+      });
+    } else {
+      this.setState({
+        message: '',
+        isError: false,
+        showMessage: true
+      });
+    }
+  }
+
 
   render() {
+    var messageAlert = null;
+    var message = null;
+    if (this.state.isError) {
+      message = <div>
+        <p><strong>Error</strong> while saving the form:</p>
+        <pre>{JSON.stringify(this.state.message, null, 2)}</pre>
+      </div>
+    } else {
+      message = <p>Form saved with <strong>success</strong>!</p>
+    }
+    if (this.state.showMessage) {
+      messageAlert =
+        <Alert bsStyle={this.state.isError ? "danger" : "success"} onDismiss={() => this.setState({showMessage: false})}>
+          {message}
+        </Alert>
+    }
     return (
       <div className={styles['single-form']}>
         <h3 className={styles['form-title']}>
@@ -29,13 +67,16 @@ class FormListItem extends Component {
             {this.props.form.title}
           </Link>
         </h3>
-        <p className={styles['form-action']}><a href="#" onClick={this.props.onDelete}><FormattedMessage id="deleteForm" /></a></p>
-        <p className={styles['form-action']}><a href="#" onClick={this.showEdit}><FormattedMessage id="editForm" /></a></p>
+        <p className={styles['form-action']}><a style={{cursor: 'pointer'}} onClick={this.props.onDelete}><FormattedMessage id="deleteForm" /></a></p>
+        <p className={styles['form-action']}><a style={{cursor: 'pointer'}} onClick={this.showEdit}><FormattedMessage id="editForm" /></a></p>
         <FormEditWidget
-          saveForm={this.props.onUpdate}
+          saveForm={form => this.props.onUpdate(form, this.onFormSavingAttempt)}
           showEditForm={this.state.isEditShown}
           initialForm={this.props.form}
+          cache={this.props.cache}
+          variables={this.props.globalVariables}
         />
+        {messageAlert}
         <hr className={styles.divider} />
       </div>
     );

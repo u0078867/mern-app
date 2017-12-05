@@ -3,9 +3,13 @@ var fs = require('fs');
 var path = require('path');
 var ExternalsPlugin = require('webpack-externals-plugin');
 
-var API_PATH = path.resolve(__dirname, process.env.API_PATH || 'server/app/FIBEr_api');
-var MODELS_PATH = path.resolve(__dirname, 'server/app/models');
-var DB_PREFILLER_PATH = path.resolve(__dirname, process.env.DB_PREFILLER_PATH || 'server/app/FIBEr_db_prefiller');
+// Load env
+const dotenv = require('dotenv');
+dotenv.config({path: __dirname + '/env'});
+dotenv.load();
+
+const v = require('./webpack.vars');
+
 
 module.exports = {
 
@@ -30,9 +34,9 @@ module.exports = {
       'node_modules',
     ],
     alias: {
-      "API_PATH": API_PATH,
-      "MODELS_PATH": MODELS_PATH,
-      "DB_PREFILLER_PATH": DB_PREFILLER_PATH,
+      "API_PATH": v.API_PATH,
+      "MODELS_PATH": v.MODELS_PATH,
+      "DB_PREFILLER_PATH": v.DB_PREFILLER_PATH,
     },
   },
 

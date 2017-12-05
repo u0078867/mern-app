@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "hospital_id"
+  ],
+  "properties": {
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "hospital_id": {
+      "type": "string",
+      "title": "Hospital ID"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "ui:order": [
+    "registered_by",
+    "name",
+    "surname",
+    "birthdate",
+    "institution_id"
+  ],
+  "registered_by": {
+    "ui:readonly": true,
+    "ui:widget": "text-cache",
+    "ui:options": {
+      "path": "user.cuid"
+    }
+  }
+}

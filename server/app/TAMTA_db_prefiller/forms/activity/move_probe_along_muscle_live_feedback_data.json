@@ -1,0 +1,89 @@
+{
+  "name": "Move instrumented probe along muscle with live image feedback",
+  "researchers": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "subjects": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;subjects;{{subject}}",
+        "__replacer__": true
+      },
+      "task": "{{subject_task}}",
+      "anatomical_areas": {
+        "valueFromVar": "subject_anatomical_areas",
+        "__replacer__": true
+      },
+      "anatomical_side": "{{subject_anatomical_side}}"
+    }
+  ],
+  "devices": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_probe}}",
+        "__replacer__": true
+      },
+      "roles": ["us_probe"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_machine}}",
+        "__replacer__": true
+      },
+      "roles": ["us_machine"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_portico}}",
+        "__replacer__": true
+      },
+      "roles": ["us_portico"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_acq_computer}}",
+        "__replacer__": true
+      },
+      "roles": ["us_acq_computer"]
+    }
+  ],
+  "software": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;swtools;{{us_acq_software}}",
+        "__replacer__": true
+      },
+      "roles": ["us_acq_software"]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "motion_quality",
+      "data": [
+        {
+          "name": "probe_contact_quality"
+        }
+      ]
+    },
+    {
+      "name": "remarks",
+      "data": [
+        {
+          "name": "general_remarks"
+        }
+      ]
+    }
+  ]
+}

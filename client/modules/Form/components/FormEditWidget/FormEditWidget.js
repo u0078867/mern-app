@@ -3,10 +3,15 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import JSSForm from '../../../../components/JSSForm/JSSForm';
 
+import getSubmittersMap from 'SUBMITTERS_PATH/getSubmittersMap';
+
 import callApi from '../../../../util/apiCaller';
+
+import { fillJSON, fillFormJSONProps } from '../../utils/JSONFill';
 
 // Import Style
 import styles from './FormEditWidget.css';
+
 
 
 const log = type => console.log.bind(console, type);
@@ -21,8 +26,12 @@ export class FormEditWidget extends Component {
       ui_schema: undefined,
       init_data: undefined,
       dest_collection: undefined,
+      dest_collection: undefined,
+      submitter: undefined,
+      output_variables: {},
       insert_on_submit: false,
-    }
+    },
+    variables: {},
   };
 
   constructor(props) {
@@ -34,40 +43,72 @@ export class FormEditWidget extends Component {
       JSONSchemaMaster: '',
       UISchema: JSON.stringify(props.initialForm.ui_schema, null, 2),
       initData: JSON.stringify(props.initialForm.init_data, null, 2),
+      submitter: props.initialForm.submitter,
+      submitters:  Object.keys(getSubmittersMap()),
       destCollection: props.initialForm.dest_collection,
       collections: [],
       insertOnSubmit: props.initialForm.insert_on_submit,
+      outputVariables: JSON.stringify(props.initialForm.output_variables, null, 2),
       isFormValid: false,
       isTitleValid: false,
       isKeyValid: false,
+      isOutputVariablesValid: false,
     };
   }
 
   componentWillMount = () => {
-    this.setJSONSchema({target: { value: this.state.JSONSchema }});
-    this.setUISchema({target: { value: this.state.UISchema }});
-    this.setInitData({target: { value: this.state.initData }});
-    this.checkTitle(this.state.title);
-    this.checkKey(this.state.key);
   }
 
   componentDidMount = () => {
     callApi('database/collections').then(res => {
       this.setState({collections: res.collections}, () => {
-        this.setJSONSchemaMaster(this.state.destCollection);
+        if (this.state.destCollection) {
+          this.setDestCollection({target: { value: this.state.destCollection }});
+        } else {
+          //this.setDestCollection({target: { value: this.state.collections[0].name }});
+        }
       });
-    })
+    });
+    this.setJSONSchema({target: { value: this.state.JSONSchema }});
+    this.setUISchema({target: { value: this.state.UISchema }});
+    this.setInitData({target: { value: this.state.initData }});
+    this.setOutputVariables({target: { value: this.state.outputVariables }});
+    if (this.state.submitter) {
+      this.setSubmitter({target: { value: this.state.submitter }});
+    } else {
+      this.setSubmitter({target: { value: this.state.submitters[0] }});
+    }
+    this.checkTitle(this.state.title);
+    this.checkKey(this.state.key);
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    let {variables, ...props} = nextProps;
+    if (variables != this.props.variables) {
+      fillFormJSONProps({
+        JSONSchema: this.state.parsedJSONSchema,
+        UISchema: this.state.parsedUISchema,
+        initData: this.state.parsedInitData,
+        variables,
+      })
+      .then(converted => {
+        this.setState(converted);
+      })
+    }
   }
 
   saveForm = () => {
     if (this.state.isFormValid && this.state.isTitleValid) {
       let form = Object.assign({}, this.props.initialForm, {
         title: this.state.title,
-        json_schema: this.state._JSONSchema,
-        ui_schema: this.state._UISchema,
-        init_data: this.state._initData,
+        key: this.state.key,
+        json_schema: this.state.parsedJSONSchema,
+        ui_schema: this.state.parsedUISchema,
+        init_data: this.state.parsedInitData,
         dest_collection: this.state.destCollection,
+        submitter: this.state.submitter,
         insert_on_submit: this.state.insertOnSubmit,
+        output_variables: this.state.parsedOutputVariables,
       });
       this.props.saveForm(form);
     }
@@ -103,7 +144,14 @@ export class FormEditWidget extends Component {
     } catch (e) {};
     this.setState({
       JSONSchema: schema,
-      _JSONSchema: _schema,
+      parsedJSONSchema: _schema,
+    }, () => {
+      fillJSON(_schema, this.props.variables)
+      .then(res => {
+        this.setState({
+          convertedJSONSchema: res.schema,
+        })
+      })
     });
   }
 
@@ -124,20 +172,53 @@ export class FormEditWidget extends Component {
     } catch (e) {};
     this.setState({
       UISchema: schema,
-      _UISchema: _schema,
+      parsedUISchema: _schema,
+    }, () => {
+      fillJSON(_schema, this.props.variables)
+      .then(res => {
+        this.setState({
+          convertedUISchema: res.schema,
+        })
+      })
     });
   }
 
   setInitData = (event) => {
     let data = event.target.value;
+    //console.log(data)
     var _data = undefined;
     try {
       _data = JSON.parse(data);
     } catch (e) {};
     this.setState({
       initData: data,
-      _initData: _data,
+      parsedInitData: _data,
+    }, () => {
+      fillJSON(_data, this.props.variables)
+      .then(res => {
+        this.setState({
+          convertedInitData: res.schema,
+        })
+      })
     });
+  }
+
+  setOutputVariables = (event) => {
+    let data = event.target.value;
+    var _data = undefined;
+    try {
+      _data = JSON.parse(data);
+    } catch (e) {};
+    this.setState({
+      outputVariables: data,
+      parsedOutputVariables: _data,
+    });
+    this.checkOutputVariables(_data);
+  }
+
+  checkOutputVariables = (vars) => {
+    let isOutputVariablesValid = vars ? true : false;
+    this.setState({ isOutputVariablesValid });
   }
 
   setDestCollection = (event) => {
@@ -145,17 +226,17 @@ export class FormEditWidget extends Component {
     this.setJSONSchemaMaster(event.target.value);
   }
 
+  setSubmitter = (event) => {
+    this.setState({submitter: event.target.value });
+  }
+
   setInsertOnSubmit = (event) => {
     this.setState({insertOnSubmit: event.target.checked});
   }
 
   onChange = ({formData}) => {
-    let data = JSON.stringify(formData, null, 2);
-    //let _formProps = this._parse({...this.state, initData: data})
-    //this.setState({..._formProps, initData: data});
     this.setState({
-      initData: data,
-      _initData: formData,
+      convertedInitData: formData,
     });
   }
 
@@ -168,19 +249,20 @@ export class FormEditWidget extends Component {
   }
 
   onUpdateFormData = (data) => {
-    let formData = Object.assign({}, this.state._initData, data);
+    let formData = Object.assign({}, this.state.convertedInitData, data);
     this.onChange({formData});
   }
 
 
   render() {
-    const cls = `${styles['input-form']} ${(this.props.showEditForm ? styles.appear : '')}`;
-    const valid = this.state.isFormValid && this.state.isTitleValid && this.state.isKeyValid;
     if (!this.props.showEditForm) { // important when list, to avoid eager loading
       return null
     }
+    const cls = `${styles['input-form']} ${(this.props.showEditForm ? styles.appear : '')}`;
+    const valid = this.state.isFormValid && this.state.isTitleValid && this.state.isKeyValid && this.state.isOutputVariablesValid;
     let formContext = {
       formDataFiller: this.onChange,
+      cache: this.props.cache,
       updateFormData: this.onUpdateFormData,
     };
     return  (
@@ -232,11 +314,22 @@ export class FormEditWidget extends Component {
             </tr>
 
             <tr>
-              <td><div className={styles['input-form-field-label']}>Target collection:</div></td>
+              <td><div className={styles['input-form-field-label']}>{this.props.intl.messages.formDestCollection}</div></td>
               <td>
                 <select placeholder={this.props.intl.messages.formDestCollection} className={styles['input-form-field']} ref="DestCollection" value={this.state.destCollection} onChange={this.setDestCollection} >
                 {this.state.collections.map(collection => {
                   return <option key={collection.name} value={collection.name}>{collection.name}</option>
+                })}
+                </select>
+              </td>
+            </tr>
+
+            <tr>
+              <td><div className={styles['input-form-field-label']}>{this.props.intl.messages.formSubmitter}</div></td>
+              <td>
+                <select placeholder={this.props.intl.messages.formSubmitter} className={styles['input-form-field']} ref="Submitter" value={this.state.submitter} onChange={this.setSubmitter} >
+                {this.state.submitters.map(submitter => {
+                  return <option key={submitter} value={submitter}>{submitter}</option>
                 })}
                 </select>
               </td>
@@ -249,17 +342,24 @@ export class FormEditWidget extends Component {
               </td>
             </tr>
 
+            <tr>
+              <td><div className={styles['input-form-field-label']}>{this.props.intl.messages.formOutputVariables}:</div></td>
+              <td>
+                <textarea placeholder={this.props.intl.messages.formOutputVariables} className={styles['input-form-field']} ref="outputVariables" value={this.state.outputVariables} onChange={this.setOutputVariables} />
+              </td>
+            </tr>
+
           </tbody></table>
 
-          <a className={valid ? styles['form-submit-button'] : styles['form-submit-button-disabled']} href="#" onClick={this.saveForm}><FormattedMessage id="save" /></a>
+          <a className={valid ? styles['form-submit-button'] : styles['form-submit-button-disabled']} style={{cursor: 'pointer'}} onClick={this.saveForm}><FormattedMessage id="save" /></a>
 
         </div>
         <div>
           <h2 className={styles['input-form-title']}><FormattedMessage id="formPreview" /></h2>
           <JSSForm className={styles['input-form-field']} ref="JSSForm"
-            schema={this.state._JSONSchema}
-            uiSchema={this.state._UISchema}
-            formData={this.state._initData}
+            schema={this.state.convertedJSONSchema}
+            uiSchema={this.state.convertedUISchema}
+            formData={this.state.convertedInitData}
             onSubmit={this.onSubmit}
             onChange={this.onChange}
             formContext={formContext}

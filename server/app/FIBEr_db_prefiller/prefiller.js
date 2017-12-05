@@ -39,16 +39,6 @@ function prefiller(verbose, fillLevel) {
     }
     console.log('filling researchers collection ...');
     let researchers = [];
-    /*for (let i = 0; i < 1000; i++) {
-      const researcher = {
-        name: chance.first(),
-        surname: chance.last(),
-        birthdate: chance.birthday({string: true}),
-        institution_id: chance.character() + Math.floor(Math.random() * 899999 + 100000),
-        slug: 'test-researcher',
-      };
-      researchers.push(researcher);
-    }*/
     let researcher = {
       name: 'Davide',
       surname: 'Monari',

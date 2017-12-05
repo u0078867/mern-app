@@ -1,0 +1,37 @@
+{
+  "ui:order": [
+    "cuid",
+    "registered_by",
+    "name",
+    "functions",
+    "producer",
+    "uri",
+    "attributes"
+  ],
+  "registered_by": {
+    "ui:readonly": true,
+    "ui:widget": "text-cache",
+    "ui:options": {
+      "path": "user.cuid"
+    }
+  },
+  "cuid": {
+    "ui:widget": "form-filler",
+    "ui:options": {
+      "collection": "devices"
+    }
+  },
+  "attributes": {
+    "items": {
+      "name": {
+        "classNames": "col-md-4"
+      },
+      "value": {
+        "classNames": "col-md-4"
+      },
+      "uom": {
+        "classNames": "col-md-4"
+      }
+    }
+  }
+}

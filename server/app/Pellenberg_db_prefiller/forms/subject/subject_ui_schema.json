@@ -1,0 +1,9 @@
+{
+  "ui:order": [
+    "registered_by",
+    "hospital_id"
+  ],
+  "registered_by": {
+    "ui:readonly": true
+  }
+}

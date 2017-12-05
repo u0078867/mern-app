@@ -1,0 +1,105 @@
+{
+  "ui:order": [
+    "name",
+    "cuid",
+    "registered_by",
+    "session",
+    "datetime_ended",
+    "researchers",
+    "subjects",
+    "devices",
+    "software",
+    "outputs"
+  ],
+  "name": {
+    "ui:readonly": true
+  },
+  "cuid": {
+    "ui:widget": "form-filler",
+    "ui:options": {
+      "collection": "activities"
+    }
+  },
+  "registered_by": {
+    "ui:readonly": true,
+    "ui:widget": "text-cache",
+    "ui:options": {
+      "path": "user.cuid"
+    }
+  },
+  "session": {
+    "ui:widget": "text-cache",
+    "ui:options": {
+      "path": "session"
+    }
+  },
+  "datetime_ended": {
+    "ui:widget": "curr-datetime"
+  },
+  "researchers": {
+    "items": {
+      "id": {
+        "ui:widget": "researcher"
+      }
+    }
+  },
+  "subjects": {
+    "items": {
+      "id": {
+        "ui:widget": "subject"
+      },
+      "task": {
+        "classNames": "col-md-4"
+      },
+      "anatomical_areas": {
+        "classNames": "col-md-4"
+      },
+      "anatomical_side": {
+        "classNames": "col-md-4"
+      }
+    }
+  },
+  "devices": {
+    "items": {
+      "id": {
+        "ui:widget": "device",
+        "classNames": "col-md-6"
+      },
+      "roles": {
+        "classNames": "col-md-6"
+      }
+    }
+  },
+  "software": {
+    "items": {
+      "id": {
+        "ui:widget": "software",
+        "classNames": "col-md-6"
+      },
+      "roles": {
+        "classNames": "col-md-6"
+      }
+    }
+  },
+  "outputs": {
+    "items": {
+      "cuid": {
+        "ui:widget": "cuid",
+        "ui:readonly": true
+      },
+      "data": {
+        "items": {
+          "name": {
+            "classNames": "col-md-4"
+          },
+          "value": {
+            "classNames": "col-md-4"
+          },
+          "uom": {
+            "classNames": "col-md-4"
+          }
+        }
+      }
+    }
+  }
+}

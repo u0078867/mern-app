@@ -97,6 +97,9 @@ schemasConfig.forEach(schemaInfo => {
     this.schema.validator = this.validator2;
     this.validator2 = temp;
   }.bind(model);
+  model.ensureIndex = function(index, cb) {
+    return this.db.ensureIndex(this.bucket, index).nodeify(cb);
+  }.bind(model);
   // add model to Models
   Models[collection] = model;
 });

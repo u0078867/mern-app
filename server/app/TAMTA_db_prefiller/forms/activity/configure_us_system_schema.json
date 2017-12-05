@@ -1,0 +1,344 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "session": {
+      "type": "string",
+      "title": "Session"
+    },
+    "datetime_ended": {
+      "type": "string",
+      "title": "Date/time of ending"
+    },
+    "researchers": {
+      "type": "array",
+      "title": "Researchers",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        }
+      }
+    },
+    "subjects": {
+      "type": "array",
+      "title": "Subjects",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "task": {
+            "type": "string",
+            "title": "Task",
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [ "lay_prone_still" ],
+                "title": "Lay prone and still"
+              }
+            ]
+          },
+          "anatomical_areas": {
+            "type": "array",
+            "title": "Anatomical areas",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "medial_gastroc" ],
+                  "title": "Medial gastrocnemius"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "lateral_gastroc" ],
+                  "title": "Lateral gastrocnemius"
+                }
+              ]
+            }
+          },
+          "anatomical_side": {
+            "type": "string",
+            "title": "Anatomical side",
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [ "left" ],
+                "title": "Left"
+              },
+              {
+                "type": "string",
+                "enum": [ "right" ],
+                "title": "Right"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "devices": {
+      "type": "array",
+      "title": "Devices",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "roles": {
+            "type": "array",
+            "title": "Roles",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "us_probe" ],
+                  "title": "Ultrasound probe"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_machine" ],
+                  "title": "Ultrasound machine"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_portico" ],
+                  "title": "Ultrasound probe-skin 'portico' interface"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_computer" ],
+                  "title": "Ultrasound acquisition computer"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "software": {
+      "type": "array",
+      "title": "Software",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "roles": {
+            "type": "array",
+            "title": "Roles",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software" ],
+                  "title": "Ultrasound acquisition software"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "title": "Outputs",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": "CUID"
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "software_params",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "software_params" ],
+                  "title": "Software parameters"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": "Data",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "image_h",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "image_h" ],
+                          "title": "Image height"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "px",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "px" ],
+                          "title": "pixels"
+                        },
+                        {
+                          "type": "string",
+                          "enum": [ "mm" ],
+                          "title": "mm"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "image_w",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "image_w" ],
+                          "title": "Image width"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "px",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "px" ],
+                          "title": "pixels"
+                        },
+                        {
+                          "type": "string",
+                          "enum": [ "mm" ],
+                          "title": "mm"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "speckle_reduction_enabled",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "speckle_reduction_enabled" ],
+                          "title": "Speckle reduction enabled"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "boolean",
+                      "title": "Value"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "dynamic_range_enabled",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "dynamic_range_enabled" ],
+                          "title": "Dynamic range enabled"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "boolean",
+                      "title": "Value"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "lines_density",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "lines_density" ],
+                          "title": "Lines density"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "boolean",
+                      "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

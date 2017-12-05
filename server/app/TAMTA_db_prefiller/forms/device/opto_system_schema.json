@@ -1,0 +1,139 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "name",
+    "producer"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "functions": {
+      "type": "array",
+      "title": "Functions",
+      "uniqueItems": true,
+      "default": ["opto_system"],
+      "items": {
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [ "opto_system" ],
+            "title": "Optoelectronic system"
+          }
+        ]
+      }
+    },
+    "producer": {
+      "type": "string",
+      "title": "Producer",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [ "optitrack" ],
+          "title": "Optitrack"
+        },
+        {
+          "type": "string",
+          "enum": [ "vicon" ],
+          "title": "Vicon"
+        }
+      ]
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    },
+    "attributes": {
+      "type": "array",
+      "title": "Attributes",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "cameras_number",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "cameras_number" ],
+                  "title": "Number of cameras"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "resolution",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "resolution" ],
+                  "title": "Resolution"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "mm",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "mm" ],
+                  "title": "mm"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "portable",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "portable" ],
+                  "title": "Portable"
+                }
+              ]
+            },
+            "value": {
+              "type": "boolean",
+              "title": ""
+            }
+          }
+        }
+      ]
+    }
+  }
+}

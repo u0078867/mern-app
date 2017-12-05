@@ -1,0 +1,54 @@
+{
+  "ui:order": [
+    "name",
+    "cuid",
+    "registered_by",
+    "session",
+    "researchers",
+    "data",
+    "publications"
+  ],
+  "name": {
+    "ui:readonly": true
+  },
+  "cuid": {
+    "ui:widget": "form-filler",
+    "ui:options": {
+      "collection": "activities"
+    }
+  },
+  "registered_by": {
+    "ui:readonly": true,
+    "ui:widget": "text-cache",
+    "ui:options": {
+      "path": "user.cuid"
+    }
+  },
+  "session": {
+    "ui:widget": "text-cache",
+    "ui:options": {
+      "path": "session"
+    }
+  },
+  "researchers": {
+    "items": {
+      "id": {
+        "ui:widget": "researcher"
+      }
+    }
+  },
+  "data": {
+    "items": {
+      "id": {
+        "ui:widget": "output"
+      }
+    }
+  },
+  "publications": {
+    "items": {
+      "id": {
+        "ui:widget": "publication"
+      }
+    }
+  }
+}

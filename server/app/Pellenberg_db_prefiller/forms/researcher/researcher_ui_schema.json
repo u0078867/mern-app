@@ -1,0 +1,12 @@
+{
+  "ui:order": [
+    "registered_by",
+    "name",
+    "surname",
+    "birthdate",
+    "institution_id"
+  ],
+  "registered_by": {
+    "ui:readonly": true
+  }
+}

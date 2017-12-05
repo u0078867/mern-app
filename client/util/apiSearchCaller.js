@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import Config from '../../server/config';
 
 export const API_URL = (typeof window === 'undefined' || process.env.NODE_ENV === 'test') ?
-  process.env.BASE_URL || (`http://localhost:${process.env.PORT || Config.port}/search-api`) :
+  process.env.BASE_URL || (`http://127.0.0.1:${process.env.PORT || Config.port}/search-api`) :
   '/search-api';
 
 export default function callApi(endpoint, query) {

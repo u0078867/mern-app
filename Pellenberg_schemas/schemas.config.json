@@ -1,0 +1,37 @@
+[
+  {
+    "name": "device",
+    "json_schema_file": "device.json",
+    "collection_name": "devices"
+  },
+  {
+    "name": "researcher",
+    "json_schema_file": "researcher.json",
+    "collection_name": "researchers"
+  },
+  {
+    "name": "swtools",
+    "json_schema_file": "software.json",
+    "collection_name": "swtools"
+  },
+  {
+    "name": "subject",
+    "json_schema_file": "subject.json",
+    "collection_name": "subjects"
+  },
+  {
+    "name": "project",
+    "json_schema_file": "project.json",
+    "collection_name": "projects"
+  },
+  {
+    "name": "publication",
+    "json_schema_file": "publication.json",
+    "collection_name": "publications"
+  },
+  {
+    "name": "activity",
+    "json_schema_file": "activity.json",
+    "collection_name": "activities"
+  }
+]

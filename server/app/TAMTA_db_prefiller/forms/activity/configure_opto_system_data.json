@@ -1,0 +1,82 @@
+{
+  "name": "Configure optoelectronic system on subject",
+  "researchers": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "subjects": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;subjects;{{subject}}",
+        "__replacer__": true
+      },
+      "task": "{{subject_task}}",
+      "anatomical_areas": {
+        "valueFromVar": "subject_anatomical_areas",
+        "__replacer__": true
+      },
+      "anatomical_side": "{{subject_anatomical_side}}"
+    }
+  ],
+  "devices": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{opto_sensor}}",
+        "__replacer__": true
+      },
+      "roles": ["opto_sensor"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{opto_marker}}",
+        "__replacer__": true
+      },
+      "roles": ["opto_marker"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_probe_holder}}",
+        "__replacer__": true
+      },
+      "roles": ["us_probe_holder"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{opto_acq_computer}}",
+        "__replacer__": true
+      },
+      "roles": ["opto_acq_computer"]
+    }
+  ],
+  "software": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;swtools;{{opto_acq_software}}",
+        "__replacer__": true
+      },
+      "roles": ["opto_acq_software"]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "software_params",
+      "data": [
+        {
+          "name": "acq_freq",
+          "uom": "hz"
+        }
+      ]
+    }
+  ]
+}

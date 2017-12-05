@@ -1,0 +1,36 @@
+{
+  "ui:order": [
+    "name",
+    "registered_by",
+    "researchers",
+    "data",
+    "projects"
+  ],
+  "name": {
+    "ui:readonly": true
+  },
+  "registered_by": {
+    "ui:readonly": true
+  },
+  "researchers": {
+    "items": {
+      "id": {
+        "ui:widget": "researcher"
+      }
+    }
+  },
+  "data": {
+    "items": {
+      "id": {
+        "ui:widget": "output"
+      }
+    }
+  },
+  "projects": {
+    "items": {
+      "id": {
+        "ui:widget": "project"
+      }
+    }
+  }
+}

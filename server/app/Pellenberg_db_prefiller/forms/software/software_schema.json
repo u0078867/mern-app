@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "name",
+    "version",
+    "producer",
+    "uri"
+  ],
+  "properties": {
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "version": {
+      "type": "string",
+      "title": "Version"
+    },
+    "producer": {
+      "type": "string",
+      "title": "Producer"
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    }
+  }
+}

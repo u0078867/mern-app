@@ -6,6 +6,20 @@ import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import fileUpload from 'express-fileupload';
 
+// monkey patching error to support JSON.stringify()
+if (!('toJSON' in Error.prototype))
+Object.defineProperty(Error.prototype, 'toJSON', {
+  value: function () {
+    var alt = {};
+    Object.getOwnPropertyNames(this).forEach(function (key) {
+        alt[key] = this[key];
+    }, this);
+    return alt;
+  },
+  configurable: true,
+  writable: true
+})
+
 
 // Initialize the Express App
 const app = new Express();
@@ -49,7 +63,7 @@ import { match, RouterContext } from 'react-router';
 import Helmet from 'react-helmet';
 
 // Import required modules
-import getRoutes from '../client/routes';
+import routes from '../client/routes';
 import { fetchComponentData } from './app/util/fetchData';
 import serverConfig from './config';
 
@@ -137,15 +151,12 @@ app.use(API_URL, function(req, res, next) {
 app.use(API_URL, function(req, res, next) {
   require('./app/routes/subm.routes')(req, res, next);
 });
-/*app.use(API_URL, function(req, res, next) {
-  require('./app/routes/database.routes')(req, res, next);
-});*/
 app.use(API_URL, function(req, res, next) {
   require('./app/routes/utils.routes')(req, res, next);
 });
-/*app.use(API_URL, function(req, res, next) {
-  require('./app/routes/upload.routes')(req, res, next);
-});*/
+app.use(API_URL, function(req, res, next) {
+  require('./app/routes/minio.routes')(req, res, next);
+});
 app.use('/test-hmr-api', function(req, res, next) {
   require('./app/routes/test.hmr.routes')(req, res, next);
 });
@@ -208,7 +219,7 @@ const renderError = err => {
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
-  match({ routes: getRoutes(configureStore()), location: req.url }, (err, redirectLocation, renderProps) => {
+  match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
     if (err) {
       return res.status(500).end(renderError(err));
     }

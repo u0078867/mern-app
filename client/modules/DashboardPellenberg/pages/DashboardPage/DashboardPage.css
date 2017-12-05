@@ -1,0 +1,9 @@
+.row-spacing {
+  margin-top: 20px;
+}
+
+.buttons {
+  max-width: 400px;
+  margin: '0 auto 10';
+  align: center;
+}

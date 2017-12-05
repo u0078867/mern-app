@@ -1,0 +1,9 @@
+{
+  "ui:order": [
+    "registered_by",
+    "uri"
+  ],
+  "registered_by": {
+    "ui:readonly": true
+  }
+}

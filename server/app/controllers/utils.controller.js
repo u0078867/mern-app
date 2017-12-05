@@ -1,15 +1,18 @@
 
 import jp from 'jsonpath';
+import _ from 'lodash';
+
+import mustache from 'mustache';
 
 import callApi from '../../../client/util/apiCaller';
+import callSearchApi from '../../../client/util/apiSearchCaller';
 
 
 
+var JSONSchemaDynToStat = (schema_in, data_in) => {
 
-var JSONSchemaDynToStat = (schema_in) => {
-
-  // make a schema deep copy, to avoid side effects
-  var schema = JSON.parse(JSON.stringify(schema_in));
+  // fill template
+  var schema = JSON.parse(mustache.render(JSON.stringify(schema_in), data_in));
 
   // search for replacers
   var nodes = jp.nodes(schema, '$..__replacer__');
@@ -32,32 +35,51 @@ var JSONSchemaDynToStat = (schema_in) => {
         // Run chain
         Promise.resolve()
         .then(() => {
+          // return parse value, if existing
+          if (replacer.strValue) {
+            return JSON.parse(replacer.strValue);
+          }
+          if (replacer.valueFromVar) {
+            return data_in[replacer.valueFromVar];
+          }
           // extract query type
           var query = replacer.query.split(';');
           switch(query[0]) {
             case 'api':
               // apply API query
               var endpoint = query[1];
-              return callApi(endpoint)
+              return callApi(endpoint);
+            case 'search-api':
+              // apply API query
+              var endpoint = query[1];
+              return callSearchApi(endpoint, query[2]);
             default:
               throw 'query type not recognized';
           }
         })
         .then(res => {
+          if (!replacer.select)
+            return res;
           // extract select
           var select = replacer.select.split(';');
-          //var select =
           switch(select[0]) {
             case 'jp':
               // apply JP select
               var jp_path = select[1];
               var list = jp.query(res, jp_path);
-              // replace replacer with list
-              jp.apply(schema, replacer_path, r => list);
-              return
+              return list;
+            case '_':
+              // apply lodash select
+              var lodash_path = select[1];
+              var list = _.get(res, lodash_path);
+              return list;
             default:
               throw 'select type not recognized';
           }
+        })
+        .then(data => {
+          // replace replacer with list
+          jp.apply(schema, replacer_path, r => data);
         })
         .then(() => resolve(replacer_path))
         .catch(err => reject(err))
@@ -82,7 +104,7 @@ var JSONSchemaDynToStat = (schema_in) => {
  * @returns void
  */
 export function staticizeJSONSchema(req, res) {
-  JSONSchemaDynToStat(req.body.schema)
+  JSONSchemaDynToStat(req.body.schema, req.body.data)
   .then(schema => {
     res.json({ schema });
   })

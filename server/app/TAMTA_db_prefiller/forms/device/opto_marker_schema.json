@@ -1,0 +1,165 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "name",
+    "producer"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "functions": {
+      "type": "array",
+      "title": "Functions",
+      "uniqueItems": true,
+      "default": ["opto_marker"],
+      "items": {
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [ "opto_marker" ],
+            "title": "Optoelectronic marker"
+          }
+        ]
+      }
+    },
+    "producer": {
+      "type": "string",
+      "title": "Producer",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [ "optitrack" ],
+          "title": "Optitrack"
+        },
+        {
+          "type": "string",
+          "enum": [ "vicon" ],
+          "title": "Vicon"
+        }
+      ]
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    },
+    "attributes": {
+      "type": "array",
+      "title": "Attributes",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "diameter",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "diameter" ],
+                  "title": "Diameter"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "mm",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "mm" ],
+                  "title": "mm"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "technology",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "technology" ],
+                  "title": "Technology"
+                }
+              ]
+            },
+            "value": {
+              "type": "string",
+              "title": "Value",
+              "default": "passive",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "passive" ],
+                  "title": "Passive"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "active" ],
+                  "title": "Active"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "surface_mounting_technology",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "surface_mounting_technology" ],
+                  "title": "Surface mounting technology"
+                }
+              ]
+            },
+            "value": {
+              "type": "string",
+              "title": "Value",
+              "default": "sprayed",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "sprayed" ],
+                  "title": "Sprayed"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "wrapped" ],
+                  "title": "Wrapped"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

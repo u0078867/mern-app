@@ -1,0 +1,125 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "name",
+    "producer"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "functions": {
+      "type": "array",
+      "title": "Functions",
+      "uniqueItems": true,
+      "default": ["us_probe_skin_interface"],
+      "items": {
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [ "us_probe_skin_interface" ],
+            "title": "Ultrasonography probe-skin interface"
+          }
+        ]
+      }
+    },
+    "producer": {
+      "type": "string",
+      "title": "Producer",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [ "uz_leuven_pellenberg_ganglabo" ],
+          "title": "UZ Leuven (Pellenberg Ganglabo)"
+        }
+      ]
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    },
+    "attributes": {
+      "type": "array",
+      "title": "Attributes",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "interface_chord_length",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "interface_chord_length" ],
+                  "title": "Interface chord length"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "mm",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "mm" ],
+                  "title": "mm"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "depth",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "depth" ],
+                  "title": "depth"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "mm",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "mm" ],
+                  "title": "mm"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

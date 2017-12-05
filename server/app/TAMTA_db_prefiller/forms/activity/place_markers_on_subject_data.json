@@ -1,0 +1,47 @@
+{
+  "name": "Place markers on subject",
+  "researchers": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "subjects": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;subjects;{{subject}}",
+        "__replacer__": true
+      },
+      "task": "{{subject_task}}",
+      "anatomical_areas": {
+        "valueFromVar": "subject_anatomical_areas",
+        "__replacer__": true
+      },
+      "anatomical_side": "{{subject_anatomical_side}}"
+    }
+  ],
+  "devices": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{opto_marker}}",
+        "__replacer__": true
+      },
+      "roles": ["opto_marker"]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "markers_placing_quality",
+      "data": [
+        {
+          "name": "comment"
+        }
+      ]
+    }
+  ]
+}

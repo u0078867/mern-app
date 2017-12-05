@@ -41,6 +41,8 @@ export default {
     dbJSONSchema: 'Database JSON Schema',
     formUISchema: 'Form UI Schema',
     formInitData: 'Form initial data',
+    formDestCollection: 'Target collection',
+    formSubmitter: 'Submitter',
     formPreview: 'Form preview',
     // submissiones
     acceptSubm: 'Accept Submission',

@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "required": [
+    "name",
+    "surname",
+    "birthdate"
+  ],
+  "properties": {
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "surname": {
+      "type": "string",
+      "title": "Surname"
+    },
+    "birthdate": {
+      "type": "string",
+      "title": "Birthdate"
+    },
+    "institution_id": {
+      "type": "string",
+      "title": "Institution ID"
+    }
+  }
+}

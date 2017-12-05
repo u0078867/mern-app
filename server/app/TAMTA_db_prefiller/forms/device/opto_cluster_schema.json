@@ -1,0 +1,124 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "name",
+    "producer"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "functions": {
+      "type": "array",
+      "title": "Functions",
+      "uniqueItems": true,
+      "default": ["opto_cluster"],
+      "items": {
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [ "opto_cluster" ],
+            "title": "Optoelectronic cluster"
+          }
+        ]
+      }
+    },
+    "producer": {
+      "type": "string",
+      "title": "Producer",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [ "optitrack" ],
+          "title": "Optitrack"
+        },
+        {
+          "type": "string",
+          "enum": [ "uz_leuven_pellenberg_ganglabo" ],
+          "title": "UZ Leuven (Pellenberg Ganglabo)"
+        }
+      ]
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    },
+    "attributes": {
+      "type": "array",
+      "title": "Attributes",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "material",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "material" ],
+                  "title": "Material"
+                }
+              ]
+            },
+            "value": {
+              "type": "string",
+              "title": "Value",
+              "default": "plastic",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "plastic" ],
+                  "title": "Plastic"
+                },
+                {
+                  "type": "value",
+                  "enum": [ "PLA" ],
+                  "title": "PLA"
+                },
+                {
+                  "type": "value",
+                  "enum": [ "ABS" ],
+                  "title": "ABS"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "marker_pins_number",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "marker_pins_number" ],
+                  "title": "Number of marker pins"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

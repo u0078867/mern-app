@@ -1,0 +1,22 @@
+.header {
+  height: 100px;
+  background: url('../../modules/App/logo-uzleuven.jpg') center no-repeat;
+  background-size: 35%;
+}
+
+.services {
+  height: auto;
+  overflow: hidden;
+  display: none;
+}
+
+.container {
+  max-width: 980px;
+  width: 100%;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.appear {
+  display: block;
+}

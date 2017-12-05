@@ -12,4 +12,4 @@ mlab/
 WAMP-demo/wf-engine-mock/.crossbar/key.priv
 WAMP-demo/wf-engine-mock/.crossbar/key.pub
 WAMP-demo/wf-engine-mock/.crossbar/node.pid
-
+env

@@ -1,0 +1,95 @@
+{
+  "name": "Configure ultrasonography system on subject",
+  "researchers": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "subjects": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;subjects;{{subject}}",
+        "__replacer__": true
+      },
+      "task": "{{subject_task}}",
+      "anatomical_areas": {
+        "valueFromVar": "subject_anatomical_areas",
+        "__replacer__": true
+      },
+      "anatomical_side": "{{subject_anatomical_side}}"
+    }
+  ],
+  "devices": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_probe}}",
+        "__replacer__": true
+      },
+      "roles": ["us_probe"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_machine}}",
+        "__replacer__": true
+      },
+      "roles": ["us_machine"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_portico}}",
+        "__replacer__": true
+      },
+      "roles": ["us_portico"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_acq_computer}}",
+        "__replacer__": true
+      },
+      "roles": ["us_acq_computer"]
+    }
+  ],
+  "software": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;swtools;{{us_acq_software}}",
+        "__replacer__": true
+      },
+      "roles": ["us_acq_software"]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "software_params",
+      "data": [
+        {
+          "name": "image_h",
+          "uom": "px"
+        },
+        {
+          "name": "image_w",
+          "uom": "px"
+        },
+        {
+          "name": "speckle_reduction_enabled"
+        },
+        {
+          "name": "dynamic_range_enabled"
+        },
+        {
+          "name": "lines_density"
+        }
+      ]
+    }
+  ]
+}

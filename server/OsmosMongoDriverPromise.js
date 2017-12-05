@@ -11,6 +11,9 @@ var Driver = function OsmosMongoDriver(db) {
   this.ensureTextSearch = function (collection) {
     return this.db.collection(collection).ensureIndex({"$**": "text"});
   }
+  this.ensureIndex = function(collection, index) {
+    return this.db.collection(collection).ensureIndex({[index]: 1});
+  }
 };
 
 

@@ -16,6 +16,8 @@ class FormList extends Component {
               key={form.cuid}
               onDelete={() => this.props.handleDeleteForm(form.cuid)}
               onUpdate={this.props.handleUpdateForm}
+              cache={this.props.cache}
+              globalVariables={this.props.globalVariables}
             />
           ))
         }

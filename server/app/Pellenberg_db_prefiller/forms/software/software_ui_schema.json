@@ -1,0 +1,12 @@
+{
+  "ui:order": [
+    "registered_by",
+    "name",
+    "version",
+    "producer",
+    "uri"
+  ],
+  "registered_by": {
+    "ui:readonly": true
+  }
+}

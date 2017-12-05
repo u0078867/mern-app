@@ -1,0 +1,151 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "name",
+    "producer"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "functions": {
+      "type": "array",
+      "title": "Functions",
+      "uniqueItems": true,
+      "default": ["computer"],
+      "items": {
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [ "computer" ],
+            "title": "Computer"
+          }
+        ]
+      }
+    },
+    "producer": {
+      "type": "string",
+      "title": "Producer",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [ "dell" ],
+          "title": "Dell"
+        },
+        {
+          "type": "string",
+          "enum": [ "apple" ],
+          "title": "Apple"
+        }
+      ]
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    },
+    "attributes": {
+      "type": "array",
+      "title": "Attributes",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "product_key",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "product_key" ],
+                  "title": "Product key/tag"
+                }
+              ]
+            },
+            "value": {
+              "type": "string",
+              "title": "Value"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "cpu_freq",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "cpu_freq" ],
+                  "title": "CPU frequency"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "hz",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "hz" ],
+                  "title": "Hz"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "ram_capacity",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "ram_capacity" ],
+                  "title": "RAM capacity"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "gb",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "gb" ],
+                  "title": "GB"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

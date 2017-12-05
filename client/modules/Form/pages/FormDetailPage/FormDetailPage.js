@@ -5,10 +5,14 @@ import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import JSSForm from '../../../../components/JSSForm/JSSForm';
 import OutPortFeeder from '../../../../components/SocketPorts/OutPortFeeder';
-import Submitter from './FIBErSubmitter';
+import getSubmittersMap from 'SUBMITTERS_PATH/getSubmittersMap';
 import { Button } from 'react-bootstrap';
 
+import _ from 'lodash';
+
 import callApi from '../../../../util/apiCaller';
+
+import { fillFormJSONProps } from '../../utils/JSONFill';
 
 // Import Style
 import styles from '../../components/FormListItem/FormListItem.css';
@@ -16,39 +20,114 @@ import styles from '../../components/FormListItem/FormListItem.css';
 // Import Actions
 import { fetchForm, submitForm } from '../../FormActions';
 import { addSubmRequest, fetchSubm, updateSubmRequest, acceptSubmRequest } from '../../../Subm/SubmActions';
+import { updateGlobalVariables } from 'MODULE_APP/AppActions';
 
 // Import Selectors
 import { getForm, getCache } from '../../FormReducer';
+import { getGlobalVariables } from 'MODULE_APP/AppReducer';
 
+//var Submitter = null;
 
 class FormDetailPage extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      formData: this.props.form.init_data,
+      convertedJSONSchema: undefined,
+      convertedUISchema: undefined,
+      convertedInitData: undefined,
+      formData: undefined,
+      //validateSubm: true,
       validateForm: true,
-      validateSubm: true,
-      //fileLink: null,
-      //showFileLink: false,
       isFormRefreshing: false,
+      message: null,
+      showMessage: false,
+      submitter: null,
     };
     this.sender = new OutPortFeeder({dataOutPort: 'wf-task-exit'});
   }
 
+  initializeForm = (props, cb) => {
+    console.log(props)
+    console.log('initializing form')
+    fillFormJSONProps({
+      JSONSchema: props.form.json_schema,
+      UISchema: props.form.ui_schema,
+      initData: props.form.init_data,
+      variables: props.variables
+    })
+    .then(converted => {
+      this.setState(converted, () => {
+        console.log(props)
+        this.setFormData(props);
+        if (cb) cb();
+      })
+    })
+  }
+
+  componentWillMount() {
+    this.initializeForm(this.props);
+    this.setSubmitter(this.props);
+  }
+
+  setSubmitter = (props) => {
+    let submitter = getSubmittersMap()[props.form.submitter];
+    this.setState({ submitter });
+  }
+
+  setFormData = (props) => {
+    var formData = this.state.convertedInitData;
+    let initData = props.initData;
+    console.log(formData);
+    console.log(initData);
+    if (initData) {
+      if (typeof(initData) == typeof(formData)) {
+        if (typeof(initData) == 'object') {
+          // merge object or array data
+          formData = Object.assign(formData, initData);
+        } else {
+          // overwrite data
+          formData = initData;
+        }
+      } else {
+        console.log('initial data type passed via URL mismatches form data type');
+      }
+    }
+    this.setState({ formData });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.form)
+    if (nextProps.form.cuid != this.props.form.cuid) {
+      this.setState({
+        validateForm: true,
+        message: null,
+        showMessage: false,
+        isFormRefreshing: true,
+      }, () => {
+        console.log(nextProps.form)
+        //this.initializeForm(nextProps);
+        //this.setSubmitter(nextProps);
+      })
+    }
+    if (nextProps.variables != this.props.variables) {
+      //if (nextProps.form.cuid == this.props.form.cuid)
+      //this.initializeForm(nextProps);
+    }
+  }
+
   componentDidMount() {
-    console.log(this.props.params.cuid)
     this.props.dispatch(fetchForm(this.props.params.cuid));
   }
 
   onSubmit = ({formData}) => {
-    console.log(this.props.form)
+    console.log(this.props.form);
     console.log('submitting...');
-    console.log(this.state.submitType);
     let subm = {
       form: this.props.form._id,
       data: formData,
-      validate_before_insert: this.state.validateSubm,
+      //validate_before_insert: this.state.validateSubm,
+      validate_before_insert: true,
     };
     this.setState({
       subm: subm
@@ -56,6 +135,7 @@ class FormDetailPage extends Component {
   }
 
   onChange = ({formData}) => {
+    console.log(formData)
     this.setState({
       formData: formData
     });
@@ -67,7 +147,36 @@ class FormDetailPage extends Component {
   }
 
   onClick = (o) => {
-    this.setState(o);
+    this.setState(o, () => {
+      this.hiddenSubmitter.click();
+    });
+  }
+
+  onCompleted = ({ message, data }) => {
+    // show message
+    this.setState({
+      //isFormRefreshing: true,
+      showMessage: true,
+      message
+    });
+    // update global variables
+    let outputVariables = this.props.form.output_variables;
+    let updates = {};
+    for (var v in outputVariables) {
+      updates[v] = _.get(data, outputVariables[v].path);
+    }
+    this.props.dispatch(updateGlobalVariables(updates));
+  }
+
+  onCloseMessage = () => {
+    this.setState({showMessage: false});
+  }
+
+  postRefreshCallback = () => {
+    this.setState({isFormRefreshing: false}, () => {
+      this.initializeForm(this.props);
+      this.setSubmitter(this.props);
+    });
   }
 
 
@@ -83,6 +192,7 @@ class FormDetailPage extends Component {
       cache: this.props.cache,
       updateFormData: this.onUpdateFormData,
     };
+    const Submitter = this.state.submitter;
     return (
       <div>
         <Helmet title={this.props.form.title} />
@@ -90,8 +200,8 @@ class FormDetailPage extends Component {
           <h3 className={styles['form-title']}>{this.props.form.title}</h3>
         </div>
         <JSSForm
-          schema={this.props.form.json_schema}
-          uiSchema={this.props.form.ui_schema}
+          schema={this.state.convertedJSONSchema}
+          uiSchema={this.state.convertedUISchema}
           formData={this.state.formData}
           onSubmit={this.onSubmit}
           onChange={this.onChange}
@@ -100,14 +210,21 @@ class FormDetailPage extends Component {
           noHtml5Validate={!this.state.validateForm}
           noValidate={!this.state.validateForm}
           inRefresh={this.state.isFormRefreshing}
-          postRefreshCallback={() => this.setState({isFormRefreshing: false})}
+          postRefreshCallback={this.postRefreshCallback}
         >
-          <Submitter {...this.props}
-            subm={this.state.subm}
-            onClick={this.onClick}
-            policy={this.props.form.submitter}
-          />
+          <button ref={btn => this.hiddenSubmitter = btn} style={{'display': 'none'}} />
         </JSSForm>
+        { !Submitter ? null :
+          <Submitter
+          dispatch={this.props.dispatch}
+          subm={this.state.subm}
+          form={this.props.form}
+          onClick={this.onClick}
+          onCompleted={this.onCompleted}
+          onCloseMessage={this.onCloseMessage}
+        /> }
+        <br/>
+        {this.state.showMessage ? this.state.message : null}
       </div>
     );
   }
@@ -116,15 +233,30 @@ class FormDetailPage extends Component {
 // Actions required to provide data for this component to render in sever side.
 FormDetailPage.need = [
   params => {return fetchForm(params.cuid)},
-  //(params, state) => {return getUser(state)},
 ];
+
+
+function parseInitDataFromURL(d) {
+  if (!d) {
+    return undefined;
+  }
+  let initData = undefined;
+  try {
+    initData = JSON.parse(atob(d));
+  } catch (e) {
+    console.log(e);
+  }
+  console.log(initData)
+  return initData;
+}
 
 // Retrieve data from store as props
 function mapStateToProps(state, props) {
   return {
     form: getForm(state, props.params.cuid),
     cache: getCache(state),
-    redirectUrl: props.location.query.red
+    initData: parseInitDataFromURL(props.location.query.d),
+    variables: getGlobalVariables(state),
   };
 }
 

@@ -1,0 +1,191 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "name",
+    "producer"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "functions": {
+      "type": "array",
+      "title": "Functions",
+      "uniqueItems": true,
+      "default": ["us_probe"],
+      "items": {
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [ "us_probe" ],
+            "title": "Ultrasonography probe"
+          }
+        ]
+      }
+    },
+    "producer": {
+      "type": "string",
+      "title": "Producer",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [ "telemed" ],
+          "title": "Telemed"
+        }
+      ]
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    },
+    "attributes": {
+      "type": "array",
+      "title": "Attributes",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "radius_of_curvature",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "radius_of_curvature" ],
+                  "title": "Radius of curvature"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "deg",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "deg" ],
+                  "title": "deg"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "fov_angle",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "fov_angle" ],
+                  "title": "Field of view angle"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "deg",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "deg" ],
+                  "title": "deg"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "fov_width",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "fov_width" ],
+                  "title": "Field of view width"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "mm",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "mm" ],
+                  "title": "mm"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "fov_height",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "fov_height" ],
+                  "title": "Field of view height"
+                }
+              ]
+            },
+            "value": {
+              "type": "number",
+              "title": "Value"
+            },
+            "uom": {
+              "type": "string",
+              "title": "Measurement unit",
+              "default": "mm",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "mm" ],
+                  "title": "mm"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

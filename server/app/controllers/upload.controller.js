@@ -56,14 +56,23 @@ export function uploadData(req, res) {
       .then(newDoc => {
         if (subm.data.cuid) {
           if (!newDoc.history) newDoc.history = [];
-          subm.data.date_added = newDoc.date_added;
-          newDoc.history.push(subm.data);
+          var doc = {};
+          for (var prop of Object.keys(newDoc)) {
+            if (!['model','__originalData__','schema','history'].includes(prop)) {
+              if (newDoc[prop]) {
+                doc[prop] = newDoc[prop];
+              }
+            }
+          }
+          newDoc.history.push(doc);
           newDoc.date_added = subm.date_added;
         }
         newDoc.slug = slug(`${collection}`, { lowercase: true });
         for (var prop in subm.data) {
           if (['cuid','slug','date_added','history'].includes(prop)) continue;
-          newDoc[prop] = subm.data[prop];
+          if (prop in newDoc) {
+            newDoc[prop] = subm.data[prop];
+          }
         }
         for (var prop of Object.keys(newDoc)) {
           if (!(prop in subm.data) && !['model','__originalData__','schema','cuid','slug','date_added','history'].includes(prop)) {

@@ -1,0 +1,17 @@
+{
+  "ui:order": [
+    "registered_by",
+    "name",
+    "description",
+    "begin_period",
+    "end_period",
+    "uri"
+  ],
+  "registered_by": {
+    "ui:readonly": true,
+    "ui:widget": "text-cache",
+    "ui:options": {
+      "path": "user.cuid"
+    }
+  }
+}

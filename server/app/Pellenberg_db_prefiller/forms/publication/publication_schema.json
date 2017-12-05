@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "uri"
+  ],
+  "properties": {
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    }
+  }
+}
