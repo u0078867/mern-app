@@ -100,5 +100,46 @@
         }
       }
     ]
-  }
+  },
+  "ui:field": "layout",
+  "ui:layout": [
+    {
+      "name": { "md": 12 }
+    },
+    {
+      "cuid": { "md": 12 }
+    },
+    {
+      "registered_by": { "md": 12 }
+    },
+    {
+      "session": { "md": 12 }
+    },
+    {
+      "datetime_ended": { "md": 12 }
+    },
+    {
+      "group": {
+        "md": 12,
+        "viewer": "collapsible",
+        "viewerOptions": {
+          "title": "researchers, devices, software"
+        },
+        "layout": [
+          {
+            "researchers": { "md": 12 }
+          },
+          {
+            "devices": { "md": 12 }
+          },
+          {
+            "software": { "md": 12 }
+          }
+        ]
+      }
+    },
+    {
+      "outputs": { "md": 12 }
+    }
+  ]
 }

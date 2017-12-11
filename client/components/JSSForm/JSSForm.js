@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Form from "react-jsonschema-form";
 import { renderToString } from 'react-dom/server';
-import { getWidgetsMap, getFieldsMap } from 'JSS_WIDGETS_PATH';
+import { getWidgetsMap, getFieldsMap, getViewersMap } from 'JSS_WIDGETS_PATH';
 
 
 import pubsub from 'pubsub-js';
@@ -13,6 +13,9 @@ const customWidgets = getWidgetsMap();
 
 // Get custom fields
 const customFields = getFieldsMap();
+
+// Get custom viewers
+const customViewers = getViewersMap();
 
 class JSSForm extends Component {
 
@@ -91,6 +94,8 @@ class JSSForm extends Component {
     }
     let valid = true;
     try {
+      let formContext = this.props.formContext;
+      formContext.viewers = customViewers;
       const test = renderToString(  // done only to catch render() exceptions in Form
         <Form
           fields={customFields}
@@ -98,6 +103,7 @@ class JSSForm extends Component {
           schema={schema_}
           uiSchema={uiSchema_}
           formData={formData_}
+          formContext={formContext}
         />
       );
       if (/unsupported/i.test(test))
@@ -124,8 +130,8 @@ class JSSForm extends Component {
 
   render() {
     var form = null;
-    let {schema, uiSchema, formData, ...props} = this.props;
-    //console.log(this.state.schema)
+    let {schema, uiSchema, formData, formContext, ...props} = this.props;
+    formContext.viewers = customViewers; // viewers concept is not in registry, so haev to use formContext
 
     var form = <pre>{JSON.stringify(this.state.formData, null, 2)}</pre>;
     if (this.state.valid) {
@@ -135,6 +141,7 @@ class JSSForm extends Component {
                 schema={this.state.schema}
                 uiSchema={this.state.uiSchema}
                 formData={this.state.formData}
+                formContext={formContext}
                 ref="form"
                 {...props}
               />)

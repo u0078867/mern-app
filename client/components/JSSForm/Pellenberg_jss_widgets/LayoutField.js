@@ -2,6 +2,7 @@ import React from 'react'
 import ObjectField from 'react-jsonschema-form/lib/components/fields/ObjectField'
 import { retrieveSchema } from 'react-jsonschema-form/lib/utils'
 import { Col } from 'react-bootstrap'
+//import CollapsibleViewer from './components/CollapsibleViewer'
 
 export default class GridField extends ObjectField {
   state = { firstName: 'hasldf' }
@@ -16,7 +17,8 @@ export default class GridField extends ObjectField {
       onBlur,
       formData
     } = this.props
-    const { definitions, fields, formContext } = this.props.registry
+    const { definitions, widgets, fields, formContext } = this.props.registry
+    const viewers = formContext.viewers
     const { SchemaField, TitleField, DescriptionField } = fields
     const schema = retrieveSchema(this.props.schema, definitions)
     const title = (schema.title === undefined) ? '' : schema.title
@@ -68,10 +70,23 @@ export default class GridField extends ObjectField {
                       const { layout, ...rowProps } = row[name]
                       let schema_ = Object.assign({}, schema, {'title': undefined})
                       let uiSchema_ = Object.assign({}, uiSchema, {'ui:layout': layout})
-                      return (
-                          <Col {...rowProps} key={index} style={style}>
+                      let viewer = row[name].viewer
+                      let viewerOptions = row[name].viewerOptions
+                      let ViewerComponent = viewers[viewer]
+                      var content;
+                      if (ViewerComponent) {
+                        content = (
+                          <ViewerComponent options={viewerOptions}>
                             <GridField {...this.props} schema={schema_} uiSchema={uiSchema_} />
-                          </Col>
+                          </ViewerComponent>
+                        )
+                      } else {
+                        content = (<GridField {...this.props} schema={schema_} uiSchema={uiSchema_} />)
+                      }
+                      return (
+                        <Col {...rowProps} key={index} style={style}>
+                          {content}
+                        </Col>
                       )
                     } else {
                       const { render, ...rowProps } = row[name]
