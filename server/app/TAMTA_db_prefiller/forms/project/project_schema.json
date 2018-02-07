@@ -9,6 +9,10 @@
     "uri"
   ],
   "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
     "registered_by": {
       "type": "string",
       "title": "Registered by"

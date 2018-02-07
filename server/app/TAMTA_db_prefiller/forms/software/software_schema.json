@@ -8,6 +8,10 @@
     "uri"
   ],
   "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
     "registered_by": {
       "type": "string",
       "title": "Registered by"
@@ -22,7 +26,19 @@
     },
     "producer": {
       "type": "string",
-      "title": "Producer"
+      "title": "Producer",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [ "uz_leuven_pellenberg_ganglabo" ],
+          "title": "UZ Leuven (Pellenberg Ganglabo)"
+        },
+        {
+          "type": "string",
+          "enum": [ "kul_pma" ],
+          "title": "KU Leuven (PMA)"
+        }
+      ]
     },
     "uri": {
       "type": "string",

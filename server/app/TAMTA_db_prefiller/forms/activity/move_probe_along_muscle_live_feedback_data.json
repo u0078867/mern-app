@@ -1,5 +1,6 @@
 {
   "name": "Move instrumented probe along muscle with live image feedback",
+  "type": "move-probe-muscle",
   "researchers": [
     {
       "id": {
@@ -70,18 +71,18 @@
   ],
   "outputs": [
     {
-      "name": "motion_quality",
+      "name": "probe_contact_quality_comment",
       "data": [
         {
-          "name": "probe_contact_quality"
+          "name": "value"
         }
       ]
     },
     {
-      "name": "remarks",
+      "name": "free_text_comment",
       "data": [
         {
-          "name": "general_remarks"
+          "name": "value"
         }
       ]
     }

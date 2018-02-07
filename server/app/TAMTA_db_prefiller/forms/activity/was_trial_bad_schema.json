@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "was_trial_bad": {
+      "type": "boolean",
+      "title": "Was trial bad ?",
+      "default": false
+    }
+  }
+}

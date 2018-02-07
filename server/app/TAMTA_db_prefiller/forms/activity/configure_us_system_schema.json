@@ -12,6 +12,10 @@
       "type": "string",
       "title": "Registered by"
     },
+    "type": {
+      "type": "string",
+      "title": "Type"
+    },
     "name": {
       "type": "string",
       "title": "Name"
@@ -177,23 +181,23 @@
           "properties": {
             "cuid": {
               "type": "string",
-              "title": "CUID"
+              "title": " "
             },
             "name": {
               "type": "string",
               "title": "Name",
-              "default": "software_params",
+              "default": "image_h",
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "software_params" ],
-                  "title": "Software parameters"
+                  "enum": [ "image_h" ],
+                  "title": "Image height"
                 }
               ]
             },
             "data": {
               "type": "array",
-              "title": "Data",
+              "title": " ",
               "items": [
                 {
                   "type": "object",
@@ -201,12 +205,12 @@
                     "name": {
                       "type": "string",
                       "title": "Name",
-                      "default": "image_h",
+                      "default": "value",
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [ "image_h" ],
-                          "title": "Image height"
+                          "enum": [ "value" ],
+                          "title": "Value"
                         }
                       ]
                     },
@@ -232,19 +236,46 @@
                       ]
                     }
                   }
-                },
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "image_w",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "image_w" ],
+                  "title": "Image width"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
                 {
                   "type": "object",
                   "properties": {
                     "name": {
                       "type": "string",
                       "title": "Name",
-                      "default": "image_w",
+                      "default": "value",
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [ "image_w" ],
-                          "title": "Image width"
+                          "enum": [ "value" ],
+                          "title": "Value"
                         }
                       ]
                     },
@@ -270,66 +301,197 @@
                       ]
                     }
                   }
-                },
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "speckle_reduction_enabled",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "speckle_reduction_enabled" ],
+                  "title": "Speckle reduction enabled"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
                 {
                   "type": "object",
                   "properties": {
                     "name": {
                       "type": "string",
                       "title": "Name",
-                      "default": "speckle_reduction_enabled",
+                      "default": "value",
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [ "speckle_reduction_enabled" ],
-                          "title": "Speckle reduction enabled"
+                          "enum": [ "value" ],
+                          "title": "Value"
                         }
                       ]
                     },
                     "value": {
                       "type": "boolean",
+                      "title": "",
+                      "default": false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "dynamic_range_enabled",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "dynamic_range_enabled" ],
+                  "title": "Dynamic range enabled"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "boolean",
+                      "title": "",
+                      "default": false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "lines_density",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "lines_density" ],
+                  "title": "Lines density"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
                       "title": "Value"
                     }
                   }
-                },
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "free_text_comment",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "free_text_comment" ],
+                  "title": "Free text comment"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
                 {
                   "type": "object",
                   "properties": {
                     "name": {
                       "type": "string",
                       "title": "Name",
-                      "default": "dynamic_range_enabled",
+                      "default": "value",
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [ "dynamic_range_enabled" ],
-                          "title": "Dynamic range enabled"
+                          "enum": [ "value" ],
+                          "title": "Value"
                         }
                       ]
                     },
                     "value": {
-                      "type": "boolean",
-                      "title": "Value"
-                    }
-                  }
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "name": {
                       "type": "string",
-                      "title": "Name",
-                      "default": "lines_density",
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "enum": [ "lines_density" ],
-                          "title": "Lines density"
-                        }
-                      ]
-                    },
-                    "value": {
-                      "type": "boolean",
                       "title": "Value"
                     }
                   }

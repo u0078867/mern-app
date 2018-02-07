@@ -31,6 +31,11 @@ module.exports = function(app) {
     require('./routes/activity.routes')(req, res, next);
   });
 
+  //app.use('/graphql', require('./routes/graphql.route'));
+  app.use('/graphql', function(req, res, next) {
+    require('./routes/graphql.route')(req, res, next);
+  });
+
   // Set search API routes
   app.use(SEARCH_API_URL, function(req, res, next) {
     require('./routes/subject.search.routes')(req, res, next);

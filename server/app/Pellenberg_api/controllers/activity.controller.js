@@ -1,4 +1,5 @@
-import {getItems, getItem} from './entity.controller';
+import { getAllActivities } from '../dataServices/activity.service';
+import { activityLoader } from '../dataLoaders/activity';
 
 /**
  * Get all activities
@@ -7,8 +8,13 @@ import {getItems, getItem} from './entity.controller';
  * @returns void
  */
 export function getActivities(req, res) {
-  req.params.collection = 'activities';
-  return getItems(req, res);
+  getAllActivities()
+  .then(items => {
+    res.json({ items });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }
 
 /**
@@ -18,6 +24,11 @@ export function getActivities(req, res) {
  * @returns void
  */
 export function getActivity(req, res) {
-  req.params.collection = 'activities';
-  return getItem(req, res);
+  activityLoader.load(req.params.cuid)
+  .then(item => {
+    res.json({ item });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

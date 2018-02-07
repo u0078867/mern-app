@@ -264,6 +264,7 @@ export class FormEditWidget extends Component {
       formDataFiller: this.onChange,
       cache: this.props.cache,
       updateFormData: this.onUpdateFormData,
+      forms: this.props.forms,
     };
     return  (
       <div className={cls}>

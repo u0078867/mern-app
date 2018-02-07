@@ -159,57 +159,121 @@ function dummyData(verbose, fillLevel) {
     }
     device = {
       registered_by: user.cuid,
+      name: "test optoelectronic cluster",
+      functions: ['opto_cluster'],
+      attributes: [
+        {name: "material", "value": "plastic"},
+        {name: "marker_pins_number", "value": 5},
+      ],
+      producer: "optitrack",
+      uri: chance.url(),
+      slug: "test-optoelectronic-cluster"
+    }
+    devices.push(device);
+    device = {
+      registered_by: user.cuid,
       name: "test optoelectronic system",
-      producer: "Test Inc.",
+      functions: ['opto_system'],
+      attributes: [
+        {name: "cameras_number", "value": 14},
+        {name: "resolution", "value": 0.1, "uom": "mm"},
+      ],
+      producer: "vicon",
+      uri: chance.url(),
       slug: "test-optoelectronic-system"
     }
     devices.push(device);
     device = {
       registered_by: user.cuid,
       name: "test optoelectronic marker",
-      producer: "Test Inc.",
+      functions: ['opto_marker'],
+      attributes: [
+        {name: "diameter", "value": 8, "uom": "mm"},
+        {name: "technology", "value": "passive"},
+        {name: "surface_mounting_technology", "value": "wrapped"},
+      ],
+      producer: "vicon",
+      uri: chance.url(),
       slug: "test-optoelectronic-marker"
     }
     devices.push(device);
     device = {
       registered_by: user.cuid,
       name: "lab laptop",
-      producer: "Test Inc.",
+      functions: ['computer'],
+      attributes: [
+        {name: "product_key", "value": "FT60Z25V"},
+        {name: "cpu_freq", "value": 2.7, "uom": "ghz"},
+        {name: "ram_capacity", "value": 8, "uom": "gb"},
+      ],
+      producer: "dell",
+      uri: chance.url(),
       slug: "lab-laptop"
     }
     devices.push(device);
     device = {
       registered_by: user.cuid,
       name: "test ultrasonography probe",
-      producer: "Test Inc.",
+      functions: ['us_probe'],
+      attributes: [
+        {name: "radius_of_curvature", "value": 0, "uom": "deg"},
+        {name: "fov_angle", "value": 0, "uom": "deg"},
+        {name: "fov_width", "value": 40, "uom": "mm"},
+        {name: "fov_height", "value": 50, "uom": "mm"},
+      ],
+      producer: "telemed",
+      uri: chance.url(),
       slug: "test-ultrasonography-probe"
     }
     devices.push(device);
     device = {
       registered_by: user.cuid,
       name: "test ultrasonography beamformer",
-      producer: "Test Inc.",
+      functions: ['us_beamformer'],
+      attributes: [
+        {name: "has_rf_signal", "value": true},
+      ],
+      producer: "telemed",
+      uri: chance.url(),
       slug: "test-ultrasonography-beamformer",
     }
     devices.push(device);
     device = {
       registered_by: user.cuid,
       name: "test portico",
-      producer: "Test Inc.",
+      functions: ['us_probe_skin_interface'],
+      attributes: [
+        {name: "interface_chord_length", "value": 8, "uom": "mm"},
+        {name: "depth", "value": 5, "uom": "mm"},
+      ],
+      producer: "uz_leuven_pellenberg_ganglabo",
+      uri: chance.url(),
       slug: "test-portico"
     }
     devices.push(device);
     device = {
       registered_by: user.cuid,
       name: "test probe holder",
-      producer: "Test Inc.",
+      functions: ['us_probe_holder'],
+      attributes: [
+        {name: "material", "value": "plastic"},
+      ],
+      producer: "uz_leuven_pellenberg_ganglabo",
+      uri: chance.url(),
       slug: "test-probe-holder"
     }
     devices.push(device);
     device = {
       registered_by: user.cuid,
       name: "test trigger box",
-      producer: "Test Inc.",
+      functions: ['signal_converter'],
+      attributes: [
+        {name: "input_signal_type", "value": "ttl"},
+        {name: "output_signal_type", "value": "float_0"},
+        {name: "inverted_logic", "value": true},
+      ],
+      producer: "uz_leuven_pellenberg_ganglabo",
+      uri: chance.url(),
       slug: "test-trigger-box"
     }
     devices.push(device);
@@ -265,7 +329,7 @@ function dummyData(verbose, fillLevel) {
       registered_by: user.cuid,
       name: "optoelectronic data acquisition software",
       version: "1.0",
-      producer: "Test Inc.",
+      producer: "uz_leuven_pellenberg_ganglabo",
       uri: chance.url(),
       slug: "optoelectronic-data-acquisition-software",
     }
@@ -274,7 +338,7 @@ function dummyData(verbose, fillLevel) {
       registered_by: user.cuid,
       name: "ultrasonography data acquisition software",
       version: "1.0",
-      producer: "Test Inc.",
+      producer: "uz_leuven_pellenberg_ganglabo",
       uri: chance.url(),
       slug: "ultrasonography-data-acquisition-software",
     }
@@ -343,6 +407,7 @@ function dummyData(verbose, fillLevel) {
       const publication = {
         registered_by: user.cuid,
         uri: chance.url(),
+        title: chance.sentence(),
         slug: 'test-publication',
       };
       publications.push(publication);
@@ -415,35 +480,68 @@ function dummyData(verbose, fillLevel) {
         var subjects = [];
         if (useSubject) {
           subjects = [
-            //{ id: ObjectId(d.subjects[chance.integer({min: 0, max: d.subjects.length-1})]._id) }
-            { id: d.subjects[chance.integer({min: 0, max: d.subjects.length-1})].cuid }
+            {
+              id: d.subjects[chance.integer({min: 0, max: d.subjects.length-1})].cuid,
+              task: chance.word(),
+              anatomical_areas: [chance.word(), chance.word()],
+              anatomical_side: chance.word(),
+            }
           ];
-          //console.log(subjects)
         }
 
         var devices = [];
         for (let j = 0; j < chance.natural({min: 1, max: 5}); j++) {
           devices.push(
-            //{ id: ObjectId(d.devices[chance.integer({min: 0, max: d.devices.length-1})]._id) }
-            { id: d.devices[chance.integer({min: 0, max: d.devices.length-1})].cuid }
+            {
+              id: d.devices[chance.integer({min: 0, max: d.devices.length-1})].cuid,
+              roles: [chance.word()],
+            }
           )
         }
 
         var software = [];
         for (let j = 0; j < chance.natural({min: 1, max: 5}); j++) {
           software.push(
-            //{ id: ObjectId(d.SWTools[chance.integer({min: 0, max: d.SWTools.length-1})]._id) }
-            { id: d.SWTools[chance.integer({min: 0, max: d.SWTools.length-1})].cuid }
+            {
+              id: d.SWTools[chance.integer({min: 0, max: d.SWTools.length-1})].cuid ,
+              roles: [chance.word()],
+            }
           )
         }
 
         var outputs = [];
         for (let j = 0; j < chance.natural({min: 1, max: 5}); j++) {
+          let data = [];
+          for (let k = 0; k < chance.natural({min: 1, max: 3}); k++) {
+            data.push({
+              "name": chance.word(),
+              "value": chance.floating({min: 0, max: 100, fixed: 2}),
+              "uom": chance.word(),
+            });
+          }
+          let metadata = [];
+          for (let k = 0; k < chance.natural({min: 1, max: 3}); k++) {
+            metadata.push({
+              "name": chance.word(),
+              "value": chance.floating({min: 0, max: 100, fixed: 2}),
+              "uom": chance.word(),
+            });
+          }
+          let filesData = [];
+          for (let k = 0; k < chance.natural({min: 1, max: 3}); k++) {
+            filesData.push({
+              "name": chance.word(),
+              "storage_uri": chance.word(),
+              "size": chance.integer({min: 4, max: 10e9}),
+              "type": chance.word(),
+            });
+          }
           outputs.push({
-            //_id: ObjectId(),
             cuid: cuid(),
             name: chance.word(),
-            uri: chance.url(),
+            metadata,
+            data,
+            files_data: filesData,
           })
         }
 
@@ -464,7 +562,6 @@ function dummyData(verbose, fillLevel) {
                   ok = true;
                   var output = activities[ii].outputs[chance.integer({min: 0, max: activities[ii].outputs.length-1})];
                   other_resources.push({
-                    //'id': output._id
                     'id': output.cuid
                   });
                   break;
@@ -486,6 +583,8 @@ function dummyData(verbose, fillLevel) {
         let activity = {
           registered_by: user.cuid,
           name: chance.sentence(),
+          type: chance.word(),
+          session: chance.word(),
           researchers,
           subjects,
           devices,
@@ -527,19 +626,56 @@ function dummyData(verbose, fillLevel) {
 
     form = {
       title: "Manually move camera position for optimal field of view",
-      key: "mount-camera",
-      json_schema: require('./forms/activity/mount_camera_schema.json'),
-      ui_schema: require('./forms/activity/mount_camera_ui_schema.json'),
-      init_data: require('./forms/activity/mount_camera_data.json'),
+      key: "adjust-camera",
+      json_schema: require('./forms/activity/adjust_camera_schema.json'),
+      ui_schema: require('./forms/activity/adjust_camera_ui_schema.json'),
+      init_data: require('./forms/activity/adjust_camera_data.json'),
       dest_collection: 'activities',
       insert_on_submit: true,
       submitter: 'direct',
       output_variables: {
-        "camera_pos": {
+        "camera_tilt": {
           "path": "outputs[0].cuid"
+        },
+        "camera_height": {
+          "path": "outputs[1].cuid"
+        },
+        "camera_pos_photo": {
+          "path": "outputs[2].cuid"
+        },
+        "camera_pos_comment": {
+          "path": "outputs[3].cuid"
         }
       },
-      slug: "mount-camera",
+      slug: "adjust-camera",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Perform anthropometric measures",
+      key: "anthro-measures",
+      json_schema: require('./forms/activity/perform_anthro_measures_schema.json'),
+      ui_schema: require('./forms/activity/perform_anthro_measures_ui_schema.json'),
+      init_data: require('./forms/activity/perform_anthro_measures_data.json'),
+      dest_collection: 'activities',
+      insert_on_submit: true,
+      submitter: 'direct',
+      output_variables: {},
+      slug: "anthro-measures",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Prepare subject for measurements",
+      key: "prepare-subject",
+      json_schema: require('./forms/activity/prepare_subject_schema.json'),
+      ui_schema: require('./forms/activity/prepare_subject_ui_schema.json'),
+      init_data: require('./forms/activity/prepare_subject_data.json'),
+      dest_collection: 'activities',
+      insert_on_submit: true,
+      submitter: 'direct',
+      output_variables: {},
+      slug: "prepare-subject",
     };
     forms.push(form);
 
@@ -558,7 +694,7 @@ function dummyData(verbose, fillLevel) {
     forms.push(form);
 
     form = {
-      title: "Configure ultrasonography system on subject",
+      title: "Configure ultrasonography system",
       key: "configure-us",
       json_schema: require('./forms/activity/configure_us_system_schema.json'),
       ui_schema: require('./forms/activity/configure_us_system_ui_schema.json'),
@@ -567,16 +703,61 @@ function dummyData(verbose, fillLevel) {
       insert_on_submit: true,
       submitter: 'direct',
       output_variables: {
-        "us_acq_software_params": {
+
+        "us_acq_software_image_h": {
           "path": "outputs[0].cuid"
-        }
+        },
+        "us_acq_software_image_h_value": {
+          "path": "outputs[0].data[0].value"
+        },
+        "us_acq_software_image_h_uom": {
+          "path": "outputs[0].data[0].uom"
+        },
+
+        "us_acq_software_image_w": {
+          "path": "outputs[1].cuid"
+        },
+        "us_acq_software_image_w_value": {
+          "path": "outputs[1].data[0].value"
+        },
+        "us_acq_software_image_w_uom": {
+          "path": "outputs[1].data[0].uom"
+        },
+
+        "us_acq_software_speckle_reduction_enabled": {
+          "path": "outputs[2].cuid"
+        },
+        "us_acq_software_speckle_reduction_enabled_value": {
+          "path": "outputs[2].data[0].value"
+        },
+
+        "us_acq_software_dynamic_range_enabled": {
+          "path": "outputs[3].cuid"
+        },
+        "us_acq_software_dynamic_range_enabled_value": {
+          "path": "outputs[3].data[0].value"
+        },
+
+        "us_acq_software_lines_density": {
+          "path": "outputs[4].cuid"
+        },
+        "us_acq_software_lines_density": {
+          "path": "outputs[4].data[0].value"
+        },
+
+        "us_acq_software_comment": {
+          "path": "outputs[5].cuid"
+        },
+        "us_acq_software_comment_value": {
+          "path": "outputs[5].data[0].value"
+        },
       },
       slug: "configure-us",
     };
     forms.push(form);
 
     form = {
-      title: "Configure optoelectronic system on subject",
+      title: "Configure optoelectronic system",
       key: "configure-opto",
       json_schema: require('./forms/activity/configure_opto_system_schema.json'),
       ui_schema: require('./forms/activity/configure_opto_system_ui_schema.json'),
@@ -585,11 +766,42 @@ function dummyData(verbose, fillLevel) {
       insert_on_submit: true,
       submitter: 'direct',
       output_variables: {
-        "opto_acq_software_params": {
+        "opto_acq_software_acq_freq": {
           "path": "outputs[0].cuid"
+        },
+        "opto_acq_software_comment": {
+          "path": "outputs[1].cuid"
         }
       },
       slug: "configure-opto",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Check ultrasonography muscle visibility",
+      key: "check-muscle-us-visibility",
+      json_schema: require('./forms/activity/check_muscle_us_visibility_schema.json'),
+      ui_schema: require('./forms/activity/check_muscle_us_visibility_ui_schema.json'),
+      init_data: require('./forms/activity/check_muscle_us_visibility_data.json'),
+      dest_collection: 'activities',
+      insert_on_submit: true,
+      submitter: 'direct',
+      output_variables: {},
+      slug: "check-muscle-us-visibility",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Check markers visibility",
+      key: "check-markers-visibility",
+      json_schema: require('./forms/activity/check_markers_visibility_schema.json'),
+      ui_schema: require('./forms/activity/check_markers_visibility_ui_schema.json'),
+      init_data: require('./forms/activity/check_markers_visibility_data.json'),
+      dest_collection: 'activities',
+      insert_on_submit: true,
+      submitter: 'direct',
+      output_variables: {},
+      slug: "check-markers-visibility",
     };
     forms.push(form);
 
@@ -637,15 +849,57 @@ function dummyData(verbose, fillLevel) {
 
     form = {
       title: "Post trial capture",
-      key: "ask-capture-again",
-      json_schema: require('./forms/activity/ask_capture_again_schema.json'),
-      ui_schema: require('./forms/activity/ask_capture_again_ui_schema.json'),
-      init_data: require('./forms/activity/ask_capture_again_data.json'),
+      key: "ask-capture-extra-trial",
+      json_schema: require('./forms/activity/ask_capture_extra_trial_schema.json'),
+      ui_schema: require('./forms/activity/ask_capture_extra_trial_ui_schema.json'),
+      init_data: require('./forms/activity/ask_capture_extra_trial_data.json'),
       dest_collection: undefined,
       insert_on_submit: false,
       submitter: 'wf-variables',
       output_variables: {},
-      slug: "ask-capture-again",
+      slug: "ask-capture-extra-trial",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Muscle ultrasonographic visibility",
+      key: "is-muscle-us-visible",
+      json_schema: require('./forms/activity/is_muscle_us_visible_schema.json'),
+      ui_schema: require('./forms/activity/is_muscle_us_visible_ui_schema.json'),
+      init_data: require('./forms/activity/is_muscle_us_visible_data.json'),
+      dest_collection: undefined,
+      insert_on_submit: false,
+      submitter: 'wf-variables',
+      output_variables: {},
+      slug: "is-muscle-us-visible",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Markers visibility",
+      key: "are-markers-visible",
+      json_schema: require('./forms/activity/are_markers_visible_schema.json'),
+      ui_schema: require('./forms/activity/are_markers_visible_ui_schema.json'),
+      init_data: require('./forms/activity/are_markers_visible_data.json'),
+      dest_collection: undefined,
+      insert_on_submit: false,
+      submitter: 'wf-variables',
+      output_variables: {},
+      slug: "are-markers-visible",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Trial quality",
+      key: "was-trial-bad",
+      json_schema: require('./forms/activity/was_trial_bad_schema.json'),
+      ui_schema: require('./forms/activity/was_trial_bad_ui_schema.json'),
+      init_data: require('./forms/activity/was_trial_bad_data.json'),
+      dest_collection: undefined,
+      insert_on_submit: false,
+      submitter: 'wf-variables',
+      output_variables: {},
+      slug: "was-trial-bad",
     };
     forms.push(form);
 
@@ -720,6 +974,20 @@ function dummyData(verbose, fillLevel) {
     forms.push(form);
 
     form = {
+      title: "Insert/update optoelectronic marker",
+      key: "insert-update-opto-marker",
+      json_schema: require('./forms/device/opto_marker_schema.json'),
+      ui_schema: require('./forms/device/opto_marker_ui_schema.json'),
+      init_data: {},
+      dest_collection: 'devices',
+      insert_on_submit: true,
+      submitter: 'direct',
+      output_variables: {},
+      slug: "insert-update-opto-marker",
+    };
+    forms.push(form);
+
+    form = {
       title: "Insert/update optoelectronic system",
       key: "insert-update-opto-system",
       json_schema: require('./forms/device/opto_system_schema.json'),
@@ -730,6 +998,20 @@ function dummyData(verbose, fillLevel) {
       submitter: 'direct',
       output_variables: {},
       slug: "insert-update-opto-system",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Insert/update signal converter",
+      key: "insert-update-signal-converter",
+      json_schema: require('./forms/device/signal_converter_schema.json'),
+      ui_schema: require('./forms/device/signal_converter_ui_schema.json'),
+      init_data: {},
+      dest_collection: 'devices',
+      insert_on_submit: true,
+      submitter: 'direct',
+      output_variables: {},
+      slug: "insert-update-signal-converter",
     };
     forms.push(form);
 

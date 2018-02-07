@@ -56,6 +56,9 @@ schemasConfig.forEach(schemaInfo => {
   model.getJSONSchema = () => {
     return jsonSchemaRaw;
   };
+  model.getTitle = () => {
+    return schemaInfo.collection_title;
+  };
   model.findNoValidate = function(spec, cb) {
     return this.db.find(this, spec).nodeify(cb);
   }.bind(model);

@@ -1,0 +1,12 @@
+
+:global(.popover-custom > .popover-inner) {
+  max-width: none;
+  background-color: black;
+  white-space: nowrap;
+  margin:0;
+  padding:0;
+  color:gray;
+  border: 0px solid #062e56;
+}
+
+.bug-avoider {} /* if no locals are present, webpack gives a en error "content is not defined" */

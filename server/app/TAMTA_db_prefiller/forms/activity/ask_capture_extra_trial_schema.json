@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "capture_extra_trial": {
+      "type": "boolean",
+      "title": "Capture another trial ?",
+      "default": true
+    }
+  }
+}

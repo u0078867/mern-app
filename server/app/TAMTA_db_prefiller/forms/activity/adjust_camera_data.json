@@ -1,0 +1,88 @@
+{
+  "name": "Manually move camera position for optimal field of view",
+  "type": "mount-camera",
+  "researchers": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "devices": [
+    {
+      "id": {
+    		"select": "_;items[0].cuid",
+    		"query": "search-api;devices;{{opto_sensor}}",
+      	"__replacer__": true
+      },
+      "roles": ["opto_sensor"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{opto_marker}}",
+        "__replacer__": true
+      },
+      "roles": ["opto_marker"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_probe_holder}}",
+        "__replacer__": true
+      },
+      "roles": ["us_probe_holder"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{opto_acq_computer}}",
+        "__replacer__": true
+      },
+      "roles": ["opto_acq_computer"]
+    }
+  ],
+  "software": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;swtools;{{opto_acq_software}}",
+        "__replacer__": true
+      },
+      "roles": ["opto_acq_software"]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "camera_tilt",
+      "data": [
+        {
+          "name": "value",
+          "uom": "deg"
+        }
+      ]
+    },
+    {
+      "name": "camera_height",
+      "data": [
+        {
+          "name": "value",
+          "uom": "cm"
+        }
+      ]
+    },
+    {
+      "name": "camera_pos_photo"
+    },
+    {
+      "name": "free_text_comment",
+      "data": [
+        {
+          "name": "value"
+        }
+      ]
+    }
+  ]
+}

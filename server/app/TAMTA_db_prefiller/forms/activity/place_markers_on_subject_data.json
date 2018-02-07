@@ -1,5 +1,6 @@
 {
   "name": "Place markers on subject",
+  "type": "place-markers",
   "researchers": [
     {
       "id": {
@@ -36,10 +37,18 @@
   ],
   "outputs": [
     {
-      "name": "markers_placing_quality",
+      "name": "markers_placing_quality_comment",
       "data": [
         {
-          "name": "comment"
+          "name": "value"
+        }
+      ]
+    },
+    {
+      "name": "free_text_comment",
+      "data": [
+        {
+          "name": "value"
         }
       ]
     }

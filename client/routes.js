@@ -22,7 +22,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('./modules/Form/pages/FormDetailPage/FormDetailPage');
   require('./modules/Subm/pages/SubmListPage/SubmListPage');
   require('./modules/Subm/pages/SubmDetailPage/SubmDetailPage');
-  require('./modules/DBData/pages/DataView/DataView');
+  require('MODULE_QUERY/pages/DataView/DataView');
   require('MODULE_DASHBOARD/pages/DashboardPage/DashboardPage');
 
   require('LOGGED_CONTAINER_CLASS/LoggedInContainer');
@@ -100,10 +100,10 @@ export default (
           />
 
           <Route
-            path="/db-data"
+            path="/query"
             getComponent={(nextState, cb) => {
               require.ensure([], require => {
-                cb(null, require('./modules/DBData/pages/DataView/DataView').default);
+                cb(null, require('MODULE_QUERY/pages/DataView/DataView').default);
               });
             }}
           />

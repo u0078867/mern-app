@@ -12,6 +12,10 @@
       "type": "string",
       "title": "Registered by"
     },
+    "type": {
+      "type": "string",
+      "title": "Type"
+    },
     "name": {
       "type": "string",
       "title": "Name"
@@ -177,23 +181,23 @@
           "properties": {
             "cuid": {
               "type": "string",
-              "title": "CUID"
+              "title": " "
             },
             "name": {
               "type": "string",
               "title": "Name",
-              "default": "motion_quality",
+              "default": "probe_contact_quality_comment",
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "motion_quality" ],
-                  "title": "Motion quality"
+                  "enum": [ "probe_contact_quality_comment" ],
+                  "title": "Probe contact quality comment"
                 }
               ]
             },
             "data": {
               "type": "array",
-              "title": "Data",
+              "title": " ",
               "items": [
                 {
                   "type": "object",
@@ -201,12 +205,12 @@
                     "name": {
                       "type": "string",
                       "title": "Name",
-                      "default": "probe_contact_quality",
+                      "default": "value",
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [ "probe_contact_quality" ],
-                          "title": "Probe contact quality"
+                          "enum": [ "value" ],
+                          "title": "Value"
                         }
                       ]
                     },
@@ -225,23 +229,23 @@
           "properties": {
             "cuid": {
               "type": "string",
-              "title": "CUID"
+              "title": " "
             },
             "name": {
               "type": "string",
               "title": "Name",
-              "default": "remarks",
+              "default": "free_text_comment",
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "remarks" ],
-                  "title": "Remarks"
+                  "enum": [ "free_text_comment" ],
+                  "title": "Free text comment"
                 }
               ]
             },
             "data": {
               "type": "array",
-              "title": "Data",
+              "title": " ",
               "items": [
                 {
                   "type": "object",
@@ -249,12 +253,12 @@
                     "name": {
                       "type": "string",
                       "title": "Name",
-                      "default": "general_remarks",
+                      "default": "value",
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [ "general_remarks" ],
-                          "title": "General remarks"
+                          "enum": [ "value" ],
+                          "title": "Value"
                         }
                       ]
                     },

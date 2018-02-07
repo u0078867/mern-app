@@ -1,0 +1,41 @@
+{
+  "name": "Perform anthropometric measures",
+  "type": "perform-anthro-measures",
+  "researchers": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "subjects": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;subjects;{{subject}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "name": "lower_leg_length",
+      "data": [
+        {
+          "name": "value",
+          "uom": "cm"
+        }
+      ]
+    },
+    {
+      "name": "free_text_comment",
+      "data": [
+        {
+          "name": "value"
+        }
+      ]
+    }
+  ]
+}

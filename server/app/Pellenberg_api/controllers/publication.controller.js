@@ -1,4 +1,5 @@
-import {getItems, getItem} from './entity.controller';
+import { getAllPublications } from '../dataServices/publication.service';
+import { publicationLoader } from '../dataLoaders/publication';
 
 /**
  * Get all publications
@@ -7,8 +8,13 @@ import {getItems, getItem} from './entity.controller';
  * @returns void
  */
 export function getPublications(req, res) {
-  req.params.collection = 'publications';
-  return getItems(req, res);
+  getAllPublications()
+  .then(items => {
+    res.json({ items });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }
 
 /**
@@ -18,6 +24,11 @@ export function getPublications(req, res) {
  * @returns void
  */
 export function getPublication(req, res) {
-  req.params.collection = 'publications';
-  return getItem(req, res);
+  publicationLoader.load(req.params.cuid)
+  .then(item => {
+    res.json({ item });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

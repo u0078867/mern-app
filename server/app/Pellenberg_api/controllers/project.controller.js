@@ -1,4 +1,5 @@
-import {getItems, getItem} from './entity.controller';
+import { getAllProjects } from '../dataServices/project.service';
+import { projectLoader } from '../dataLoaders/project';
 
 /**
  * Get all projects
@@ -7,8 +8,13 @@ import {getItems, getItem} from './entity.controller';
  * @returns void
  */
 export function getProjects(req, res) {
-  req.params.collection = 'projects';
-  return getItems(req, res);
+  getAllProjects()
+  .then(items => {
+    res.json({ items });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }
 
 /**
@@ -18,6 +24,11 @@ export function getProjects(req, res) {
  * @returns void
  */
 export function getProject(req, res) {
-  req.params.collection = 'projects';
-  return getItem(req, res);
+  projectLoader.load(req.params.cuid)
+  .then(item => {
+    res.json({ item });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

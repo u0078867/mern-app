@@ -1,5 +1,6 @@
 {
   "ui:order": [
+    "cuid",
     "registered_by",
     "name",
     "description",
@@ -7,6 +8,13 @@
     "end_period",
     "uri"
   ],
+  "cuid": {
+    "ui:widget": "form-filler",
+    "ui:options": {
+      "collection": "projects"
+    },
+    "ui:description": "(leave empty to create new data, insert existing to edit data)"
+  },
   "registered_by": {
     "ui:readonly": true,
     "ui:widget": "text-cache",

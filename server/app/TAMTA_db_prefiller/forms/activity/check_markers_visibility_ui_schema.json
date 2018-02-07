@@ -1,0 +1,184 @@
+{
+  "ui:order": [
+    "name",
+    "type",
+    "cuid",
+    "registered_by",
+    "session",
+    "datetime_ended",
+    "researchers",
+    "devices",
+    "software",
+    "outputs"
+  ],
+  "name": {
+    "ui:readonly": true
+  },
+  "type": {
+    "ui:readonly": true
+  },
+  "cuid": {
+    "ui:widget": "form-filler",
+    "ui:options": {
+      "collection": "activities"
+    },
+    "ui:description": "(leave empty to create new data, insert existing to edit data)"
+  },
+  "registered_by": {
+    "ui:readonly": true,
+    "ui:widget": "text-cache",
+    "ui:options": {
+      "path": "user.cuid"
+    }
+  },
+  "session": {
+    "ui:widget": "text-cache",
+    "ui:options": {
+      "path": "session"
+    }
+  },
+  "datetime_ended": {
+    "ui:widget": "curr-datetime",
+    "ui:options": {
+      "auto_current": {
+        "valueFromVar": "auto_current",
+        "__replacer__": true
+      }
+    }
+  },
+  "researchers": {
+    "items": {
+      "id": {
+        "ui:widget": "researcher"
+      }
+    }
+  },
+  "devices": {
+    "items": {
+      "id": {
+        "ui:widget": "device"
+      },
+      "roles": {
+        "classNames": "col-md-12"
+      }
+    }
+  },
+  "software": {
+    "items": {
+      "id": {
+        "ui:widget": "software"
+      },
+      "roles": {
+        "classNames": "col-md-12"
+      }
+    }
+  },
+  "outputs": {
+    "items": [
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "Indicate occluded markers, for which motions, ..."
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-4"
+            },
+            "value": {
+              "classNames": "col-md-4"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6",
+              "ui:widget": "textarea"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6",
+              "ui:widget": "textarea"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "ui:field": "layout",
+  "ui:layout": [
+    {
+      "name": { "md": 12 }
+    },
+    {
+      "type": { "md": 12 }
+    },
+    {
+      "cuid": { "md": 12 }
+    },
+    {
+      "registered_by": { "md": 12 }
+    },
+    {
+      "session": { "md": 12 }
+    },
+    {
+      "datetime_ended": { "md": 12 }
+    },
+    {
+      "researchers": {
+        "md": 12,
+        "container": "collapsible",
+        "containerOptions": {
+          "title": "researchers"
+        }
+      }
+    },
+    {
+      "devices": {
+        "md": 12,
+        "container": "collapsible",
+        "containerOptions": {
+          "title": "devices"
+        }
+      }
+    },
+    {
+      "software": {
+        "md": 12,
+        "container": "collapsible",
+        "containerOptions": {
+          "title": "software"
+        }
+      }
+    },
+    {
+      "outputs": { "md": 12 }
+    }
+  ]
+}

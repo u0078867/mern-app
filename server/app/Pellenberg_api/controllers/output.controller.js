@@ -1,4 +1,5 @@
-import Models from 'MODELS_PATH/entity';
+import { getAllOutputs } from '../dataServices/output.service';
+import { outputLoader } from '../dataLoaders/output';
 
 /**
  * Get all outputs
@@ -7,15 +8,13 @@ import Models from 'MODELS_PATH/entity';
  * @returns void
  */
 export function getOutputs(req, res) {
-  let Model = Models['activities'];
-  Model.findNoValidate([
-    { $unwind : "$outputs" }
-  ], (err, items) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
+  getAllOutputs()
+  .then(items => {
     res.json({ items });
-  });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }
 
 /**
@@ -25,23 +24,11 @@ export function getOutputs(req, res) {
  * @returns void
  */
 export function getOutput(req, res) {
-  let Model = Models['activities'];
-  //Model.find([
-  Model.findNoValidate([
-    { $match: {"outputs.cuid": req.params.cuid}},
-    { $unwind: "$outputs" },
-    { $match: {"outputs.cuid": req.params.cuid}},
-    { $addFields: {"output": "$outputs" } },
-    { $project: { 'outputs': 0 } },
-    { $addFields: {"output.activity": '$$CURRENT' } },
-    { $replaceRoot: { newRoot: "$output" } },
-    { $project: { 'activity.output': 0 } },
-  ], (err, outputs) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    var output = undefined;
-    if (outputs) output = outputs[0];
-    res.json({ item: output });
-  });
+  outputLoader.load(req.params.cuid)
+  .then(item => {
+    res.json({ item });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

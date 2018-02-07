@@ -9,7 +9,7 @@ import styles from './LoggedInContainer.css';
 import Services from './components/Services';
 import Cache from './components/Cache/Cache';
 import WorkFlowEngine from './components/WorkFlowEngine/WorkFlowEngine';
-import GlobalVariables from './components/GlobalVariables/GlobalVariables';
+import Profile from './components/Profile/Profile';
 import SessionManager from './components/SessionRecorder/SessionManager';
 
 import {
@@ -38,6 +38,7 @@ export class LoggedInContainer extends Component {
     super(props);
     this.state = {
       tasks: [],
+      currentTaskId: null,
     }
   }
 
@@ -121,13 +122,17 @@ export class LoggedInContainer extends Component {
         this.props.dispatch(updateGlobalVariables(task.parentContext.variables));
         // Redirect to form
         console.log(task.parentContext.variables);
-        this.redirectToForm(`${form.slug}-${form.cuid}`, task.parentContext.variables);
+        this.setState({ currentTaskId: task.id }, () => {
+          this.redirectToForm(`${form.slug}-${form.cuid}`, task.parentContext.variables);
+        });
       });
     } else {
       this.deleteTask();
       console.log('Corresponding form not found');
       this.showProceed('Corresponding form not found');
-      this.context.router.push('/forms')
+      this.setState({ currentTaskId: task.id }, () => {
+        this.context.router.push('/forms')
+      });
     }
   }
 
@@ -174,7 +179,7 @@ export class LoggedInContainer extends Component {
             data={[
               {'label': 'Work-flow engine'},
               {'label': 'Cache'},
-              {'label': 'Global variables'},
+              {'label': 'Profile'},
               {'label': 'Session recorder / re-player'},
             ]}
           >
@@ -183,10 +188,11 @@ export class LoggedInContainer extends Component {
               onStart={this.onStart}
               onStop={this.onStop}
               onComplete={this.onComplete}
+              currentTaskId={this.state.currentTaskId}
               listenTopic="wf-engine-int"
             />
             <Cache onNewValue={this.updateCache}/>
-            <GlobalVariables onVarsLoad={this.onGlobalVarsUpload}/>
+            <Profile onVarsLoad={this.onGlobalVarsUpload}/>
             <SessionManager
               listenTopic="sess-rec-int"
               onSessionNameChange={this.onSessionNameChange}
@@ -200,7 +206,7 @@ export class LoggedInContainer extends Component {
             <NavItem eventKey="dashboard">Dashboard</NavItem>
             <NavItem eventKey="forms">Forms</NavItem>
             {/*<NavItem eventKey="subms" disabled>Submissions</NavItem>*/}
-            <NavItem eventKey="db-data">Database data</NavItem>
+            <NavItem eventKey="query">Query database data</NavItem>
           </Nav>
         </Tab.Container>
 

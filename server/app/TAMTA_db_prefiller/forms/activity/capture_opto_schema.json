@@ -12,6 +12,10 @@
       "type": "string",
       "title": "Registered by"
     },
+    "type": {
+      "type": "string",
+      "title": "Type"
+    },
     "name": {
       "type": "string",
       "title": "Name"
@@ -190,7 +194,7 @@
     },
     "data": {
       "type": "array",
-      "title": "Data",
+      "title": " ",
       "items": {
         "type": "object",
         "properties": {
@@ -207,13 +211,23 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "camera_pos" ],
-                  "title": "Camera position"
+                  "enum": [ "camera_tilt" ],
+                  "title": "Camera tilt"
                 },
                 {
                   "type": "string",
-                  "enum": [ "opto_acq_software_params" ],
-                  "title": "Optoelectronic acquisition software parameters"
+                  "enum": [ "camera_height" ],
+                  "title": "Camera height"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "camera_pos_photo" ],
+                  "title": "Camera position photo(s)"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "opto_acq_software_acq_freq" ],
+                  "title": "Optoelectronic acquisition software acquisition frequency"
                 }
               ]
             }
@@ -230,7 +244,7 @@
           "properties": {
             "cuid": {
               "type": "string",
-              "title": "CUID"
+              "title": " "
             },
             "name": {
               "type": "string",
@@ -267,7 +281,7 @@
             },
             "metadata": {
               "type": "array",
-              "title": "Meta-data",
+              "title": " ",
               "items": [
                 {
                   "type": "object",
@@ -286,6 +300,54 @@
                     },
                     "value": {
                       "type": "number",
+                      "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "free_text_comment",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "free_text_comment" ],
+                  "title": "Free text comment"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "string",
                       "title": "Value"
                     }
                   }

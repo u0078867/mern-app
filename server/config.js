@@ -8,7 +8,7 @@ const config = {
   schemasDir: process.env.SCHEMAS_DIR || './FIBEr_schemas',
   osmosDriver: process.env.OSMOS_DRIVER || 'mongo',
   minioUrl: process.env.MINIO_URL || 'play.minio.io',
-  minioPort: process.env.MINIO_PORT || 9000,
+  minioPort: parseInt(process.env.MINIO_PORT) || 9000,
   minioAccessKey: process.env.MINIO_ACCESS_KEY || 'Q3AM3UQ867SPQQA43P2F',
   minioSecretKey: process.env.MINIO_SECRET_KEY || 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG',
   minioBucket: process.env.MINIO_BUCKET || 'upload',

@@ -1,8 +1,17 @@
 {
   "ui:order": [
+    "cuid",
     "registered_by",
+    "title",
     "uri"
   ],
+  "cuid": {
+    "ui:widget": "form-filler",
+    "ui:options": {
+      "collection": "publications"
+    },
+    "ui:description": "(leave empty to create new data, insert existing to edit data)"
+  },
   "registered_by": {
     "ui:readonly": true,
     "ui:widget": "text-cache",

@@ -12,6 +12,10 @@
       "type": "string",
       "title": "Registered by"
     },
+    "type": {
+      "type": "string",
+      "title": "Type"
+    },
     "name": {
       "type": "string",
       "title": "Name"
@@ -170,7 +174,7 @@
     },
     "data": {
       "type": "array",
-      "title": "Data",
+      "title": " ",
       "items": {
         "type": "object",
         "properties": {
@@ -187,8 +191,28 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "us_acq_software_params" ],
-                  "title": "Ultrasound acquisition software parameters"
+                  "enum": [ "us_acq_software_image_h" ],
+                  "title": "Ultrasound acquisition software image height"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software_image_w" ],
+                  "title": "Ultrasound acquisition software image width"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software_speckle_reduction_enabled" ],
+                  "title": "Ultrasound acquisition software speckle reduction enabled"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software_dynamic_range_enabled" ],
+                  "title": "Ultrasound acquisition software dynamic range enabled"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software_lines_density" ],
+                  "title": "Ultrasound acquisition software lines density"
                 }
               ]
             }
@@ -205,7 +229,7 @@
           "properties": {
             "cuid": {
               "type": "string",
-              "title": "CUID"
+              "title": " "
             },
             "name": {
               "type": "string",
@@ -242,7 +266,7 @@
             },
             "metadata": {
               "type": "array",
-              "title": "Meta-data",
+              "title": " ",
               "items": [
                 {
                   "type": "object",
@@ -261,6 +285,54 @@
                     },
                     "value": {
                       "type": "number",
+                      "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "free_text_comment",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "free_text_comment" ],
+                  "title": "Free text comment"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "string",
                       "title": "Value"
                     }
                   }

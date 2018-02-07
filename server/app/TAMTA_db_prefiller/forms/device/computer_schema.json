@@ -101,12 +101,12 @@
             "uom": {
               "type": "string",
               "title": "Measurement unit",
-              "default": "hz",
+              "default": "ghz",
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "hz" ],
-                  "title": "Hz"
+                  "enum": [ "ghz" ],
+                  "title": "GHz"
                 }
               ]
             }

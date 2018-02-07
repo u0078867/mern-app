@@ -1,0 +1,332 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "type": {
+      "type": "string",
+      "title": "Type"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "session": {
+      "type": "string",
+      "title": "Session"
+    },
+    "datetime_ended": {
+      "type": "string",
+      "title": "Date/time of ending"
+    },
+    "researchers": {
+      "type": "array",
+      "title": "Researchers",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        }
+      }
+    },
+    "devices": {
+      "type": "array",
+      "title": "Devices",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "roles": {
+            "type": "array",
+            "title": "Roles",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "opto_sensor" ],
+                  "title": "Optoelectronic sensor"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "opto_marker" ],
+                  "title": "Optoelectronic marker"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_probe_holder" ],
+                  "title": "Ultrasound probe holder"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "opto_acq_computer" ],
+                  "title": "Optoelectronic acquisition computer"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "software": {
+      "type": "array",
+      "title": "Software",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "roles": {
+            "type": "array",
+            "title": "Roles",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "opto_acq_software" ],
+                  "title": "Optoelectronic acquisition software"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "title": "Outputs",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "camera_tilt",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "camera_tilt" ],
+                  "title": "Camera tilt"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": "Data",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "deg",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "deg" ],
+                          "title": "deg"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "camera_height",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "camera_height" ],
+                  "title": "Camera height"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": "Data",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "cm",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "cm" ],
+                          "title": "cm"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "camera_pos_photo",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "camera_pos_photo" ],
+                  "title": "Camera position photo(s)"
+                }
+              ]
+            },
+            "files_data": {
+              "title": " ",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "storage_uri": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "number"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "free_text_comment",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "free_text_comment" ],
+                  "title": "Free text comment"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

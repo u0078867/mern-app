@@ -75,6 +75,7 @@ class FormListItem extends Component {
           initialForm={this.props.form}
           cache={this.props.cache}
           variables={this.props.globalVariables}
+          forms={this.props.forms}
         />
         {messageAlert}
         <hr className={styles.divider} />

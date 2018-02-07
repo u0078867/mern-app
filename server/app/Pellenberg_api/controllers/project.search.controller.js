@@ -1,8 +1,13 @@
-import {getItems} from './entity.search.controller';
+import { getProjects as searchProjects } from '../dataServices/project.search.service';
 
 
 
 export function getProjects(req, res) {
-  req.params.collection = 'projects';
-  return getItems(req, res);
+  searchProjects(req.query.q)
+  .then(items => {
+    res.json({ items });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

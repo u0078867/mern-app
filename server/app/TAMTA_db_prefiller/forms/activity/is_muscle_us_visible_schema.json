@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "is_muscle_us_visible_during_setup": {
+      "type": "boolean",
+      "title": "Is muscle visibility suitable ?",
+      "default": true
+    }
+  }
+}

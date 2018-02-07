@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
 import AttributesViewer from './components/AttributesViewer';
+import { getCollectionViewersMap } from 'DATA_VIEWERS';
 import callSearchApi from 'CLIENT_UTIL/apiSearchCaller';
 import callApi from 'CLIENT_UTIL/apiCaller';
-
 import pubsub from 'pubsub-js';
 
 import styles from './ComponentSearch.css';
+
+var Viewer = getCollectionViewersMap()['devices'];
 
 
 class DeviceSearchOption extends Component {
@@ -34,12 +36,7 @@ class DeviceSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        {/*<div><b>CUID:</b> {this.props.option.cuid}</div>
-        <div><b>Name:</b> {this.props.option.name}</div>
-        <div><b>Type:</b> {this.props.option.type}</div>
-        <div><b>Producer:</b> {this.props.option.producer}</div>
-        <div><b>Uri:</b> {this.props.option.uri}</div>*/}
-        <AttributesViewer item={this.props.option} />
+        <Viewer item={this.props.option} forms={this.props.forms} />
       </div>
     );
   }
@@ -51,7 +48,7 @@ class DeviceSearchValue extends Component {
   render() {
     return (
       <div className={styles["select-value"]}>
-        <AttributesViewer item={this.props.value} />
+        <Viewer item={this.props.value} forms={this.props.forms} />
       </div>
     );
   }
@@ -118,8 +115,8 @@ class DeviceSearch extends Component {
           onChange={this.onChange}
           valueKey="cuid" // necessary for right options navigation
           loadOptions={this.getDevices}
-          optionComponent={DeviceSearchOption}
-          valueComponent={DeviceSearchValue}
+          optionComponent={(props) => <DeviceSearchOption {...props} forms={this.props.formContext.forms} />}
+          valueComponent={(props) => <DeviceSearchValue {...props} forms={this.props.formContext.forms} />}
           filterOption={(option, filter) => true} // disables local filtering (already performed server-side)
         />
       </div>

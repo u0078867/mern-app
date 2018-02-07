@@ -1,4 +1,5 @@
-import {getItems, getItem} from './entity.controller';
+import { getAllSWTools } from '../dataServices/swtool.service';
+import { softwareLoader } from '../dataLoaders/software';
 
 /**
  * Get all software tools
@@ -7,8 +8,13 @@ import {getItems, getItem} from './entity.controller';
  * @returns void
  */
 export function getSWTools(req, res) {
-  req.params.collection = 'swtools';
-  return getItems(req, res);
+  getAllSWTools()
+  .then(items => {
+    res.json({ items });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }
 
 /**
@@ -18,6 +24,11 @@ export function getSWTools(req, res) {
  * @returns void
  */
 export function getSWTool(req, res) {
-  req.params.collection = 'swtools';
-  return getItem(req, res);
+  softwareLoader.load(req.params.cuid)
+  .then(item => {
+    res.json({ item });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

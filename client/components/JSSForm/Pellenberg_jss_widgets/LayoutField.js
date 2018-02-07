@@ -2,7 +2,9 @@ import React from 'react'
 import ObjectField from 'react-jsonschema-form/lib/components/fields/ObjectField'
 import { retrieveSchema } from 'react-jsonschema-form/lib/utils'
 import { Col } from 'react-bootstrap'
-//import CollapsibleViewer from './components/CollapsibleViewer'
+
+//import './myStyles.css'
+
 
 export default class GridField extends ObjectField {
   state = { firstName: 'hasldf' }
@@ -18,7 +20,7 @@ export default class GridField extends ObjectField {
       formData
     } = this.props
     const { definitions, widgets, fields, formContext } = this.props.registry
-    const viewers = formContext.viewers
+    const containers = formContext.containers
     const { SchemaField, TitleField, DescriptionField } = fields
     const schema = retrieveSchema(this.props.schema, definitions)
     const title = (schema.title === undefined) ? '' : schema.title
@@ -49,8 +51,13 @@ export default class GridField extends ObjectField {
                       style = { display: 'none' }
                     }
                     if (schema.properties[name]) {
-                      return (
-                          <Col {...rowProps} key={index} style={style}>
+                      let container = row[name].container
+                      let containerOptions = row[name].containerOptions
+                      let ContainerComponent = containers[container]
+                      var content;
+                      if (ContainerComponent) {
+                        content = (
+                          <ContainerComponent options={containerOptions}>
                             <SchemaField
                                name={name}
                                required={this.isRequired(name)}
@@ -63,22 +70,44 @@ export default class GridField extends ObjectField {
                                onBlur={onBlur}
                                registry={this.props.registry}
                                disabled={disabled}
-                               readonly={readonly}/>
-                          </Col>
+                               readonly={readonly}
+                            />
+                          </ContainerComponent>
+                        )
+                      } else {
+                        content = (<SchemaField
+                           name={name}
+                           required={this.isRequired(name)}
+                           schema={schema.properties[name]}
+                           uiSchema={uiSchema[name]}
+                           errorSchema={errorSchema[name]}
+                           idSchema={idSchema[name]}
+                           formData={formData[name]}
+                           onChange={this.onPropertyChange(name)}
+                           onBlur={onBlur}
+                           registry={this.props.registry}
+                           disabled={disabled}
+                           readonly={readonly}
+                        />)
+                      }
+                      return (
+                        <Col {...rowProps} key={index} style={style}>
+                          {content}
+                        </Col>
                       )
                     } else if (row[name].layout) {
                       const { layout, ...rowProps } = row[name]
                       let schema_ = Object.assign({}, schema, {'title': undefined})
                       let uiSchema_ = Object.assign({}, uiSchema, {'ui:layout': layout})
-                      let viewer = row[name].viewer
-                      let viewerOptions = row[name].viewerOptions
-                      let ViewerComponent = viewers[viewer]
+                      let container = row[name].container
+                      let containerOptions = row[name].containerOptions
+                      let ContainerComponent = containers[container]
                       var content;
-                      if (ViewerComponent) {
+                      if (ContainerComponent) {
                         content = (
-                          <ViewerComponent options={viewerOptions}>
+                          <ContainerComponent options={containerOptions}>
                             <GridField {...this.props} schema={schema_} uiSchema={uiSchema_} />
-                          </ViewerComponent>
+                          </ContainerComponent>
                         )
                       } else {
                         content = (<GridField {...this.props} schema={schema_} uiSchema={uiSchema_} />)

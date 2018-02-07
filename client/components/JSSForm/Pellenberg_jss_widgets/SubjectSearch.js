@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
 import AttributesViewer from './components/AttributesViewer';
+import { getCollectionViewersMap } from 'DATA_VIEWERS';
 import callSearchApi from 'CLIENT_UTIL/apiSearchCaller';
 import callApi from 'CLIENT_UTIL/apiCaller';
 
 import styles from './ComponentSearch.css';
+
+var Viewer = getCollectionViewersMap()['subjects'];
 
 class SubjectSearchOption extends Component {
 
@@ -31,12 +34,7 @@ class SubjectSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        <AttributesViewer item={this.props.option} />
-        {/*<div><b>CUID:</b> {this.props.option.cuid}</div>
-        <div><b>Attributes:</b></div>
-        {this.props.option.attributes && this.props.option.attributes.map(attribute => {
-          return <div style={{paddingLeft: "10px"}} key={Math.random()}><b>{attribute.name}:</b> {attribute.value}</div>;
-        })}*/}
+        <Viewer item={this.props.option} forms={this.props.forms} />
       </div>
     );
   }
@@ -48,7 +46,7 @@ class SubjectSearchValue extends Component {
   render() {
     return (
       <div className={styles["select-value"]}>
-        <AttributesViewer item={this.props.value} />
+        <Viewer item={this.props.value} forms={this.props.forms} />
       </div>
     );
   }
@@ -107,8 +105,8 @@ class SubjectSearch extends Component {
           onChange={this.onChange}
           valueKey="cuid" // necessary for right options navigation
           loadOptions={this.getSubjects}
-          optionComponent={SubjectSearchOption}
-          valueComponent={SubjectSearchValue}
+          optionComponent={(props) => <SubjectSearchOption {...props} forms={this.props.formContext.forms} /> }
+          valueComponent={(props) => <SubjectSearchValue {...props} forms={this.props.formContext.forms} />}
           filterOption={(option, filter) => true} // disables local filtering (already performed server-side)
         />
       </div>

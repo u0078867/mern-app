@@ -1,4 +1,4 @@
-
+import './WorkFlowViewer.css';
 
 import React from 'react';
 import {
@@ -21,6 +21,17 @@ const camundaModdle = require('camunda-bpmn-moddle/resources/camunda.json');
 //const EventEmitter = require('eventemitter3');
 const EventEmitter = require('events').EventEmitter;
 
+// Import viewer
+let BpmnViewer;
+let viewer;
+if (typeof window !== 'undefined') {
+  BpmnViewer = require('bpmn-js');
+  viewer = new BpmnViewer();
+}
+import PopoutWindow from 'react-popout';
+import WorkFlowViewer from './WorkFlowViewer';
+
+// Import pubsub
 import pubsub from 'pubsub-js';
 
 
@@ -31,9 +42,10 @@ class WorkFlowEngine extends React.Component {
     super(props);
     this.state = {
       status: 'idle',
-      waitingTask: null,
+      waitingTasks: [],
       showMessage: false,
       clientMessage: '',
+      showViewer: false,
     };
     this.engine = null;
     this.engineState = null;
@@ -114,10 +126,11 @@ class WorkFlowEngine extends React.Component {
         camunda: camundaModdle
       }
     });
+    console.log('engine created')
 
     // Init waiting task
     this.setState({
-      waitingTask: null
+      waitingTasks: []
     })
 
     // Create engine events listener
@@ -133,7 +146,7 @@ class WorkFlowEngine extends React.Component {
       task.varDefinitions = this.varDefinitions;
       task.updateVariables = this.updateVariables;
       // Save waiting task
-      this.setState({ waitingTask: task }, () => {
+      this.setState({ waitingTasks: [].concat(this.state.waitingTasks, [task]) }, () => {
         this.props.onWait(task, this.showProceed);
       })
     });
@@ -148,6 +161,11 @@ class WorkFlowEngine extends React.Component {
 
     this.listener.on('end', (task, instance) => {
       console.log(`${task.type} <${task.id}> of ${instance.id} is ended`);
+      let idx = this.state.waitingTasks.findIndex(wt => wt.id == task.id);
+      if (idx >= 0) {
+        this.state.waitingTasks.splice(idx, 1);
+        this.setState({ waitingTasks: [].concat(this.state.waitingTasks) });
+      }
     });
 
     this.listener.on('taken', (flow) => {
@@ -258,7 +276,7 @@ class WorkFlowEngine extends React.Component {
   }
 
   onContinueWaitingTask = () => {
-    this.onContinue(this.state.waitingTask.id);
+    this.onContinue(this.state.waitingTasks[0].id);
   }
 
   onFileLoad = (event) => {
@@ -268,11 +286,24 @@ class WorkFlowEngine extends React.Component {
     var reader = new FileReader();
     reader.onload = event => {
       var content = reader.result;
+      // Create engine
       this.process = content;
       this.createEngine(this.process);
-      this.setState({
-        status: 'ready'
-      })
+      // Create viewer
+      viewer.importXML(content, (err) => {
+        if (err) {
+          console.log(err);
+          console.log('Error importing viewer data');
+          this.setState({
+            status: 'crashed'
+          });
+        } else {
+          console.log('Viewer data imported');
+          this.setState({
+            status: 'ready'
+          });
+        }
+      });
     }
     if (file) {
       reader.readAsText(file);
@@ -292,6 +323,14 @@ class WorkFlowEngine extends React.Component {
     if (file) {
       reader.readAsText(file);
     }
+  }
+
+  onCloseViewer = () => {
+    this.setState({showViewer: false});
+  }
+
+  onOpenViewer = () => {
+    this.setState({showViewer: true});
   }
 
 
@@ -316,7 +355,6 @@ class WorkFlowEngine extends React.Component {
         labelStatus = 'warning';
         break;
     }
-    var task = this.state.waitingTask;
     return (
       <div className={styles['content']}>
         <FormGroup>
@@ -334,15 +372,27 @@ class WorkFlowEngine extends React.Component {
             <Button onClick={this.onPause}><Glyphicon glyph="pause" /></Button>
             {' '}
             <Label bsStyle={labelStatus}>{this.state.status}</Label>
+            {' '}
+            <a onClick={this.onOpenViewer}>show current task</a>
           </FormGroup>
         </Form>
         <FormGroup>
-          <FormControl.Static><strong>Waiting activity:</strong> {task ? task.name : null}</FormControl.Static>
+          <FormControl.Static><strong>Waiting activities number:</strong> {this.state.waitingTasks.length}</FormControl.Static>
         </FormGroup>
         {this.state.showMessage ?
           <FormGroup>
             <FormControl.Static>{this.state.clientMessage}.&nbsp;<a style={{cursor: 'pointer'}} onClick={this.onContinueWaitingTask}>Proceed</a>&nbsp;with the work-flow.</FormControl.Static>
           </FormGroup>
+        : null}
+        {this.state.showViewer ?
+          <PopoutWindow title='Worfk-flow' onClosing={this.onCloseViewer} options={{position: "relative", height: '600px', width: '1000px'}}>
+            <WorkFlowViewer
+              viewer={viewer}
+              height="600px"
+              width="1000px"
+              currentTask={this.props.currentTaskId}
+            />
+          </PopoutWindow>
         : null}
       </div>
     )

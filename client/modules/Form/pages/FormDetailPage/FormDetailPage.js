@@ -23,7 +23,7 @@ import { addSubmRequest, fetchSubm, updateSubmRequest, acceptSubmRequest } from 
 import { updateGlobalVariables } from 'MODULE_APP/AppActions';
 
 // Import Selectors
-import { getForm, getCache } from '../../FormReducer';
+import { getForm, getForms, getCache } from '../../FormReducer';
 import { getGlobalVariables } from 'MODULE_APP/AppReducer';
 
 //var Submitter = null;
@@ -43,6 +43,7 @@ class FormDetailPage extends Component {
       message: null,
       showMessage: false,
       submitter: null,
+      localVariables: {},
     };
     this.sender = new OutPortFeeder({dataOutPort: 'wf-task-exit'});
   }
@@ -50,16 +51,40 @@ class FormDetailPage extends Component {
   initializeForm = (props, cb) => {
     console.log(props)
     console.log('initializing form')
+    let variables = Object.assign({}, props.variables, this.state.localVariables);
+    console.log(variables)
     fillFormJSONProps({
       JSONSchema: props.form.json_schema,
       UISchema: props.form.ui_schema,
       initData: props.form.init_data,
-      variables: props.variables
+      variables: variables
     })
     .then(converted => {
       this.setState(converted, () => {
-        console.log(props)
+        console.log(converted)
         this.setFormData(props);
+        if (cb) cb();
+      })
+    })
+  }
+
+  initializeFormNoInitData = (props, cb) => {
+    console.log(props)
+    console.log('initializing form (no init data)')
+    let variables = Object.assign({}, props.variables, this.state.localVariables);
+    fillFormJSONProps({
+      JSONSchema: props.form.json_schema,
+      UISchema: props.form.ui_schema,
+      initData: {},
+      variables: variables
+    })
+    .then(converted => {
+      let { convertedJSONSchema, convertedUISchema} = converted;
+      console.log(convertedUISchema)
+      this.setState({
+        convertedJSONSchema,
+        convertedUISchema,
+      }, () => {
         if (cb) cb();
       })
     })
@@ -104,6 +129,7 @@ class FormDetailPage extends Component {
         message: null,
         showMessage: false,
         isFormRefreshing: true,
+        localVariables: {},
       }, () => {
         console.log(nextProps.form)
         //this.initializeForm(nextProps);
@@ -144,6 +170,14 @@ class FormDetailPage extends Component {
   onUpdateFormData = (data) => {
     let formData = Object.assign({}, this.state.formData, data);
     this.onChange({formData});
+  }
+
+  onUpdateLocalVariables = (vars, cb) => {
+    let localVariables = Object.assign({}, this.state.localVariables, vars);
+    console.log(localVariables);
+    this.setState({ localVariables }, () => {
+      this.initializeFormNoInitData(this.props, cb);
+    });
   }
 
   onClick = (o) => {
@@ -191,6 +225,8 @@ class FormDetailPage extends Component {
     let formContext = {
       cache: this.props.cache,
       updateFormData: this.onUpdateFormData,
+      updateLocalVariables: this.onUpdateLocalVariables,
+      forms: this.props.forms,
     };
     const Submitter = this.state.submitter;
     return (
@@ -254,6 +290,7 @@ function parseInitDataFromURL(d) {
 function mapStateToProps(state, props) {
   return {
     form: getForm(state, props.params.cuid),
+    forms: getForms(state), // to be passed to JSSForm widgets via context
     cache: getCache(state),
     initData: parseInitDataFromURL(props.location.query.d),
     variables: getGlobalVariables(state),

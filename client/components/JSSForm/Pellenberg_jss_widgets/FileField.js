@@ -1,14 +1,23 @@
 import React, { PropTypes, Component } from "react";
 import fetch from 'isomorphic-fetch';
-import callApi, {uploadFile, uploadFileMinIO} from 'CLIENT_UTIL/apiCaller';
+import callApi from 'CLIENT_UTIL/apiCaller';
+import { MinIOUploader } from 'CLIENT_UTIL/minioHelper';
+import { formatBytes } from 'CLIENT_UTIL/fileUtils';
 import {
   FormGroup,
   FormControl,
+  ControlLabel,
   InputGroup,
   Button,
   ProgressBar,
   Alert,
+  Glyphicon,
+  Panel,
+  Grid,
+  Row,
+  Col,
 } from 'react-bootstrap';
+import pubsub from 'pubsub-js';
 
 
 
@@ -47,61 +56,64 @@ class FileField extends Component {
     })
   }
 
-  onClear = event => {
+  removeAllFiles = event => {
+    pubsub.publish('uploaded_file', 'remove');
+  }
+
+  removeFile = (fileInfo) => {
+    let filesInfo = this.state.filesInfo;
+    let values = this.state.values;
+    let idx = filesInfo.findIndex(e => e.storage_uri == fileInfo.storage_uri);
     const { onChange } = this.props;
+    filesInfo.splice(idx, 1);
+    values.splice(idx, 1);
+    filesInfo = [].concat(filesInfo);
+    values = [].concat(values);
     this.setState({
-      filesInfo: [],
-      uploads: [],
-      values: [],
-    }, () => onChange([]));
+      filesInfo,
+      values,
+      showMessage: false,
+    }, () => {
+      onChange(values);
+    });
   }
 
   onChange = event => {
     const { multiple, onChange } = this.props;
     let files = event.target.files;
     this.setState({
-      filesInfo: [],
       uploads: [].map.call(files, file => {
         return {
-          file: file.name,
-          progress: 0,
-        }
-      })
-    }, () => {
-
-      processFiles(files, this.onProgress)
-      .then(filesInfo => {
-        const state = {
-          values: JSON.parse(JSON.stringify(filesInfo)),
-          filesInfo,
-          showMessage: false,
+          file
         };
-        this.setState(state, () => {
-          onChange(state.values);
-        });
       })
-      .catch(err => {
-        this.setState({
-          showMessage: true,
-          message: (
-            <Alert
-              bsStyle="danger"
-              onDismiss={() => this.setState({showMessage: false})}
-            >
-              <p><strong>Error</strong> while uploading file:</p>
-              <pre>{JSON.stringify(err, null, 2)}</pre>
-            </Alert>
-          )
-        })
-      })
-
     })
-
   };
 
-  onProgress = (pct, fileName) => {
+  createFile = (file, uploaded) => {
+    let fileInfo = createFileInfo(file, uploaded);
+    this.addFile(fileInfo);
+    this.removeUpload(file.name);
+  }
+
+  addFile = (fileInfo) => {
+    const { onChange } = this.props;
+    let filesInfo = this.state.filesInfo;
+    filesInfo = [].concat(filesInfo, fileInfo);
+    let values = JSON.parse(JSON.stringify(filesInfo));
+    this.setState({
+      values,
+      filesInfo,
+      showMessage: false,
+    }, () => {
+      onChange(values);
+    });
+  }
+
+  removeUpload = (fileName) => {
     let uploads = [].concat(this.state.uploads);
-    uploads.find(u => u.file == fileName).progress = pct;
+    let idx = uploads.findIndex(u => u.file.name == fileName);
+    uploads.splice(idx, 1);
     this.setState({ uploads });
   }
 
@@ -111,6 +123,7 @@ class FileField extends Component {
     return (
       <div>
         <legend>{this.props.schema.title}</legend>
+        <ControlLabel>Add files</ControlLabel>
         <FormControl
           ref={ref => (this.inputRef = ref)}
           id={id}
@@ -121,55 +134,118 @@ class FileField extends Component {
           autoFocus={autofocus}
           multiple={multiple}
           style={{color: 'transparent'}}
-        /><br/>
+        />
+        <br/>
         {this.state.uploads.map(u => {
-          let progress = parseFloat(u.progress.toFixed(2));
-          return (<ProgressBar key={u.file} now={progress} label={`${progress}% (${u.file})`} />)
+          return (
+            <Upload
+              key={u.file.name}
+              file={u.file}
+              onSuccess={this.createFile}
+              onAbort={this.removeUpload}
+            />
+          )
         })}
         {showMessage ? message : null}
-        <FilesInfo filesInfo={filesInfo} />
-        <Button onClick={this.onClear}>Clear all files</Button><br/>
+        <FilesInfo
+          filesInfo={filesInfo}
+          removeFile={this.removeFile}
+        />
+        <Button onClick={this.removeAllFiles}>Remove all files</Button><br/>
       </div>
     );
   }
 }
 
-/*function processFile(file) {
-  const { name, size, type } = file;
-  return new Promise((resolve, reject) => {
-    uploadFile(file)
-    .then(res => {
-      console.log('response:');
-      console.log(res);
-      resolve({
-        newName: res.newFileName,
-        name,
-        size,
-        type,
-      });
-    });
-  });
-}*/
+class Upload extends Component {
 
-function processFile(file, progressCb) {
-  const { name, size, type } = file;
-  return new Promise((resolve, reject) => {
-    uploadFileMinIO(file, progressCb)
+  constructor(props) {
+    super(props);
+    this.state = {
+      progress: 0,
+      showMessage: false,
+      message: null,
+    };
+  }
+
+  componentDidMount() {
+    this.initUploader();
+    this.upload();
+  }
+
+  onProgress = (pct, fileName) => {
+    this.setState({
+      progress: pct
+    })
+  }
+
+  initUploader = () => {
+    let { file } = this.props;
+    this.uploader = new MinIOUploader(file, {useAlias: true, progressCb: this.onProgress});
+  }
+
+  upload = () => {
+    this.uploader.upload()
     .then(res => {
-      resolve({
-        //newName: res.newFileName,
-        storage_uri: name,
-        name,
-        size,
-        type,
+      let { file } = this.props;
+      this.props.onSuccess(file, res);
+    })
+    .catch(err => {
+      let message = (
+        <Alert
+          bsStyle="danger"
+          onDismiss={() => this.setState({showMessage: false})}
+        >
+          <p><strong>Error</strong> while uploading file:</p>
+          <pre>{JSON.stringify(err, null, 2)}</pre>
+        </Alert>
+      );
+      this.setState({
+        message,
+        showMessage: true,
       });
-    });
-  });
+    })
+  }
+
+  abort = () => {
+    let { file } = this.props;
+    this.uploader.abort();
+    this.props.onAbort(file.name);
+  }
+
+  render() {
+    let { file } = this.props;
+    let { progress, showMessage } = this.state;
+    let progressShort = parseFloat(progress.toFixed(2));
+    return (
+      <div>
+        <Grid>
+          <Row>
+            <Col md={8}>
+              <ProgressBar style={{height:"30px"}} key={file.name} now={progressShort} label={`${progressShort}% (${file.name})`} />
+            </Col>
+            <Col md={1}>
+              <Button bsStyle="link" onClick={this.abort}><Glyphicon glyph="remove" /></Button>
+            </Col>
+          </Row>
+        </Grid>
+        {showMessage ? message : null}
+      </div>
+    )
+  }
+
 }
 
-function processFiles(files, progressCb) {
-  return Promise.all([].map.call(files, file => processFile(file, progressCb)));
-  //return Promise.all(files.map(file => processFile(file, progressCb)));
+function createFileInfo(file, uploaded) {
+  const { name, size, type } = file;
+  let fileInfo = {
+    //storage_uri: `${uploaded.bucket}/${uploaded.name}`,
+    storage_uri: `${uploaded.name}`,
+    name,
+    size,
+    type,
+  }
+  return fileInfo;
 }
 
 function FilesInfo(props) {
@@ -178,46 +254,102 @@ function FilesInfo(props) {
     return null;
   }
   return (
-    <ul style={{listStylePosition: 'inside'}}>
+    <div>
       {filesInfo.map((fileInfo, key) => {
         let { name, storage_uri, size, type, url } = fileInfo;
         if (!type) type = 'unknown type';
         return (
-          <li key={key}>
-            <strong>{name}</strong> ({type}, {size} bytes)<br/>
-            Storage URI: {storage_uri}<br/>
-            <a href={url} download={name}>Download link</a>
-          </li>
+          <FileInfo
+            key={storage_uri}
+            name={name}
+            storageURI={storage_uri}
+            size={size}
+            type={type}
+            url={url}
+            onRemove={() => props.removeFile(fileInfo)}
+          />
         );
       })}
-    </ul>
+    </div>
   );
+}
+
+class FileInfo extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMessage: false,
+      message: null,
+    };
+  }
+
+  componentDidMount() {
+    var token = pubsub.subscribe('uploaded_file', (msg, data) => {
+      switch (data) {
+        case 'remove':
+          this.remove();
+          break;
+      }
+    });
+  }
+
+  remove = () => {
+    let { name } = this.props;
+    callApi(`minio/remove-object?name=${name}`)
+    .then(() => {
+      console.log('removed')
+      this.props.onRemove();
+    })
+    .catch(err => {
+      let message = (
+        <Alert
+          bsStyle="danger"
+          onDismiss={() => this.setState({showMessage: false})}
+        >
+          <p><strong>Error</strong> while removing file:</p>
+          <pre>{JSON.stringify(err, null, 2)}</pre>
+        </Alert>
+      );
+      this.setState({
+        message,
+        showMessage: true,
+      });
+    })
+  }
+
+  render() {
+    let { name, storageURI, size, type, url } = this.props;
+    console.log(this.props)
+    let { showMessage, message } = this.state;
+    let deleter = (
+      <Button bsStyle="link" onClick={this.remove}><Glyphicon glyph="remove" /></Button>
+    )
+    return (
+      <div>
+        <Panel header={deleter}>
+          <strong>{name}</strong> ({type}, {formatBytes(size)})<br/>
+          Storage URI: {storageURI}<br/>
+          <a href={url} download={name}>Download link</a>
+        </Panel>
+        {showMessage ? message : null}
+      </div>
+    )
+  }
+
 }
 
 
 function extractFileInfo(files) {
   return JSON.parse(JSON.stringify(files))
     .filter(file => typeof file !== "undefined")
-    /*.map(file => {
-      try {
-        var { name, newName, size, type } = JSON.parse(file);
-      } catch(e) {
-        var name = newName = size = type = undefined;
-      }
-      let o = {
-        name,
-        newName,
-        size,
-        type,
-      };
-      return o;
-    })*/
     .filter(o => typeof o.name !== "undefined")
     .map(o => {
       return Promise.resolve()
       .then(() => {
         if (o.name) {
-          return callApi(`minio/presigned-get-url?name=${o.name}`)
+          let alias = o.storage_uri;
+          return callApi(`minio/presigned-get-url?name=${alias}`)
           .then(res => {
             o.url = res.url;
             return o;

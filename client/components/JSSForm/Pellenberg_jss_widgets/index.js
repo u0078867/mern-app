@@ -1,10 +1,10 @@
 
 import getWidgetsMap from './getWidgetsMap';
 import getFieldsMap from './getFieldsMap';
-import getViewersMap from './getViewersMap';
+import getContainersMap from './getContainersMap';
 
 module.exports = {
   getWidgetsMap: getWidgetsMap,
   getFieldsMap: getFieldsMap,
-  getViewersMap: getViewersMap,
+  getContainersMap: getContainersMap,
 };

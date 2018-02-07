@@ -1,4 +1,5 @@
-import {getItems, getItem} from './entity.controller';
+import { getAllDevices } from '../dataServices/device.service';
+import { deviceLoader } from '../dataLoaders/device';
 
 /**
  * Get all devices
@@ -7,8 +8,13 @@ import {getItems, getItem} from './entity.controller';
  * @returns void
  */
 export function getDevices(req, res) {
-  req.params.collection = 'devices';
-  return getItems(req, res);
+  getAllDevices()
+  .then(items => {
+    res.json({ items });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }
 
 /**
@@ -18,6 +24,11 @@ export function getDevices(req, res) {
  * @returns void
  */
 export function getDevice(req, res) {
-  req.params.collection = 'devices';
-  return getItem(req, res);
+  deviceLoader.load(req.params.cuid)
+  .then(item => {
+    res.json({ item });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

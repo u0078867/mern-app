@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
-import AttributesViewer from './components/AttributesViewer';
-import SubjectViewer from './components/SubjectViewer';
+import OutputViewer from './components/OutputViewer';
 import callSearchApi from 'CLIENT_UTIL/apiSearchCaller';
 import callApi from 'CLIENT_UTIL/apiCaller';
 
 import styles from './ComponentSearch.css';
+
+var Viewer = OutputViewer;
+
 
 class OutputSearchOption extends Component {
 
@@ -41,28 +43,7 @@ class OutputSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        {/*<div><b>CUID:</b> {this.props.option.cuid}</div>
-        <div><b>Name:</b> {this.props.option.name}</div>
-        <div><b>Uri:</b> {this.props.option.uri}</div>
-        <div><b>Activity:</b> {this.props.option.activity.name}</div>
-        {this.props.option.activity.subjects.map(subject => {
-          return <div key={subject.cuid}>
-            <b>Subject involved:</b>
-            <div style={{paddingLeft: "10px"}}><AttributesViewer item={subject} /></div>
-          </div>
-        })}
-        {(() => {
-          if (!this.props.option.activity.prev)
-            return null;
-          let subject = this.props.option.activity.prev.subject;
-          if (!subject)
-            return null;
-          return <div>
-            <b>Subject involved previously:</b>
-            <div style={{paddingLeft: "10px"}}><AttributesViewer item={subject} /></div>
-          </div>
-        })()}*/}
-        <AttributesViewer item={this.props.option} />
+        <Viewer item={this.props.option} forms={this.props.forms} />
       </div>
     );
 
@@ -75,7 +56,7 @@ class OutputSearchValue extends Component {
   render() {
     return (
       <div className={styles["select-value"]}>
-        <AttributesViewer item={this.props.value} />
+        <Viewer item={this.props.value} forms={this.props.forms} />
       </div>
     );
   }
@@ -136,8 +117,8 @@ class OutputSearch extends Component {
           onChange={this.onChange}
           valueKey="cuid" // necessary for right options navigation
           loadOptions={this.getOutputs}
-          optionComponent={OutputSearchOption}
-          valueComponent={OutputSearchValue}
+          optionComponent={(props) => <OutputSearchOption {...props} forms={this.props.formContext.forms} />}
+          valueComponent={(props) => <OutputSearchValue {...props} forms={this.props.formContext.forms} />}
           filterOption={(option, filter) => true} // disables local filtering (already performed server-side)
         />
       </div>

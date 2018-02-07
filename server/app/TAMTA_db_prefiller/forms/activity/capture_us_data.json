@@ -1,5 +1,6 @@
 {
   "name": "Capture ultrasonography data",
+  "type": "capture-us",
   "researchers": [
     {
       "id": {
@@ -70,8 +71,24 @@
   ],
   "data": [
     {
-      "id": "{{us_acq_software_params}}",
-      "roles": ["us_acq_software_params"]
+      "id": "{{us_acq_software_image_h}}",
+      "roles": ["us_acq_software_image_h"]
+    },
+    {
+      "id": "{{us_acq_software_image_w}}",
+      "roles": ["us_acq_software_image_w"]
+    },
+    {
+      "id": "{{us_acq_software_speckle_reduction_enabled}}",
+      "roles": ["us_acq_software_speckle_reduction_enabled"]
+    },
+    {
+      "id": "{{us_acq_software_dynamic_range_enabled}}",
+      "roles": ["us_acq_software_dynamic_range_enabled"]
+    },
+    {
+      "id": "{{us_acq_software_lines_density}}",
+      "roles": ["us_acq_software_lines_density"]
     }
   ],
   "outputs": [
@@ -80,6 +97,14 @@
       "metadata": [
         {
           "name": "n_images"
+        }
+      ]
+    },
+    {
+      "name": "free_text_comment",
+      "data": [
+        {
+          "name": "value"
         }
       ]
     }

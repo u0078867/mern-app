@@ -1,5 +1,6 @@
 {
-  "name": "Configure ultrasonography system on subject",
+  "name": "Configure ultrasonography system",
+  "type": "configure-us",
   "researchers": [
     {
       "id": {
@@ -70,24 +71,84 @@
   ],
   "outputs": [
     {
-      "name": "software_params",
+      "name": "image_h",
       "data": [
         {
-          "name": "image_h",
-          "uom": "px"
-        },
+          "name": "value",
+          "uom": {
+            "default": "px",
+            "valueFromVar": "us_acq_software_image_h_uom",
+            "__replacer__": true
+          },
+          "value": {
+            "valueFromVar": "us_acq_software_image_h_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "image_w",
+      "data": [
         {
-          "name": "image_w",
-          "uom": "px"
-        },
+          "name": "value",
+          "uom": {
+            "default": "px",
+            "valueFromVar": "us_acq_software_image_w_uom",
+            "__replacer__": true
+          },
+          "value": {
+            "valueFromVar": "us_acq_software_image_w_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "speckle_reduction_enabled",
+      "data": [
         {
-          "name": "speckle_reduction_enabled"
-        },
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_speckle_reduction_enabled_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "dynamic_range_enabled",
+      "data": [
         {
-          "name": "dynamic_range_enabled"
-        },
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_dynamic_range_enabled_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "lines_density",
+      "data": [
         {
-          "name": "lines_density"
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_lines_density",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "free_text_comment",
+      "data": [
+        {
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_comment_value",
+            "__replacer__": true
+          }
         }
       ]
     }

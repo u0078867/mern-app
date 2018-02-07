@@ -1,5 +1,6 @@
 {
-  "name": "Configure optoelectronic system on subject",
+  "name": "Configure optoelectronic system",
+  "type": "configure-opto",
   "researchers": [
     {
       "id": {
@@ -70,11 +71,19 @@
   ],
   "outputs": [
     {
-      "name": "software_params",
+      "name": "acq_freq",
       "data": [
         {
-          "name": "acq_freq",
+          "name": "value",
           "uom": "hz"
+        }
+      ]
+    },
+    {
+      "name": "free_text_comment",
+      "data": [
+        {
+          "name": "value"
         }
       ]
     }

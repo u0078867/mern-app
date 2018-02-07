@@ -35,10 +35,12 @@ function makeBucketIfNotExist(client, bucket) {
 
 
 export function getPresignedPutUrl(req, res) {
-  makeBucketIfNotExist(client, config.minioBucket)
-  .then(() => client.presignedPutObject(config.minioBucket, req.query.name))
+  let name = req.query.name || cuid();
+  let bucket = config.minioBucket;
+  makeBucketIfNotExist(client, bucket)
+  .then(() => client.presignedPutObject(bucket, name))
   .then(url => {
-    res.json({ url });
+    res.json({ url, bucket, name });
   })
   .catch(err => {
     res.status(500).send(err);
@@ -50,6 +52,17 @@ export function getPresignedGetUrl(req, res) {
   .then(() => client.presignedGetObject(config.minioBucket, req.query.name))
   .then(url => {
     res.json({ url });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
+}
+
+export function removeObject(req, res) {
+  Promise.resolve()
+  .then(() => client.removeObject(config.minioBucket, req.query.name))
+  .then(() => {
+    res.status(200).json(null);
   })
   .catch(err => {
     res.status(500).send(err);

@@ -2,12 +2,17 @@
   "type": "object",
   "required": [
     "registered_by",
+    "title",
     "uri"
   ],
   "properties": {
     "registered_by": {
       "type": "string",
       "title": "Registered by"
+    },
+    "title": {
+      "type": "string",
+      "title": "Title"
     },
     "uri": {
       "type": "string",

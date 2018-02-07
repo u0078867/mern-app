@@ -1,0 +1,147 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by",
+    "name",
+    "producer"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "functions": {
+      "type": "array",
+      "title": "Functions",
+      "uniqueItems": true,
+      "default": ["signal_converter"],
+      "items": {
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [ "signal_converter" ],
+            "title": "Signal converter"
+          }
+        ]
+      }
+    },
+    "producer": {
+      "type": "string",
+      "title": "Producer",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [ "uz_leuven_pellenberg_ganglabo" ],
+          "title": "UZ Leuven (Pellenberg Ganglabo)"
+        }
+      ]
+    },
+    "uri": {
+      "type": "string",
+      "title": "URI"
+    },
+    "attributes": {
+      "type": "array",
+      "title": "Attributes",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "input_signal_type",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "input_signal_type" ],
+                  "title": "Input signal type"
+                }
+              ]
+            },
+            "value": {
+              "type": "string",
+              "title": "Value",
+              "default": "ttl",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "ttl" ],
+                  "title": "TTL"
+                },
+                {
+                  "type": "value",
+                  "enum": [ "float_0" ],
+                  "title": "Float - 0V"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "output_signal_type",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "output_signal_type" ],
+                  "title": "Output signal type"
+                }
+              ]
+            },
+            "value": {
+              "type": "string",
+              "title": "Value",
+              "default": "ttl",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "ttl" ],
+                  "title": "TTL"
+                },
+                {
+                  "type": "value",
+                  "enum": [ "float_0" ],
+                  "title": "Floating - 0V"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "inverted_logic",
+              "anyOf": [
+                {
+                  "type": "value",
+                  "enum": [ "inverted_logic" ],
+                  "title": "Invert logic (between input and output)"
+                }
+              ]
+            },
+            "value": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

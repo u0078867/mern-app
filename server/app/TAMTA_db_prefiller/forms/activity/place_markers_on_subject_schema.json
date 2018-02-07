@@ -12,6 +12,10 @@
       "type": "string",
       "title": "Registered by"
     },
+    "type": {
+      "type": "string",
+      "title": "Type"
+    },
     "name": {
       "type": "string",
       "title": "Name"
@@ -135,23 +139,23 @@
           "properties": {
             "cuid": {
               "type": "string",
-              "title": "CUID"
+              "title": " "
             },
             "name": {
               "type": "string",
               "title": "Name",
-              "default": "markers_placing_quality",
+              "default": "markers_placing_quality_comment",
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "markers_placing_quality" ],
-                  "title": "Markers placing quality"
+                  "enum": [ "markers_placing_quality_comment" ],
+                  "title": "Markers placing quality comment"
                 }
               ]
             },
             "data": {
               "type": "array",
-              "title": "Data",
+              "title": " ",
               "items": [
                 {
                   "type": "object",
@@ -159,12 +163,60 @@
                     "name": {
                       "type": "string",
                       "title": "Name",
-                      "default": "comment",
+                      "default": "value",
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [ "comment" ],
-                          "title": "Comment"
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "free_text_comment",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "free_text_comment" ],
+                  "title": "Free text comment"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
                         }
                       ]
                     },

@@ -12,9 +12,21 @@
       "type": "string",
       "title": "Registered by"
     },
+    "type": {
+      "type": "string",
+      "title": "Type"
+    },
     "name": {
       "type": "string",
       "title": "Name"
+    },
+    "session": {
+      "type": "string",
+      "title": "Session"
+    },
+    "datetime_ended": {
+      "type": "string",
+      "title": "Date/time of ending"
     },
     "researchers": {
       "type": "array",
@@ -25,8 +37,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "title": "Id",
-            "default": ""
+            "title": "Id"
           }
         }
       }
@@ -40,8 +51,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "title": "Id",
-            "default": ""
+            "title": "Id"
           }
         }
       }
@@ -55,8 +65,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "title": "Id",
-            "default": ""
+            "title": "Id"
           }
         }
       }

@@ -1,4 +1,5 @@
-import {getItems, getItem} from './entity.controller';
+import { getAllResearchers } from '../dataServices/researcher.service';
+import { researcherLoader } from '../dataLoaders/researcher';
 
 
 /**
@@ -8,8 +9,13 @@ import {getItems, getItem} from './entity.controller';
  * @returns void
  */
 export function getResearchers(req, res) {
-  req.params.collection = 'researchers';
-  return getItems(req, res);
+  getAllResearchers()
+  .then(items => {
+    res.json({ items });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }
 
 /**
@@ -19,6 +25,11 @@ export function getResearchers(req, res) {
  * @returns void
  */
 export function getResearcher(req, res) {
-  req.params.collection = 'researchers';
-  return getItem(req, res);
+  researcherLoader.load(req.params.cuid)
+  .then(item => {
+    res.json({ item });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

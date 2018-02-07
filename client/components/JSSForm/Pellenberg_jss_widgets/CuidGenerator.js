@@ -9,6 +9,8 @@ import {
   Button,
 } from 'react-bootstrap';
 
+import CollapsibleContainer from './CollapsibleContainer';
+
 
 
 class CuidGenerator extends Component {
@@ -36,6 +38,7 @@ class CuidGenerator extends Component {
   render() {
     return (
       <div>
+        <CollapsibleContainer options={{title: 'CUID'}}>
         <FormGroup>
           <InputGroup>
             <FormControl type="text"
@@ -49,6 +52,7 @@ class CuidGenerator extends Component {
             </InputGroup.Button>
           </InputGroup>
         </FormGroup>
+        </CollapsibleContainer>
       </div>
     );
   }

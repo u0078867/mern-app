@@ -1,3 +1,7 @@
+# IMPORTANT!
+What below is **deprecated**. New doc is under development, please search README.md
+in the project subfolders.
+
 ### Usage:
 
 ##### Forms creation:

@@ -1,0 +1,172 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "type": {
+      "type": "string",
+      "title": "Type"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "session": {
+      "type": "string",
+      "title": "Session"
+    },
+    "datetime_ended": {
+      "type": "string",
+      "title": "Date/time of ending"
+    },
+    "researchers": {
+      "type": "array",
+      "title": "Researchers",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        }
+      }
+    },
+    "subjects": {
+      "type": "array",
+      "title": "Subjects",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "title": "Outputs",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "lower_leg_length",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "lower_leg_length" ],
+                  "title": "Lower leg length"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "deg",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "cm" ],
+                          "title": "cm"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "free_text_comment",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "free_text_comment" ],
+                  "title": "Free text comment"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

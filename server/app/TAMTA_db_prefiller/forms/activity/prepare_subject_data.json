@@ -1,0 +1,44 @@
+{
+  "name": "Perform anthropometric measures",
+  "type": "perform-anthro-measures",
+  "researchers": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "subjects": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;subjects;{{subject}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "name": "subject_pos_photo"
+    },
+    {
+      "name": "joint_torque",
+      "data": [
+        {
+          "name": "value",
+          "uom": "Nm"
+        }
+      ]
+    },
+    {
+      "name": "free_text_comment",
+      "data": [
+        {
+          "name": "value"
+        }
+      ]
+    }
+  ]
+}

@@ -13,6 +13,7 @@ class FormList extends Component {
           this.props.forms.map(form => (
             <FormListItem
               form={form}
+              forms={this.props.forms}
               key={form.cuid}
               onDelete={() => this.props.handleDeleteForm(form.cuid)}
               onUpdate={this.props.handleUpdateForm}

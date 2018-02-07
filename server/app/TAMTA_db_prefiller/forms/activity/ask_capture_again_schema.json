@@ -1,9 +1,0 @@
-{
-  "type": "object",
-  "properties": {
-    "continue": {
-      "type": "boolean",
-      "title": "Capture another trial ?"
-    }
-  }
-}

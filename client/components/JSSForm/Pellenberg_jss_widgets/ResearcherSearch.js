@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
 import AttributesViewer from './components/AttributesViewer';
+import { getCollectionViewersMap } from 'DATA_VIEWERS';
 import callSearchApi from 'CLIENT_UTIL/apiSearchCaller';
 import callApi from 'CLIENT_UTIL/apiCaller';
 import pubsub from 'pubsub-js';
 
 import styles from './ComponentSearch.css';
+
+var Viewer = getCollectionViewersMap()['researchers'];
 
 class ResearcherSearchOption extends Component {
 
@@ -32,11 +35,7 @@ class ResearcherSearchOption extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}
       >
-        {/*<div><b>CUID:</b> {this.props.option.cuid}</div>
-        <div><b>Name:</b> {this.props.option.name}</div>
-        <div><b>Surname:</b> {this.props.option.surname}</div>
-        <div><b>Birthdate:</b> {this.props.option.birthdate}</div>*/}
-        <AttributesViewer item={this.props.option} />
+        <Viewer item={this.props.option} forms={this.props.forms} />
       </div>
     );
   }
@@ -48,7 +47,7 @@ class ResearcherSearchValue extends Component {
   render() {
     return (
       <div className={styles["select-value"]}>
-        <AttributesViewer item={this.props.value} />
+        <Viewer item={this.props.value} forms={this.props.forms} />
       </div>
     );
   }
@@ -127,8 +126,8 @@ class ResearcherSearch extends Component {
           onChange={this.onChange}
           valueKey="cuid" // necessary for right options navigation
           loadOptions={this.getResearchers}
-          optionComponent={ResearcherSearchOption}
-          valueComponent={ResearcherSearchValue}
+          optionComponent={(props) => <ResearcherSearchOption {...props} forms={this.props.formContext.forms} />}
+          valueComponent={(props) => <ResearcherSearchValue {...props} forms={this.props.formContext.forms} />}
           filterOption={(option, filter) => true} // disables local filtering (already performed server-side)
           disabled={this.props.readonly}
         />

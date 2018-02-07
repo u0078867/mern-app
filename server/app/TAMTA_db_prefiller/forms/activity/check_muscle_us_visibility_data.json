@@ -1,0 +1,112 @@
+{
+  "name": "Check ultrasography muscle visibility",
+  "type": "check-muscle-us-visibility",
+  "researchers": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      }
+    }
+  ],
+  "subjects": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;subjects;{{subject}}",
+        "__replacer__": true
+      },
+      "task": "{{subject_task}}",
+      "anatomical_areas": {
+        "valueFromVar": "subject_anatomical_areas",
+        "__replacer__": true
+      },
+      "anatomical_side": "{{subject_anatomical_side}}"
+    }
+  ],
+  "devices": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_probe}}",
+        "__replacer__": true
+      },
+      "roles": ["us_probe"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_machine}}",
+        "__replacer__": true
+      },
+      "roles": ["us_machine"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_portico}}",
+        "__replacer__": true
+      },
+      "roles": ["us_portico"]
+    },
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;devices;{{us_acq_computer}}",
+        "__replacer__": true
+      },
+      "roles": ["us_acq_computer"]
+    }
+  ],
+  "software": [
+    {
+      "id": {
+        "select": "_;items[0].cuid",
+        "query": "search-api;swtools;{{us_acq_software}}",
+        "__replacer__": true
+      },
+      "roles": ["us_acq_software"]
+    }
+  ],
+  "data": [
+    {
+      "id": "{{us_acq_software_image_h}}",
+      "roles": ["us_acq_software_image_h"]
+    },
+    {
+      "id": "{{us_acq_software_image_w}}",
+      "roles": ["us_acq_software_image_w"]
+    },
+    {
+      "id": "{{us_acq_software_speckle_reduction_enabled}}",
+      "roles": ["us_acq_software_speckle_reduction_enabled"]
+    },
+    {
+      "id": "{{us_acq_software_dynamic_range_enabled}}",
+      "roles": ["us_acq_software_dynamic_range_enabled"]
+    },
+    {
+      "id": "{{us_acq_software_lines_density}}",
+      "roles": ["us_acq_software_lines_density"]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "muscle_border_visible",
+      "data": [
+        {
+          "name": "value"
+        }
+      ]
+    },
+    {
+      "name": "free_text_comment",
+      "data": [
+        {
+          "name": "value"
+        }
+      ]
+    }
+  ]
+}

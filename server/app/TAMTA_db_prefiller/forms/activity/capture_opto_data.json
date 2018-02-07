@@ -1,5 +1,6 @@
 {
   "name": "Capture optoelectronic data",
+  "type": "capture-opto",
   "researchers": [
     {
       "id": {
@@ -78,12 +79,20 @@
   ],
   "data": [
     {
-      "id": "{{camera_pos}}",
-      "roles": ["camera_pos"]
+      "id": "{{camera_tilt}}",
+      "roles": ["camera_tilt"]
     },
     {
-      "id": "{{opto_acq_software_params}}",
-      "roles": ["opto_acq_software_params"]
+      "id": "{{camera_height}}",
+      "roles": ["camera_height"]
+    },
+    {
+      "id": "{{camera_pos_photo}}",
+      "roles": ["camera_pos_photo"]
+    },
+    {
+      "id": "{{opto_acq_software_acq_freq}}",
+      "roles": ["opto_acq_software_acq_freq"]
     }
   ],
   "outputs": [
@@ -92,6 +101,14 @@
       "metadata": [
         {
           "name": "n_time_frames"
+        }
+      ]
+    },
+    {
+      "name": "free_text_comment",
+      "data": [
+        {
+          "name": "value"
         }
       ]
     }

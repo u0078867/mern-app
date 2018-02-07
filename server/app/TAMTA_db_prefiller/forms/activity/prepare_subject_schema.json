@@ -1,0 +1,214 @@
+{
+  "type": "object",
+  "required": [
+    "registered_by"
+  ],
+  "properties": {
+    "cuid": {
+      "type": "string",
+      "title": "ID"
+    },
+    "registered_by": {
+      "type": "string",
+      "title": "Registered by"
+    },
+    "type": {
+      "type": "string",
+      "title": "Type"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "session": {
+      "type": "string",
+      "title": "Session"
+    },
+    "datetime_ended": {
+      "type": "string",
+      "title": "Date/time of ending"
+    },
+    "researchers": {
+      "type": "array",
+      "title": "Researchers",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        }
+      }
+    },
+    "subjects": {
+      "type": "array",
+      "title": "Subjects",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "title": "Outputs",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "subject_pos_photo",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "subject_pos_photo" ],
+                  "title": "Subject position photo(s)"
+                }
+              ]
+            },
+            "files_data": {
+              "title": " ",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "storage_uri": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "number"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "joint_torque",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "joint_torque" ],
+                  "title": "Joint torque"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "deg",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "Nm" ],
+                          "title": "Nm"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "free_text_comment",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "free_text_comment" ],
+                  "title": "Free text comment"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,6 +1,7 @@
 {
   "ui:order": [
     "name",
+    "type",
     "cuid",
     "registered_by",
     "session",
@@ -14,11 +15,15 @@
   "name": {
     "ui:readonly": true
   },
+  "type": {
+    "ui:readonly": true
+  },
   "cuid": {
     "ui:widget": "form-filler",
     "ui:options": {
       "collection": "activities"
-    }
+    },
+    "ui:description": "(leave empty to create new data, insert existing to edit data)"
   },
   "registered_by": {
     "ui:readonly": true,
@@ -34,7 +39,13 @@
     }
   },
   "datetime_ended": {
-    "ui:widget": "curr-datetime"
+    "ui:widget": "curr-datetime",
+    "ui:options": {
+      "auto_current": {
+        "valueFromVar": "auto_current",
+        "__replacer__": true
+      }
+    }
   },
   "researchers": {
     "items": {
@@ -62,41 +73,122 @@
   "devices": {
     "items": {
       "id": {
-        "ui:widget": "device",
-        "classNames": "col-md-6"
+        "ui:widget": "device"
       },
       "roles": {
-        "classNames": "col-md-6"
+        "classNames": "col-md-12"
       }
     }
   },
   "software": {
     "items": {
       "id": {
-        "ui:widget": "software",
-        "classNames": "col-md-6"
+        "ui:widget": "software"
       },
       "roles": {
-        "classNames": "col-md-6"
+        "classNames": "col-md-12"
       }
     }
   },
   "outputs": {
-    "items": {
-      "cuid": {
-        "ui:widget": "cuid",
-        "ui:readonly": true
+    "items": [
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "Your opinion about probe-skin contact"
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6",
+              "ui:widget": "textarea"
+            }
+          }
+        }
       },
-      "data": {
-        "items": {
-          "name": {
-            "classNames": "col-md-6"
-          },
-          "value": {
-            "classNames": "col-md-6"
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6",
+              "ui:widget": "textarea"
+            }
           }
         }
       }
+    ]
+  },
+  "ui:field": "layout",
+  "ui:layout": [
+    {
+      "name": { "md": 12 }
+    },
+    {
+      "type": { "md": 12 }
+    },
+    {
+      "cuid": { "md": 12 }
+    },
+    {
+      "registered_by": { "md": 12 }
+    },
+    {
+      "session": { "md": 12 }
+    },
+    {
+      "datetime_ended": { "md": 12 }
+    },
+    {
+      "researchers": {
+        "md": 12,
+        "container": "collapsible",
+        "containerOptions": {
+          "title": "researchers"
+        }
+      }
+    },
+    {
+      "subjects": {
+        "md": 12,
+        "container": "collapsible",
+        "containerOptions": {
+          "title": "subjects"
+        }
+      }
+    },
+    {
+      "devices": {
+        "md": 12,
+        "container": "collapsible",
+        "containerOptions": {
+          "title": "devices"
+        }
+      }
+    },
+    {
+      "software": {
+        "md": 12,
+        "container": "collapsible",
+        "containerOptions": {
+          "title": "software"
+        }
+      }
+    },
+    {
+      "outputs": { "md": 12 }
     }
-  }
+  ]
 }

@@ -1,4 +1,5 @@
-import {getItems, getItem} from './entity.controller';
+import { getAllSubjects } from '../dataServices/subject.service';
+import { subjectLoader } from '../dataLoaders/subject';
 
 /**
  * Get all subjects
@@ -7,8 +8,13 @@ import {getItems, getItem} from './entity.controller';
  * @returns void
  */
 export function getSubjects(req, res) {
-  req.params.collection = 'subjects';
-  return getItems(req, res);
+  getAllSubjects()
+  .then(items => {
+    res.json({ items });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }
 
 /**
@@ -18,6 +24,11 @@ export function getSubjects(req, res) {
  * @returns void
  */
 export function getSubject(req, res) {
-  req.params.collection = 'subjects';
-  return getItem(req, res);
+  subjectLoader.load(req.params.cuid)
+  .then(item => {
+    res.json({ item });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

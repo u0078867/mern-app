@@ -1,8 +1,13 @@
-import {getItems} from './entity.search.controller';
+import { getDevices as searchDevices } from '../dataServices/device.search.service';
 
 
 
 export function getDevices(req, res) {
-  req.params.collection = 'devices';
-  return getItems(req, res);
+  searchDevices(req.query.q)
+  .then(items => {
+    res.json({ items });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 }

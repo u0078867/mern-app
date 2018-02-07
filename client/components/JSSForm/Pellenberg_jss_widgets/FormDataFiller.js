@@ -16,14 +16,25 @@ class FormDataFiller extends Component {
     this.state = {};
   }
 
-  onChange = (event) => {
-    let value = event.target.value;
+  componentDidMount() {
+    setTimeout(() => {
+      let value = this.props.value;
+      this.fillFormFromValue(value);
+    }, 10);
+  }
+
+  fillFormFromValue = (value) => {
     this.props.onChange(value);
     var p = this.props.options.field || this.props.id.split("_").slice(1);  // tokenize path
     if (p == 'cuid') {
       callApi(`${this.props.options.collection}/${value}`).then(res => {
         if (res.item) {
-          this.props.formContext.updateFormData(res.item);
+          //this.props.formContext.updateFormData(res.item);
+          this.props.formContext.updateLocalVariables({
+            'auto_current': false,
+          }, () => {
+            this.props.formContext.updateFormData(res.item);
+          })
         }
       });
     } else {
@@ -36,12 +47,22 @@ class FormDataFiller extends Component {
           }
         }
         if (goodItems.length == 1) {
-          this.props.formContext.updateFormData(goodItems[0]);
+          //this.props.formContext.updateFormData(goodItems[0]);
+          this.props.formContext.updateLocalVariables({
+            'auto_current': false,
+          }, () => {
+            this.props.formContext.updateFormData(goodItems[0]);
+          })
         } else {
           this.props.formContext.updateFormData({cuid: undefined});
         }
       });
     }
+  }
+
+  onChange = (event) => {
+    let value = event.target.value;
+    this.fillFormFromValue(value);
   }
 
   render() {

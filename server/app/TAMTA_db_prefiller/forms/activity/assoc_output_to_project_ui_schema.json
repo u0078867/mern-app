@@ -1,9 +1,11 @@
 {
   "ui:order": [
     "name",
+    "type",
     "cuid",
     "registered_by",
     "session",
+    "datetime_ended",
     "researchers",
     "data",
     "projects"
@@ -11,11 +13,15 @@
   "name": {
     "ui:readonly": true
   },
+  "type": {
+    "ui:readonly": true
+  },
   "cuid": {
     "ui:widget": "form-filler",
     "ui:options": {
       "collection": "activities"
-    }
+    },
+    "ui:description": "(leave empty to create new data, insert existing to edit data)"
   },
   "registered_by": {
     "ui:readonly": true,
@@ -25,10 +31,12 @@
     }
   },
   "session": {
-    "ui:widget": "text-cache",
-    "ui:options": {
-      "path": "session"
-    }
+    "type": "string",
+    "title": "Session"
+  },
+  "datetime_ended": {
+    "type": "string",
+    "title": "Date/time of ending"
   },
   "researchers": {
     "items": {
@@ -50,5 +58,35 @@
         "ui:widget": "project"
       }
     }
-  }
+  },
+  "ui:field": "layout",
+  "ui:layout": [
+    {
+      "name": { "md": 12 }
+    },
+    {
+      "type": { "md": 12 }
+    },
+    {
+      "cuid": { "md": 12 }
+    },
+    {
+      "registered_by": { "md": 12 }
+    },
+    {
+      "session": { "md": 12 }
+    },
+    {
+      "datetime_ended": { "md": 12 }
+    },
+    {
+      "researchers": { "md": 12 }
+    },
+    {
+      "data": { "md": 12 }
+    },
+    {
+      "projects": { "md": 12 }
+    }
+  ]
 }
