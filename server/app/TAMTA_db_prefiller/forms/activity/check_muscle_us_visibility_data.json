@@ -17,7 +17,6 @@
         "query": "search-api;subjects;{{subject}}",
         "__replacer__": true
       },
-      "task": "{{subject_task}}",
       "anatomical_areas": {
         "valueFromVar": "subject_anatomical_areas",
         "__replacer__": true
@@ -89,6 +88,14 @@
     {
       "id": "{{us_acq_software_lines_density}}",
       "roles": ["us_acq_software_lines_density"]
+    },
+    {
+      "id": "{{subject_pos}}",
+      "roles": ["subject_pos"]
+    },
+    {
+      "id": "{{subject_pos_photo}}",
+      "roles": ["subject_pos_photo"]
     }
   ],
   "outputs": [

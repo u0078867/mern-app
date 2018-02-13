@@ -3,7 +3,12 @@
   "properties": {
     "is_muscle_us_visible_during_setup": {
       "type": "boolean",
-      "title": "Is muscle visibility suitable ?",
+      "title": {
+        "fillString": "<<name>> <<surname>>: is muscle visibility suitable ?",
+        "select": "_;items[0]",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      },
       "default": true
     }
   }

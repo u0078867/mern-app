@@ -10,6 +10,7 @@
     "subjects",
     "devices",
     "software",
+    "data",
     "outputs"
   ],
   "name": {
@@ -59,9 +60,6 @@
       "id": {
         "ui:widget": "subject"
       },
-      "task": {
-        "classNames": "col-md-4"
-      },
       "anatomical_areas": {
         "classNames": "col-md-4"
       },
@@ -84,6 +82,16 @@
     "items": {
       "id": {
         "ui:widget": "software"
+      },
+      "roles": {
+        "classNames": "col-md-12"
+      }
+    }
+  },
+  "data": {
+    "items": {
+      "id": {
+        "ui:widget": "output"
       },
       "roles": {
         "classNames": "col-md-12"
@@ -184,6 +192,15 @@
         "container": "collapsible",
         "containerOptions": {
           "title": "software"
+        }
+      }
+    },
+    {
+      "data": {
+        "md": 12,
+        "container": "collapsible",
+        "containerOptions": {
+          "title": "data"
         }
       }
     },

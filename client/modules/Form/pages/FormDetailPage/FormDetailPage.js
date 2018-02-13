@@ -130,15 +130,17 @@ class FormDetailPage extends Component {
         showMessage: false,
         isFormRefreshing: true,
         localVariables: {},
-      }, () => {
-        console.log(nextProps.form)
-        //this.initializeForm(nextProps);
-        //this.setSubmitter(nextProps);
       })
     }
-    if (nextProps.variables != this.props.variables) {
-      //if (nextProps.form.cuid == this.props.form.cuid)
-      //this.initializeForm(nextProps);
+    else if (nextProps.search != this.props.search) {
+      this.setState({
+        validateForm: true,
+        message: null,
+        showMessage: false,
+        isFormRefreshing: true,
+        localVariables: {},
+      })
+
     }
   }
 
@@ -191,7 +193,7 @@ class FormDetailPage extends Component {
     this.setState({
       //isFormRefreshing: true,
       showMessage: true,
-      message
+      message,
     });
     // update global variables
     let outputVariables = this.props.form.output_variables;
@@ -288,11 +290,13 @@ function parseInitDataFromURL(d) {
 
 // Retrieve data from store as props
 function mapStateToProps(state, props) {
+  console.log(props.location)
   return {
     form: getForm(state, props.params.cuid),
     forms: getForms(state), // to be passed to JSSForm widgets via context
     cache: getCache(state),
     initData: parseInitDataFromURL(props.location.query.d),
+    search: props.location.search,
     variables: getGlobalVariables(state),
   };
 }

@@ -51,17 +51,6 @@
             "type": "string",
             "title": "Id"
           },
-          "task": {
-            "type": "string",
-            "title": "Task",
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [ "lay_prone_still" ],
-                "title": "Lay prone and still"
-              }
-            ]
-          },
           "anatomical_areas": {
             "type": "array",
             "title": "Anatomical areas",

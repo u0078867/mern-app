@@ -3,7 +3,12 @@
   "properties": {
     "capture_extra_trial": {
       "type": "boolean",
-      "title": "Capture another trial ?",
+      "title": {
+        "fillString": "<<name>> <<surname>>: capture an extra trial ?",
+        "select": "_;items[0]",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      },
       "default": true
     }
   }

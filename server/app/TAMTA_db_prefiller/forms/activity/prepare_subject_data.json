@@ -1,6 +1,6 @@
 {
   "name": "Perform anthropometric measures",
-  "type": "perform-anthro-measures",
+  "type": "prepare-subject",
   "researchers": [
     {
       "id": {
@@ -20,6 +20,15 @@
     }
   ],
   "outputs": [
+    {
+      "name": "subject_pos",
+      "data": [
+        {
+          "name": "value",
+          "value": "{{subject_position}}"
+        }
+      ]
+    },
     {
       "name": "subject_pos_photo"
     },

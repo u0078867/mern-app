@@ -65,7 +65,7 @@ class CurrentDateTimeWidget extends Component {
     let { auto_current } = this.props.options;
     if (auto_current == undefined || auto_current == true) {
       setTimeout(() => {
-        //this._setInterval();
+        this._setInterval();
       }, 100);
     }
   }

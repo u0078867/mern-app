@@ -674,7 +674,14 @@ function dummyData(verbose, fillLevel) {
       dest_collection: 'activities',
       insert_on_submit: true,
       submitter: 'direct',
-      output_variables: {},
+      output_variables: {
+        "subject_pos": {
+          "path": "outputs[0].cuid"
+        },
+        "subject_pos_photo": {
+          "path": "outputs[1].cuid"
+        },
+      },
       slug: "prepare-subject",
     };
     forms.push(form);
@@ -753,6 +760,69 @@ function dummyData(verbose, fillLevel) {
         },
       },
       slug: "configure-us",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Configure ultrasonography system on subject",
+      key: "configure-us-on-subject",
+      json_schema: require('./forms/activity/configure_us_system_on_subject_schema.json'),
+      ui_schema: require('./forms/activity/configure_us_system_on_subject_ui_schema.json'),
+      init_data: require('./forms/activity/configure_us_system_on_subject_data.json'),
+      dest_collection: 'activities',
+      insert_on_submit: true,
+      submitter: 'direct',
+      output_variables: {
+
+        "us_acq_software_image_h": {
+          "path": "outputs[0].cuid"
+        },
+        "us_acq_software_image_h_value": {
+          "path": "outputs[0].data[0].value"
+        },
+        "us_acq_software_image_h_uom": {
+          "path": "outputs[0].data[0].uom"
+        },
+
+        "us_acq_software_image_w": {
+          "path": "outputs[1].cuid"
+        },
+        "us_acq_software_image_w_value": {
+          "path": "outputs[1].data[0].value"
+        },
+        "us_acq_software_image_w_uom": {
+          "path": "outputs[1].data[0].uom"
+        },
+
+        "us_acq_software_speckle_reduction_enabled": {
+          "path": "outputs[2].cuid"
+        },
+        "us_acq_software_speckle_reduction_enabled_value": {
+          "path": "outputs[2].data[0].value"
+        },
+
+        "us_acq_software_dynamic_range_enabled": {
+          "path": "outputs[3].cuid"
+        },
+        "us_acq_software_dynamic_range_enabled_value": {
+          "path": "outputs[3].data[0].value"
+        },
+
+        "us_acq_software_lines_density": {
+          "path": "outputs[4].cuid"
+        },
+        "us_acq_software_lines_density": {
+          "path": "outputs[4].data[0].value"
+        },
+
+        "us_acq_software_comment": {
+          "path": "outputs[5].cuid"
+        },
+        "us_acq_software_comment_value": {
+          "path": "outputs[5].data[0].value"
+        },
+      },
+      slug: "configure-us-on-subject",
     };
     forms.push(form);
 

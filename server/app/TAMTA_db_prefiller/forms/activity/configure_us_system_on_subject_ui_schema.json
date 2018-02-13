@@ -61,10 +61,10 @@
         "ui:widget": "subject"
       },
       "anatomical_areas": {
-        "classNames": "col-md-6"
+        "classNames": "col-md-4"
       },
       "anatomical_side": {
-        "classNames": "col-md-6"
+        "classNames": "col-md-4"
       }
     }
   },
@@ -106,22 +106,99 @@
           "ui:readonly": true
         },
         "name": {
-          "ui:description": "Ultrasound images file set. For TELEMED: .tvd"
+          "ui:description": "Ultrasonography image height"
         },
-        "files_data": {
-          "ui:field": "file"
-        },
-        "metadata": {
-          "items": [
-            {
-              "name": {
-                "classNames": "col-md-6"
-              },
-              "value": {
-                "classNames": "col-md-6"
-              }
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-4"
+            },
+            "value": {
+              "classNames": "col-md-4"
+            },
+            "uom": {
+              "classNames": "col-md-4"
             }
-          ]
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "Ultrasonography image width"
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-4"
+            },
+            "value": {
+              "classNames": "col-md-4"
+            },
+            "uom": {
+              "classNames": "col-md-4"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "Speckle reduction activation. If activated, image will be more contrasted."
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "Dynamic range activation. It tells the ultrasound machine how you want the echo intensity displayed as shades of gray. A broad/wide range will display more shades of gray and an overall smoother image. A smaller/narrow range will display fewer shades of gray and appear as a higher contrast with a more black-and-white image."
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "It adjusts the number of scan lines in your ultrasound image. A higher level provides better resolution in the image (more scan lines), but reduces the frame rate. Use this to get the best possible image with the most acceptable frame rate."
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6"
+            }
+          }
         }
       },
       {

@@ -67,6 +67,25 @@
           "ui:readonly": true
         },
         "name": {
+          "ui:description": "Subject position depends on the muscles of interest"
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
           "ui:description": "Photo files showing subject position in the lab, for reproducibility"
         },
         "files_data": {
@@ -84,13 +103,13 @@
         "data": {
           "items": {
             "name": {
-              "classNames": "col-md-6"
+              "classNames": "col-md-4"
             },
             "value": {
-              "classNames": "col-md-6"
+              "classNames": "col-md-4"
             },
             "uom": {
-              "classNames": "col-md-6"
+              "classNames": "col-md-4"
             }
           }
         }

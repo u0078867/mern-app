@@ -145,6 +145,8 @@ class WorkFlowEngine extends React.Component {
       // Add some useful properties to task
       task.varDefinitions = this.varDefinitions;
       task.updateVariables = this.updateVariables;
+      task.canConsume = task.properties.onlyConsumeAfter ? false : true;
+      console.log(task);
       // Save waiting task
       this.setState({ waitingTasks: [].concat(this.state.waitingTasks, [task]) }, () => {
         this.props.onWait(task, this.showProceed);
@@ -170,6 +172,12 @@ class WorkFlowEngine extends React.Component {
 
     this.listener.on('taken', (flow) => {
       console.log(`flow <${flow.id}> was taken`);
+      for (let task of this.state.waitingTasks) {
+        if (task.properties.onlyConsumeAfter == flow.id) {
+          task.canConsume = true;
+          this.props.onTaskConsumabilityChange(task);
+        }
+      }
     });
 
     this.engine.once('end', (definition) => {

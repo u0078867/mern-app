@@ -49,6 +49,9 @@
     "items": {
       "id": {
         "ui:widget": "subject"
+      },
+      "anatomical_side": {
+        "classNames": "col-md-12"
       }
     }
   },

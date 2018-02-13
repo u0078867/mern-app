@@ -16,7 +16,8 @@
         "select": "_;items[0].cuid",
         "query": "search-api;subjects;{{subject}}",
         "__replacer__": true
-      }
+      },
+      "anatomical_side": "{{subject_anatomical_side}}"
     }
   ],
   "outputs": [

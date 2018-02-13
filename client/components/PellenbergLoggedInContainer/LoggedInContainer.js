@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import _ from 'lodash';
 
 // Import Style
 import styles from './LoggedInContainer.css';
@@ -70,14 +71,28 @@ export class LoggedInContainer extends Component {
     this.context.router.push(`/forms/${url}?d=${dataQuery}`);
   }
 
+  sortTaskQueueByConsumability = (tasks) => {
+    let sortedTasks = _.sortBy(tasks, ['canConsume']).reverse();
+    return sortedTasks;
+  }
+
   onWait = (task, showProceed) => {
     this.showProceed = showProceed;
     this.storeTask(task, () => {
-      console.log('storing tasks:')
+      console.log('stored tasks:')
       console.log(this.state.tasks)
-      if (this.state.tasks.length == 1)
+      if (this.state.tasks.length >= 1)
         this.consumeTask();
     });
+  }
+
+  onTaskConsumabilityChange = (task) => {
+    let tasks = this.sortTaskQueueByConsumability([].concat(this.state.tasks));
+    this.setState({
+      tasks,
+    }, () => {
+      this.consumeTask();
+    })
   }
 
   onStart = () => {
@@ -94,14 +109,16 @@ export class LoggedInContainer extends Component {
   }
 
   storeTask = (task, cb) => {
+    let tasks = this.sortTaskQueueByConsumability([].concat(this.state.tasks, [task]));
     this.setState({
-      tasks: [].concat(this.state.tasks, [task])
+      tasks,
     }, cb)
   }
 
   consumeTask = () => {
     if (this.state.tasks.length == 0) return;
     let task = this.state.tasks[0];
+    if (task.canConsume == false) return;
     console.log('consuming tasks:')
     console.log(this.state.tasks)
     let form = this.props.forms.find(form => {
@@ -185,6 +202,7 @@ export class LoggedInContainer extends Component {
           >
             <WorkFlowEngine
               onWait={this.onWait}
+              onTaskConsumabilityChange={this.onTaskConsumabilityChange}
               onStart={this.onStart}
               onStop={this.onStop}
               onComplete={this.onComplete}

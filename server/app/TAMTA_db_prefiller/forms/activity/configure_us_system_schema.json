@@ -41,66 +41,6 @@
         }
       }
     },
-    "subjects": {
-      "type": "array",
-      "title": "Subjects",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id"
-          },
-          "task": {
-            "type": "string",
-            "title": "Task",
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [ "lay_prone_still" ],
-                "title": "Lay prone and still"
-              }
-            ]
-          },
-          "anatomical_areas": {
-            "type": "array",
-            "title": "Anatomical areas",
-            "uniqueItems": true,
-            "items": {
-              "type": "string",
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [ "medial_gastroc" ],
-                  "title": "Medial gastrocnemius"
-                },
-                {
-                  "type": "string",
-                  "enum": [ "lateral_gastroc" ],
-                  "title": "Lateral gastrocnemius"
-                }
-              ]
-            }
-          },
-          "anatomical_side": {
-            "type": "string",
-            "title": "Anatomical side",
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [ "left" ],
-                "title": "Left"
-              },
-              {
-                "type": "string",
-                "enum": [ "right" ],
-                "title": "Right"
-              }
-            ]
-          }
-        }
-      }
-    },
     "devices": {
       "type": "array",
       "title": "Devices",

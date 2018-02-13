@@ -1,6 +1,6 @@
 {
   "name": "Manually move camera position for optimal field of view",
-  "type": "mount-camera",
+  "type": "ajust-camera",
   "researchers": [
     {
       "id": {

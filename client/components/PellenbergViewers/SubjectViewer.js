@@ -35,7 +35,7 @@ class SubjectViewer extends Component {
   render() {
     let { item: d, forms, showEditLink } = this.props;
     let header = (
-      <div>{`${d.name}`}
+      <div>{d.hospital_id}
         {showEditLink ? <Button bsStyle="link" onClick={this.props.onEdit}>Edit</Button> : null}
       </div>
     );

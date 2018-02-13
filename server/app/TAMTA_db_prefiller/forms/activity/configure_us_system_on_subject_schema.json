@@ -51,6 +51,17 @@
             "type": "string",
             "title": "Id"
           },
+          "task": {
+            "type": "string",
+            "title": "Task",
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [ "lay_prone_still" ],
+                "title": "Lay prone and still"
+              }
+            ]
+          },
           "anatomical_areas": {
             "type": "array",
             "title": "Anatomical areas",
@@ -180,31 +191,6 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "us_acq_software_image_h" ],
-                  "title": "Ultrasound acquisition software image height"
-                },
-                {
-                  "type": "string",
-                  "enum": [ "us_acq_software_image_w" ],
-                  "title": "Ultrasound acquisition software image width"
-                },
-                {
-                  "type": "string",
-                  "enum": [ "us_acq_software_speckle_reduction_enabled" ],
-                  "title": "Ultrasound acquisition software speckle reduction enabled"
-                },
-                {
-                  "type": "string",
-                  "enum": [ "us_acq_software_dynamic_range_enabled" ],
-                  "title": "Ultrasound acquisition software dynamic range enabled"
-                },
-                {
-                  "type": "string",
-                  "enum": [ "us_acq_software_lines_density" ],
-                  "title": "Ultrasound acquisition software lines density"
-                },
-                {
-                  "type": "string",
                   "enum": [ "subject_pos" ],
                   "title": "Subject position"
                 },
@@ -233,12 +219,142 @@
             "name": {
               "type": "string",
               "title": "Name",
-              "default": "muscle_border_visible",
+              "default": "image_h",
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "muscle_border_visible" ],
-                  "title": "Is muscle border visible?"
+                  "enum": [ "image_h" ],
+                  "title": "Image height"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "px",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "px" ],
+                          "title": "pixels"
+                        },
+                        {
+                          "type": "string",
+                          "enum": [ "mm" ],
+                          "title": "mm"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "image_w",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "image_w" ],
+                  "title": "Image width"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "px",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "px" ],
+                          "title": "pixels"
+                        },
+                        {
+                          "type": "string",
+                          "enum": [ "mm" ],
+                          "title": "mm"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "speckle_reduction_enabled",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "speckle_reduction_enabled" ],
+                  "title": "Speckle reduction enabled"
                 }
               ]
             },
@@ -264,7 +380,104 @@
                     "value": {
                       "type": "boolean",
                       "title": "",
-                      "default": true
+                      "default": false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "dynamic_range_enabled",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "dynamic_range_enabled" ],
+                  "title": "Dynamic range enabled"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "boolean",
+                      "title": "",
+                      "default": false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "lines_density",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "lines_density" ],
+                  "title": "Lines density"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
                     }
                   }
                 }

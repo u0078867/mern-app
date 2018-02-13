@@ -84,4 +84,4 @@ This is normally useful for retrieving data from the database. A good API ecosys
 - ``data loaders``: services for retrieving data, having a cache mechanism and batch processing capabilities (see [here](https://github.com/facebook/dataloader)).
 - ``interface layer``: the interface to the user: REST, GraphQL or RPC. Any of these can use data services and data loaders.
 
-An example of custom API can be found [here](/Pellenberg_api).
+An example of custom API can be found [here](./app/Pellenberg_api).

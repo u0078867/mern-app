@@ -47,10 +47,6 @@
             "type": "string",
             "title": "Id"
           },
-          "task": {
-            "type": "string",
-            "title": "Task"
-          },
           "anatomical_areas": {
             "type": "array",
             "title": "Anatomical areas",

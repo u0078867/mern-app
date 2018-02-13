@@ -68,6 +68,66 @@
             "name": {
               "type": "string",
               "title": "Name",
+              "default": "subject_pos",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "subject_pos" ],
+                  "title": "Subject position"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "prone" ],
+                          "title": "Prone"
+                        },
+                        {
+                          "type": "string",
+                          "enum": [ "on_side" ],
+                          "title": "On a side"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
               "default": "subject_pos_photo",
               "anyOf": [
                 {

@@ -51,17 +51,6 @@
             "type": "string",
             "title": "Id"
           },
-          "task": {
-            "type": "string",
-            "title": "Task",
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [ "lay_prone_still" ],
-                "title": "Lay prone and still"
-              }
-            ]
-          },
           "anatomical_areas": {
             "type": "array",
             "title": "Anatomical areas",
@@ -165,6 +154,39 @@
                   "type": "string",
                   "enum": [ "us_acq_software" ],
                   "title": "Ultrasound acquisition software"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "data": {
+      "type": "array",
+      "title": " ",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "roles": {
+            "type": "array",
+            "title": "Roles",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "subject_pos" ],
+                  "title": "Subject position"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "subject_pos_photo" ],
+                  "title": "Subject position photos(s)"
                 }
               ]
             }

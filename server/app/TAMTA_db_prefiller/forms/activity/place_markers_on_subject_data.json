@@ -1,6 +1,6 @@
 {
   "name": "Place markers on subject",
-  "type": "place-markers",
+  "type": "place-markers-on-subject",
   "researchers": [
     {
       "id": {

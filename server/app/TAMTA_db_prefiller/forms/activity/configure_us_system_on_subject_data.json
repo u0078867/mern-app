@@ -1,6 +1,6 @@
 {
-  "name": "Move instrumented probe along muscle with live image feedback",
-  "type": "move-probe-muscle",
+  "name": "Configure ultrasonography system",
+  "type": "configure-us-on-subject",
   "researchers": [
     {
       "id": {
@@ -80,10 +80,72 @@
   ],
   "outputs": [
     {
-      "name": "probe_contact_quality_comment",
+      "name": "image_h",
       "data": [
         {
-          "name": "value"
+          "name": "value",
+          "uom": {
+            "default": "px",
+            "valueFromVar": "us_acq_software_image_h_uom",
+            "__replacer__": true
+          },
+          "value": {
+            "valueFromVar": "us_acq_software_image_h_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "image_w",
+      "data": [
+        {
+          "name": "value",
+          "uom": {
+            "default": "px",
+            "valueFromVar": "us_acq_software_image_w_uom",
+            "__replacer__": true
+          },
+          "value": {
+            "valueFromVar": "us_acq_software_image_w_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "speckle_reduction_enabled",
+      "data": [
+        {
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_speckle_reduction_enabled_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "dynamic_range_enabled",
+      "data": [
+        {
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_dynamic_range_enabled_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "lines_density",
+      "data": [
+        {
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_lines_density",
+            "__replacer__": true
+          }
         }
       ]
     },
@@ -91,7 +153,11 @@
       "name": "free_text_comment",
       "data": [
         {
-          "name": "value"
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_comment_value",
+            "__replacer__": true
+          }
         }
       ]
     }

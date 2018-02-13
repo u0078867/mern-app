@@ -3,7 +3,12 @@
   "properties": {
     "was_trial_bad": {
       "type": "boolean",
-      "title": "Was trial bad ?",
+      "title": {
+        "fillString": "<<name>> <<surname>>: was trial bad ?",
+        "select": "_;items[0]",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      },
       "default": false
     }
   }

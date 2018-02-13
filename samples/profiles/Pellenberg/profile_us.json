@@ -1,0 +1,25 @@
+{
+
+  "global_variables": {
+
+    "opto_sensor": "test optoelectronic system",
+    "opto_marker": "test optoelectronic marker",
+    "opto_acq_computer": "lab laptop",
+    "us_probe": "test ultrasonography probe",
+    "us_machine": "test ultrasonography beamformer",
+    "us_acq_computer": "lab laptop",
+    "us_portico": "test portico",
+    "us_probe_holder": "test probe holder",
+    "trigger_signal_converter": "test trigger box",
+
+    "opto_acq_software": "optoelectronic data acquisition software",
+    "us_acq_software": "ultrasonography data acquisition software",
+
+    "subject": "0123456789",
+    "subject_position": "prone",
+    "subject_anatomical_areas": ["medial_gastroc"],
+    "subject_anatomical_side": "right"
+
+  }
+
+}

@@ -7,7 +7,6 @@
     "session",
     "datetime_ended",
     "researchers",
-    "subjects",
     "devices",
     "software",
     "outputs"
@@ -51,22 +50,6 @@
     "items": {
       "id": {
         "ui:widget": "researcher"
-      }
-    }
-  },
-  "subjects": {
-    "items": {
-      "id": {
-        "ui:widget": "subject"
-      },
-      "task": {
-        "classNames": "col-md-4"
-      },
-      "anatomical_areas": {
-        "classNames": "col-md-4"
-      },
-      "anatomical_side": {
-        "classNames": "col-md-4"
       }
     }
   },
@@ -159,15 +142,6 @@
         "container": "collapsible",
         "containerOptions": {
           "title": "researchers"
-        }
-      }
-    },
-    {
-      "subjects": {
-        "md": 12,
-        "container": "collapsible",
-        "containerOptions": {
-          "title": "subjects"
         }
       }
     },

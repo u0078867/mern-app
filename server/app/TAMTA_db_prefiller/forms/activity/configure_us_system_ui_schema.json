@@ -7,7 +7,6 @@
     "session",
     "datetime_ended",
     "researchers",
-    "subjects",
     "devices",
     "software",
     "outputs"
@@ -54,22 +53,6 @@
       }
     }
   },
-  "subjects": {
-    "items": {
-      "id": {
-        "ui:widget": "subject"
-      },
-      "task": {
-        "classNames": "col-md-4"
-      },
-      "anatomical_areas": {
-        "classNames": "col-md-4"
-      },
-      "anatomical_side": {
-        "classNames": "col-md-4"
-      }
-    }
-  },
   "devices": {
     "items": {
       "id": {
@@ -84,6 +67,16 @@
     "items": {
       "id": {
         "ui:widget": "software"
+      },
+      "roles": {
+        "classNames": "col-md-12"
+      }
+    }
+  },
+  "data": {
+    "items": {
+      "id": {
+        "ui:widget": "output"
       },
       "roles": {
         "classNames": "col-md-12"
@@ -238,15 +231,6 @@
         "container": "collapsible",
         "containerOptions": {
           "title": "researchers"
-        }
-      }
-    },
-    {
-      "subjects": {
-        "md": 12,
-        "container": "collapsible",
-        "containerOptions": {
-          "title": "subjects"
         }
       }
     },

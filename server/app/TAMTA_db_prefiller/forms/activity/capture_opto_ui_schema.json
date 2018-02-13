@@ -60,14 +60,11 @@
       "id": {
         "ui:widget": "subject"
       },
-      "task": {
-        "classNames": "col-md-4"
-      },
       "anatomical_areas": {
-        "classNames": "col-md-4"
+        "classNames": "col-md-6"
       },
       "anatomical_side": {
-        "classNames": "col-md-4"
+        "classNames": "col-md-6"
       }
     }
   },

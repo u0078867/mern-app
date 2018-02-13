@@ -77,6 +77,14 @@ var JSONSchemaDynToStat = (schema_in, data_in) => {
               throw 'select type not recognized';
           }
         })
+        .then(res => {
+          if (res == undefined || !replacer.fillString)
+            return res;
+          mustache.tags = ['<<', '>>'];
+          let data = mustache.render(replacer.fillString, res);
+          mustache.tags = ['{{', '}}'];
+          return data;
+        })
         .then(data => {
           // replace replacer with list
           jp.apply(schema, replacer_path, r => data);
