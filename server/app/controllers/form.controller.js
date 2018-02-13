@@ -1,6 +1,6 @@
 import Form from '../models/form';
 import cuid from 'cuid';
-import slug from 'limax';
+import slug from 'slug';
 import sanitizeHtml from 'sanitize-html';
 import config from '../../config';
 

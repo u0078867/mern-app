@@ -1,6 +1,6 @@
 import path from 'path';
 import cuid from 'cuid';
-import slug from 'limax';
+import slug from 'slug';
 import sanitizeHtml from 'sanitize-html';
 import config from '../../config';
 import fs from 'fs';

@@ -1,6 +1,6 @@
 import Subm from '../models/subm';
 import cuid from 'cuid';
-import slug from 'limax';
+import slug from 'slug';
 import sanitizeHtml from 'sanitize-html';
 import config from '../../config';
 
