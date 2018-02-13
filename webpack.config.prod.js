@@ -6,8 +6,8 @@ var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
 var cssnano = require('cssnano');
-//var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+//var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var path = require('path');
 
 // Load env

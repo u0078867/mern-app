@@ -6,6 +6,7 @@ import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import fileUpload from 'express-fileupload';
 
+
 // monkey patching error to support JSON.stringify()
 if (!('toJSON' in Error.prototype))
 Object.defineProperty(Error.prototype, 'toJSON', {

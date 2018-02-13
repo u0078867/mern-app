@@ -3,6 +3,11 @@
  */
 
 if (process.env.NODE_ENV === 'production') {
+  // Load env
+  const dotenv = require('dotenv');
+  dotenv.config({path: __dirname + '/env'});
+  dotenv.load();
+  // load assets
   process.env.webpackAssets = JSON.stringify(require('./dist/manifest.json'));
   process.env.webpackChunkAssets = JSON.stringify(require('./dist/chunk-manifest.json'));
   // In production, serve the webpacked server file.
