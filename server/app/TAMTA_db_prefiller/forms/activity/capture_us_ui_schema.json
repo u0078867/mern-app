@@ -106,7 +106,7 @@
           "ui:readonly": true
         },
         "name": {
-          "ui:description": "Ultrasound images file set. For TELEMED: .tvd"
+          "ui:description": "Ultrasound raw images files set. For TELEMED: .tvd;"
         },
         "files_data": {
           "ui:field": "file"

@@ -109,6 +109,11 @@
                           "type": "string",
                           "enum": [ "on_side" ],
                           "title": "On a side"
+                        },
+                        {
+                          "type": "string",
+                          "enum": [ "supine" ],
+                          "title": "Supine"
                         }
                       ]
                     }

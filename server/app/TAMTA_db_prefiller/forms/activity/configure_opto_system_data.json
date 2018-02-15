@@ -59,8 +59,15 @@
       "name": "acq_freq",
       "data": [
         {
-          "name": "value",
-          "uom": "hz"
+          "uom": {
+            "default": "Hz",
+            "valueFromVar": "opto_acq_software_acq_freq_uom",
+            "__replacer__": true
+          },
+          "value": {
+            "valueFromVar": "opto_acq_software_acq_freq_value",
+            "__replacer__": true
+          }
         }
       ]
     },

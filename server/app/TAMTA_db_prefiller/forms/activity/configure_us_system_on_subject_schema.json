@@ -398,12 +398,12 @@
             "name": {
               "type": "string",
               "title": "Name",
-              "default": "dynamic_range_enabled",
+              "default": "dynamic_focus_enabled",
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "dynamic_range_enabled" ],
-                  "title": "Dynamic range enabled"
+                  "enum": [ "dynamic_focus_enabled" ],
+                  "title": "Dynamic focus enabled"
                 }
               ]
             },
@@ -478,6 +478,271 @@
                     "value": {
                       "type": "number",
                       "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "dynamic_range",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "dynamic_range" ],
+                  "title": "Dynamic range"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "dB",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "dB" ],
+                          "title": "dB"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "gain",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "gain" ],
+                  "title": "Gain"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "power",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "power" ],
+                  "title": "Power"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "probe_frequency",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "probe_frequency" ],
+                  "title": "Probe frequency"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "number",
+                      "title": "Value"
+                    },
+                    "uom": {
+                      "type": "string",
+                      "title": "Measurement unit",
+                      "default": "MHz",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "MHz" ],
+                          "title": "MHz"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "default": "image_enhancement_enabled",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "image_enhancement_enabled" ],
+                  "title": "Image enhancement enabled"
+                }
+              ]
+            },
+            "data": {
+              "type": "array",
+              "title": " ",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "title": "Name",
+                      "default": "value",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [ "value" ],
+                          "title": "Value"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "boolean",
+                      "title": "",
+                      "default": false
                     }
                   }
                 }

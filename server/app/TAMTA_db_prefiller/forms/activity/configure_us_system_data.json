@@ -102,12 +102,12 @@
       ]
     },
     {
-      "name": "dynamic_range_enabled",
+      "name": "dynamic_focus_enabled",
       "data": [
         {
           "name": "value",
           "value": {
-            "valueFromVar": "us_acq_software_dynamic_range_enabled_value",
+            "valueFromVar": "us_acq_software_dynamic_focus_enabled_value",
             "__replacer__": true
           }
         }
@@ -119,7 +119,77 @@
         {
           "name": "value",
           "value": {
-            "valueFromVar": "us_acq_software_lines_density",
+            "valueFromVar": "us_acq_software_lines_density_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "dynamic_range",
+      "data": [
+        {
+          "name": "value",
+          "uom": {
+            "default": "dB",
+            "valueFromVar": "us_acq_software_dynamic_range_uom",
+            "__replacer__": true
+          },
+          "value": {
+            "valueFromVar": "us_acq_software_dynamic_range_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "gain",
+      "data": [
+        {
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_gain_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "power",
+      "data": [
+        {
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_power_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "probe_frequency",
+      "data": [
+        {
+          "name": "value",
+          "uom": {
+            "default": "MHz",
+            "valueFromVar": "us_acq_software_probe_frequency_uom",
+            "__replacer__": true
+          },
+          "value": {
+            "valueFromVar": "us_acq_software_probe_frequency_value",
+            "__replacer__": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "image_enhancement_enabled",
+      "data": [
+        {
+          "name": "value",
+          "value": {
+            "valueFromVar": "us_acq_software_image_enhancement_enabled_value",
             "__replacer__": true
           }
         }

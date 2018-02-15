@@ -39,38 +39,38 @@ function dummyData(verbose, fillLevel) {
       console.log('researchers collection was filled');
       return [];
     }
-    if (fillLevel < 2) {
-      return [];
-    }
-    console.log('filling researchers collection ...');
     let researchers = [];
     const register = {
-      name: 'Davide',
-      surname: 'Monari',
-      birthdate: '6/12/1985',
-      institution_id: 'u0078867',
-      slug: 'admin',
+      name: 'default user',
+      surname: 'default user',
+      birthdate: '00/00/0000',
+      institution_id: 'u0000000',
+      slug: 'default-user',
     };
+    console.log('filling with default user ...');
     researchers.push(register);
-    let researcher = {};
-    for (let i = 0; i < 50; i++) {
+    if (fillLevel >= 2) {
+      console.log('filling researchers collection ...');
+      let researcher = {};
+      for (let i = 0; i < 50; i++) {
+        researcher = {
+          name: chance.first(),
+          surname: chance.last(),
+          birthdate: chance.birthday({string: true, american: false}),
+          institution_id: chance.character() + Math.floor(Math.random() * 899999 + 100000),
+          slug: 'test-researcher',
+        };
+        researchers.push(researcher);
+      }
       researcher = {
-        name: chance.first(),
-        surname: chance.last(),
-        birthdate: chance.birthday({string: true, american: false}),
-        institution_id: chance.character() + Math.floor(Math.random() * 899999 + 100000),
-        slug: 'test-researcher',
+        name: 'John',
+        surname: 'Doe',
+        birthdate: '6/12/1900',
+        institution_id: 'u0123456',
+        slug: 'john-doe-researcher',
       };
       researchers.push(researcher);
     }
-    researcher = {
-      name: 'John',
-      surname: 'Doe',
-      birthdate: '6/12/1900',
-      institution_id: 'u0123456',
-      slug: 'john-doe-researcher',
-    };
-    researchers.push(researcher);
     return Researcher.createMany(researchers);
   })
   .then(res => {
@@ -738,26 +738,68 @@ function dummyData(verbose, fillLevel) {
           "path": "outputs[2].data[0].value"
         },
 
-        "us_acq_software_dynamic_range_enabled": {
+        "us_acq_software_dynamic_focus_enabled": {
           "path": "outputs[3].cuid"
         },
-        "us_acq_software_dynamic_range_enabled_value": {
+        "us_acq_software_dynamic_focus_enabled_value": {
           "path": "outputs[3].data[0].value"
         },
 
         "us_acq_software_lines_density": {
           "path": "outputs[4].cuid"
         },
-        "us_acq_software_lines_density": {
+        "us_acq_software_lines_density_value": {
           "path": "outputs[4].data[0].value"
         },
 
-        "us_acq_software_comment": {
+        "us_acq_software_dynamic_range": {
           "path": "outputs[5].cuid"
         },
-        "us_acq_software_comment_value": {
+        "us_acq_software_dynamic_range_value": {
           "path": "outputs[5].data[0].value"
         },
+        "us_acq_software_dynamic_range_uom": {
+          "path": "outputs[5].data[0].uom"
+        },
+
+        "us_acq_software_gain": {
+          "path": "outputs[6].cuid"
+        },
+        "us_acq_software_gain_value": {
+          "path": "outputs[6].data[0].value"
+        },
+
+        "us_acq_software_power": {
+          "path": "outputs[7].cuid"
+        },
+        "us_acq_software_power_value": {
+          "path": "outputs[7].data[0].value"
+        },
+
+        "us_acq_software_probe_frequency": {
+          "path": "outputs[8].cuid"
+        },
+        "us_acq_software_probe_frequency_value": {
+          "path": "outputs[8].data[0].value"
+        },
+        "us_acq_software_probe_frequency_uom": {
+          "path": "outputs[8].data[0].uom"
+        },
+
+        "us_acq_software_image_enhancement_enabled": {
+          "path": "outputs[9].cuid"
+        },
+        "us_acq_software_image_enhancement_enabled_value": {
+          "path": "outputs[9].data[0].value"
+        },
+
+        "us_acq_software_comment": {
+          "path": "outputs[10].cuid"
+        },
+        "us_acq_software_comment_value": {
+          "path": "outputs[10].data[0].value"
+        },
+
       },
       slug: "configure-us",
     };
@@ -801,26 +843,68 @@ function dummyData(verbose, fillLevel) {
           "path": "outputs[2].data[0].value"
         },
 
-        "us_acq_software_dynamic_range_enabled": {
+        "us_acq_software_dynamic_focus_enabled": {
           "path": "outputs[3].cuid"
         },
-        "us_acq_software_dynamic_range_enabled_value": {
+        "us_acq_software_dynamic_focus_enabled_value": {
           "path": "outputs[3].data[0].value"
         },
 
         "us_acq_software_lines_density": {
           "path": "outputs[4].cuid"
         },
-        "us_acq_software_lines_density": {
+        "us_acq_software_lines_density_value": {
           "path": "outputs[4].data[0].value"
         },
 
-        "us_acq_software_comment": {
+        "us_acq_software_dynamic_range": {
           "path": "outputs[5].cuid"
         },
-        "us_acq_software_comment_value": {
+        "us_acq_software_dynamic_range_value": {
           "path": "outputs[5].data[0].value"
         },
+        "us_acq_software_dynamic_range_uom": {
+          "path": "outputs[5].data[0].uom"
+        },
+
+        "us_acq_software_gain": {
+          "path": "outputs[6].cuid"
+        },
+        "us_acq_software_gain_value": {
+          "path": "outputs[6].data[0].value"
+        },
+
+        "us_acq_software_power": {
+          "path": "outputs[7].cuid"
+        },
+        "us_acq_software_power_value": {
+          "path": "outputs[7].data[0].value"
+        },
+
+        "us_acq_software_probe_frequency": {
+          "path": "outputs[8].cuid"
+        },
+        "us_acq_software_probe_frequency_value": {
+          "path": "outputs[8].data[0].value"
+        },
+        "us_acq_software_probe_frequency_uom": {
+          "path": "outputs[8].data[0].uom"
+        },
+
+        "us_acq_software_image_enhancement_enabled": {
+          "path": "outputs[9].cuid"
+        },
+        "us_acq_software_image_enhancement_enabled_value": {
+          "path": "outputs[9].data[0].value"
+        },
+
+        "us_acq_software_comment": {
+          "path": "outputs[10].cuid"
+        },
+        "us_acq_software_comment_value": {
+          "path": "outputs[10].data[0].value"
+        },
+
       },
       slug: "configure-us-on-subject",
     };
@@ -836,12 +920,21 @@ function dummyData(verbose, fillLevel) {
       insert_on_submit: true,
       submitter: 'direct',
       output_variables: {
+
         "opto_acq_software_acq_freq": {
           "path": "outputs[0].cuid"
         },
+        "opto_acq_software_acq_freq_value": {
+          "path": "outputs[0].data[0].value"
+        },
+        "opto_acq_software_acq_freq_uom": {
+          "path": "outputs[0].data[0].uom"
+        },
+
         "opto_acq_software_comment": {
           "path": "outputs[1].cuid"
         }
+
       },
       slug: "configure-opto",
     };

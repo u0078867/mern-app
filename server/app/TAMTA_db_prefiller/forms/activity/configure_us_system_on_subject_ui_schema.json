@@ -169,7 +169,7 @@
           "ui:readonly": true
         },
         "name": {
-          "ui:description": "Dynamic range activation. It tells the ultrasound machine how you want the echo intensity displayed as shades of gray. A broad/wide range will display more shades of gray and an overall smoother image. A smaller/narrow range will display fewer shades of gray and appear as a higher contrast with a more black-and-white image."
+          "ui:description": "Dynamic focus. In the dynamic focusing mode an ultrasonic beam is focused full length. In the static focusing mode the ultrasonic beam is only focused at selected areas or focusing zones. In the static focusing mode it is possible to select a number of focusing areas (called the focus number). Please note that selecting a larger number of focuses (or active focusing zones) reduces the frame rate."
         },
         "data": {
           "items": {
@@ -189,6 +189,107 @@
         },
         "name": {
           "ui:description": "It adjusts the number of scan lines in your ultrasound image. A higher level provides better resolution in the image (more scan lines), but reduces the frame rate. Use this to get the best possible image with the most acceptable frame rate."
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "Dynamic range. It tells the ultrasound machine how you want the echo intensity displayed as shades of gray. A broad/wide range will display more shades of gray and an overall smoother image. A smaller/narrow range will display fewer shades of gray and appear as a higher contrast with a more black-and-white image."
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-4"
+            },
+            "value": {
+              "classNames": "col-md-4"
+            },
+            "uom": {
+              "classNames": "col-md-4"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "B mode Gain adjustment increases or decreases the amplification of the returning ultrasound echo signal. Use this control to increase or decrease the amount of echo information displayed in the ultrasound image. Gain adjustment allows you to balance echo contrast so that cystic structures appear echo-free and reflecting tissues are filled in. Gain adjustment may brighten or darken the ultrasound image if sufficient echo information is generated."
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "Power adjustment increases or decreases the acoustic power of the transmitted ultrasound signal. Larger power values allow you to increase the penetration depth and can help to achieve better image quality when observing tissues at greater depths."
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-6"
+            },
+            "value": {
+              "classNames": "col-md-6"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "Frequency is a characteristic that defines a resolution of ultrasonic signal. Higher frequencies increase the resolution of the incoming ultrasonic signal but reduce the visibility of examined tissues at greater depths. In order to examine tissues at smaller depths use larger frequencies and to examine tissues at greater depths use smaller."
+        },
+        "data": {
+          "items": {
+            "name": {
+              "classNames": "col-md-4"
+            },
+            "value": {
+              "classNames": "col-md-4"
+            },
+            "uom": {
+              "classNames": "col-md-4"
+            }
+          }
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
+        "name": {
+          "ui:description": "Ultrasound images can be enhanced by using smoothing filters that remove noise or by using sharpening filters that enhance the tissue boundary visibility (e.g., for vessels)."
         },
         "data": {
           "items": {

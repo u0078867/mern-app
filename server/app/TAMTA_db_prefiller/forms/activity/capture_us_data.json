@@ -82,12 +82,32 @@
       "roles": ["us_acq_software_speckle_reduction_enabled"]
     },
     {
-      "id": "{{us_acq_software_dynamic_range_enabled}}",
-      "roles": ["us_acq_software_dynamic_range_enabled"]
+      "id": "{{us_acq_software_dynamic_focus_enabled}}",
+      "roles": ["us_acq_software_dynamic_focus_enabled"]
     },
     {
       "id": "{{us_acq_software_lines_density}}",
       "roles": ["us_acq_software_lines_density"]
+    },
+    {
+      "id": "{{us_acq_software_dynamic_range}}",
+      "roles": ["us_acq_software_dynamic_range"]
+    },
+    {
+      "id": "{{us_acq_software_gain}}",
+      "roles": ["us_acq_software_gain"]
+    },
+    {
+      "id": "{{us_acq_software_power}}",
+      "roles": ["us_acq_software_power"]
+    },
+    {
+      "id": "{{us_acq_software_probe_frequency}}",
+      "roles": ["us_acq_software_probe_frequency"]
+    },
+    {
+      "id": "{{us_acq_software_image_enhancement_enabled}}",
+      "roles": ["us_acq_software_image_enhancement_enabled"]
     }
   ],
   "outputs": [

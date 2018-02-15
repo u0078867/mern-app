@@ -1,0 +1,16 @@
+{
+	"schemaVersion": 1,
+	"initial": {
+		"is_muscle_us_visible_during_setup": true,
+		"are_markers_visible_during_setup": true,
+		"was_trial_bad": false,
+		"capture_extra_trial": false,
+		"main_researcher": "john doe",
+		"helper": "default user"
+	},
+	"on_activity_wait": {
+		"actor": {
+			"$ref": "#/initial/{{task.lane.id}}"
+		}
+	}
+}

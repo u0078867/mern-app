@@ -195,13 +195,38 @@
                 },
                 {
                   "type": "string",
-                  "enum": [ "us_acq_software_dynamic_range_enabled" ],
-                  "title": "Ultrasound acquisition software dynamic range enabled"
+                  "enum": [ "us_acq_software_dynamic_focus_enabled" ],
+                  "title": "Ultrasound acquisition software dynamic focus enabled"
                 },
                 {
                   "type": "string",
                   "enum": [ "us_acq_software_lines_density" ],
                   "title": "Ultrasound acquisition software lines density"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software_dynamic_range" ],
+                  "title": "Ultrasound acquisition software dynamic range"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software_gain" ],
+                  "title": "Ultrasound acquisition software gain"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software_power" ],
+                  "title": "Ultrasound acquisition software power"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software_probe_frequency" ],
+                  "title": "Ultrasound acquisition software probe frequency"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "us_acq_software_image_enhancement_enabled" ],
+                  "title": "Ultrasound acquisition software image enhancement enabled"
                 }
               ]
             }
