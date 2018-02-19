@@ -230,6 +230,11 @@
                 },
                 {
                   "type": "string",
+                  "enum": [ "us_acq_software_configuration_data" ],
+                  "title": "Ultrasound acquisition software configuration data"
+                },
+                {
+                  "type": "string",
                   "enum": [ "subject_pos" ],
                   "title": "Subject position"
                 },

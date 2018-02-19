@@ -171,6 +171,7 @@ class FormDetailPage extends Component {
 
   onUpdateFormData = (data) => {
     let formData = Object.assign({}, this.state.formData, data);
+    console.log(formData)
     this.onChange({formData});
   }
 

@@ -106,7 +106,7 @@
           "ui:readonly": true
         },
         "name": {
-          "ui:description": "Motion capture raw files set. For Vicon: .xcp, .x2d, .x1d, .system; for Optitrack: .tak;"
+          "ui:description": "Motion capture raw files set. For VICON: .xcp, .x2d, .x1d, .system; for OPTITRACK: .tak; for STRADWIN: .sw;"
         },
         "files_data": {
           "ui:field": "file"

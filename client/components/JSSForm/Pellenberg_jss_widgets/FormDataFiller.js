@@ -26,7 +26,7 @@ class FormDataFiller extends Component {
   fillFormFromValue = (value) => {
     this.props.onChange(value);
     var p = this.props.options.field || this.props.id.split("_").slice(1);  // tokenize path
-    if (p == 'cuid') {
+    if (/*p == 'cuid'*/ false) {
       callApi(`${this.props.options.collection}/${value}`).then(res => {
         if (res.item) {
           //this.props.formContext.updateFormData(res.item);

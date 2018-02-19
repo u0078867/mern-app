@@ -760,6 +760,48 @@
             "name": {
               "type": "string",
               "title": "Name",
+              "default": "us_config_data",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [ "us_config_data" ],
+                  "title": "Ultrasound configuration data"
+                }
+              ]
+            },
+            "files_data": {
+              "title": "Configuration file(s)",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "storage_uri": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "number"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cuid": {
+              "type": "string",
+              "title": " "
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
               "default": "free_text_comment",
               "anyOf": [
                 {

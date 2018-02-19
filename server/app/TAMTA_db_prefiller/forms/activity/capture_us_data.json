@@ -108,6 +108,10 @@
     {
       "id": "{{us_acq_software_image_enhancement_enabled}}",
       "roles": ["us_acq_software_image_enhancement_enabled"]
+    },
+    {
+      "id": "{{us_acq_software_configuration_data}}",
+      "roles": ["us_acq_software_configuration_data"]
     }
   ],
   "outputs": [

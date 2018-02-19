@@ -793,11 +793,15 @@ function dummyData(verbose, fillLevel) {
           "path": "outputs[9].data[0].value"
         },
 
-        "us_acq_software_comment": {
+        "us_acq_software_configuration_data": {
           "path": "outputs[10].cuid"
         },
+
+        "us_acq_software_comment": {
+          "path": "outputs[11].cuid"
+        },
         "us_acq_software_comment_value": {
-          "path": "outputs[10].data[0].value"
+          "path": "outputs[11].data[0].value"
         },
 
       },
@@ -898,11 +902,15 @@ function dummyData(verbose, fillLevel) {
           "path": "outputs[9].data[0].value"
         },
 
-        "us_acq_software_comment": {
+        "us_acq_software_configuration_data": {
           "path": "outputs[10].cuid"
         },
+
+        "us_acq_software_comment": {
+          "path": "outputs[11].cuid"
+        },
         "us_acq_software_comment_value": {
-          "path": "outputs[10].data[0].value"
+          "path": "outputs[11].data[0].value"
         },
 
       },
