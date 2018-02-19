@@ -1,0 +1,12 @@
+PREFILL_DB=2
+API_PATH=server/app/Pellenberg_api
+DB_PREFILLER_PATH=server/app/TAMTA_db_prefiller
+JSS_WIDGETS_PATH=client/components/JSSForm/Pellenberg_jss_widgets
+DATA_VIEWERS=client/components/PellenbergViewers
+MODULE_LOGIN=client/modules/LoginPellenberg
+MODULE_DASHBOARD=client/modules/DashboardPellenberg
+MODULE_QUERY=client/modules/QueryPellenberg
+CONTAINER_CLASS=client/components/PellenbergContainer
+LOGGED_CONTAINER_CLASS=client/components/PellenbergLoggedInContainer
+SCHEMAS_DIR=./Pellenberg_schemas
+SUBMITTERS_PATH=client/modules/Form/components/PellenbergSubmitters

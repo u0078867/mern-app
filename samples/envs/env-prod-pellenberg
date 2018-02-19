@@ -11,11 +11,11 @@ LOGGED_CONTAINER_CLASS=client/components/PellenbergLoggedInContainer
 SUBMITTERS_PATH=client/modules/Form/components/PellenbergSubmitters
 # runtime
 SCHEMAS_DIR=./Pellenberg_schemas
-MONGO_URL=mongodb://tamta:NLCEbEuY9RhLqY3V@apps.mech.kuleuven.be:30001/tamta
-DRIVER_MONGO_URL=mongodb://tamta:NLCEbEuY9RhLqY3V@apps.mech.kuleuven.be:30001/tamta
+MONGO_URL=...
+DRIVER_MONGO_URL=...
 PREFILL_DB=1
-MINIO_URL=pellenberg-tamta-minio.apps.mech.kuleuven.be
+MINIO_URL=...
 MINIO_PORT=443
-MINIO_ACCESS_KEY=J6rzt6946258yxr2M2BV
-MINIO_SECRET_KEY=cmCyVu3Gsj4CKJ74u8c7etTVTgKPkadu6Tvws94d
+MINIO_ACCESS_KEY=...
+MINIO_SECRET_KEY=...
 MINIO_BUCKET=tamta
