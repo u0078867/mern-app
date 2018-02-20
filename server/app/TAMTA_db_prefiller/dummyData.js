@@ -939,8 +939,12 @@ function dummyData(verbose, fillLevel) {
           "path": "outputs[0].data[0].uom"
         },
 
-        "opto_acq_software_comment": {
+        "opto_acq_software_configuration_data": {
           "path": "outputs[1].cuid"
+        },
+
+        "opto_acq_software_comment": {
+          "path": "outputs[2].cuid"
         }
 
       },

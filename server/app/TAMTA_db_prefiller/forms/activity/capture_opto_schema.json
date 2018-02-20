@@ -217,6 +217,11 @@
                   "type": "string",
                   "enum": [ "opto_acq_software_acq_freq" ],
                   "title": "Optoelectronic acquisition software acquisition frequency"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "opto_acq_software_configuration_data" ],
+                  "title": "Optoelectronic acquisition software configuration data"
                 }
               ]
             }

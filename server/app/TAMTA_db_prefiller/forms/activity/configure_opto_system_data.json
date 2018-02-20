@@ -72,6 +72,9 @@
       ]
     },
     {
+      "name": "opto_config_data"
+    },
+    {
       "name": "free_text_comment",
       "data": [
         {

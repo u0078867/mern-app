@@ -92,6 +92,10 @@
     {
       "id": "{{opto_acq_software_acq_freq}}",
       "roles": ["opto_acq_software_acq_freq"]
+    },
+    {
+      "id": "{{opto_acq_software_configuration_data}}",
+      "roles": ["opto_acq_software_configuration_data"]
     }
   ],
   "outputs": [

@@ -102,6 +102,18 @@
           "ui:widget": "cuid",
           "ui:readonly": true
         },
+        "name": {
+          "ui:description": "Optoelectronic configuration files set. For STRADWIN: stradwin.ini, .swt (if template used);"
+        },
+        "files_data": {
+          "ui:field": "file"
+        }
+      },
+      {
+        "cuid": {
+          "ui:widget": "cuid",
+          "ui:readonly": true
+        },
         "data": {
           "items": {
             "name": {
