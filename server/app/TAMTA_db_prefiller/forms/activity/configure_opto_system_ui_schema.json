@@ -103,7 +103,7 @@
           "ui:readonly": true
         },
         "name": {
-          "ui:description": "Optoelectronic configuration files set. For STRADWIN: stradwin.ini, .swt (if template used);"
+          "ui:description": "Optoelectronic configuration files set. For STRADWIN: stradwin.ini, .swt (if template used); For VICON: C:/Program Files (x86)/Vicon/NexusX.Y/Configurations/<your configuration>.system"
         },
         "files_data": {
           "ui:field": "file"
