@@ -4,7 +4,7 @@
 
 #
 # ---- Base Node ----
-FROM node:carbon AS base
+FROM node:carbon-alpine AS base
 # set working directory
 WORKDIR /usr/src/app
 # copy project file
@@ -13,8 +13,9 @@ COPY package*.json ./
 #
 # ---- Dependencies ----
 FROM base AS dependencies
+# Add git (necessary for installation of a few deps)
+RUN apk add --no-cache git openssh
 # install node packages
-#RUN npm set progress=false && npm config set depth 0
 RUN npm install --only=production
 # copy production node_modules aside
 RUN cp -R node_modules prod_node_modules
