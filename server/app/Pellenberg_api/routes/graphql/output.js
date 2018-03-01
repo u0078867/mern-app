@@ -14,6 +14,8 @@ import {
 
 import { AttributeType } from './attribute';
 
+import { ActivityType } from './activity';
+
 export const FileDataType = new GraphQLObjectType({
   name: 'FileData',
   fields: () => ({
@@ -49,6 +51,9 @@ export const OutputType = new GraphQLObjectType({
     },
     data: {
       type: new GraphQLList(AttributeType),
+    },
+    activity: {
+      type: ActivityType,
     },
   })
 });

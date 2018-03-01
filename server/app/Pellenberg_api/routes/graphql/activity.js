@@ -37,9 +37,6 @@ export const SubjectsType = new GraphQLObjectType({
       type: SubjectType,
       resolve: (obj, args, {loaders}) => loaders.subject.load(obj.id),
     },
-    task: {
-      type: GraphQLString,
-    },
     anatomical_areas: {
       type: new GraphQLList(GraphQLString),
     },

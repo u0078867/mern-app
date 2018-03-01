@@ -70,7 +70,6 @@ let queryText = `
         }
         hospital_id
       }
-      task
       anatomical_areas
       anatomical_side
     }
@@ -101,9 +100,9 @@ let queryText = `
             boolean_value: value
           }
           ... on NoValueAttribute {
-          name
-          uom
-        }
+            name
+            uom
+          }
         }
       }
       roles
@@ -149,6 +148,9 @@ let queryText = `
       data {
         cuid
         name
+        activity {
+          type
+        }
       }
       roles
     }

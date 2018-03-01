@@ -1,5 +1,5 @@
 {
-  "name": "Manually move camera position for optimal field of view",
+  "name": "Check markers visibility",
   "type": "check-markers-visibility",
   "researchers": [
     {

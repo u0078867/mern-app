@@ -12,6 +12,7 @@ import ResearcherInlineViewer from './ResearcherInlineViewer';
 import SubjectInlineViewer from './SubjectInlineViewer';
 import DeviceInlineViewer from './DeviceInlineViewer';
 import SoftwareInlineViewer from './SoftwareInlineViewer';
+import DataInlineViewer from './DataInlineViewer';
 import PublicationInlineViewer from './PublicationInlineViewer';
 import ProjectViewer from './ProjectViewer';
 import OutputContent from './OutputContent';
@@ -39,14 +40,23 @@ class ActivityViewer extends Component {
 
   getFormKeyFromActivityType(t) {
     switch (t) {
-      case "mount-camera":
-        return "mount-camera";
-      case "place-markers":
-        return "place-markers";
+      case "ajust-camera":
+      case "adjust-camera":
+        return "adjust-camera";
+      case "perform-anthro-measures":
+        return "anthro-measures"; // diff
+      case "prepare-subject":
+        return "prepare-subject";
       case "configure-us":
         return "configure-us";
+      case "configure-us-on-subject":
+        return "configure-us-on-subject";
       case "configure-opto":
         return "configure-opto";
+      case "check-muscle-us-visibility":
+        return "check-muscle-us-visibility";
+      case "check-markers-visibility":
+        return "check-markers-visibility";
       case "move-probe-muscle":
         return "move-probe-muscle";
       case "capture-us":
@@ -86,6 +96,7 @@ class ActivityViewer extends Component {
       <div>
         <Panel header={header}>
           <div><b>CUID:</b> {d.cuid}</div>
+          <div><b>Type:</b> {d.type}</div>
           <div><b>Registered by:</b> {<ResearcherInlineViewer item={typeof d.registered_by == "string" ? {cuid: d.registered_by} : d.registered_by} forms={this.props.forms} />} <i>(on {new Date(d.date_added).toUTCString()})</i></div>
           <div><b>Session:</b> {d.session}</div>
           <div><b>Ended on:</b> {new Date(d.datetime_ended).toUTCString()}</div>
@@ -132,6 +143,18 @@ class ActivityViewer extends Component {
                 <SoftwareContent
                   data={d.software}
                   dataSchema={schema ? schema.properties.software : undefined}
+                  forms={forms}
+                />
+              </div>
+            : null}
+          </div>
+          <div>
+            {(d.data && d.data.length) ?
+              <div>
+                <b>Data:</b>
+                <DataContent
+                  data={d.data}
+                  dataSchema={schema ? schema.properties.data : undefined}
                   forms={forms}
                 />
               </div>
@@ -219,16 +242,20 @@ class SubjectsContent extends Component {
       <ul style={{"listStyleType": "disc"}}>
         {d.map(e => {
           let areas = '';
-          for (let area of e.anatomical_areas) {
-            areas = areas + (schema ? extractOptionTitle(schema.items.properties.anatomical_areas.items.anyOf, area) : area) + ', ';
+          if (e.anatomical_areas) {
+            for (let area of e.anatomical_areas) {
+              areas = areas + (schema ? extractOptionTitle(schema.items.properties.anatomical_areas.items.anyOf, area) : area) + ', ';
+            }
+            areas = areas.slice(0, -2);
           }
-          areas = areas.slice(0, -2);
-          let task = schema ? extractOptionTitle(schema.items.properties.task.anyOf, e.task) : e.task;
-          let side = schema ? extractOptionTitle(schema.items.properties.anatomical_side.anyOf, e.anatomical_side) : e.anatomical_side;
+          let side = '';
+          if (e.anatomical_side) {
+            side = schema ? extractOptionTitle(schema.items.properties.anatomical_side.anyOf, e.anatomical_side) : e.anatomical_side;
+          }
           let id = e.id || e.data.cuid;
           return (
             <li key={id + Math.random()}>
-              <SubjectInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />; <b>task:</b> {task}; <b>areas of interest:</b> {areas}; <b>anatomical side:</b> {side};
+              <SubjectInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />; <b>areas of interest:</b> {areas}; <b>anatomical side:</b> {side};
             </li>
           )
         })}
@@ -341,6 +368,37 @@ class ProjectsContent extends Component {
           return (
             <li key={id + Math.random()}>
               <ProjectInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+
+}
+
+class DataContent extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    let d = this.props.data;
+    let forms = this.props.forms;
+    let schema = this.props.dataSchema;
+    return (
+      <ul style={{"listStyleType": "disc"}}>
+        {d.map(e => {
+          let roles = '';
+          for (let role of e.roles) {
+            roles = roles + (schema ? extractOptionTitle(schema.items.properties.roles.items.anyOf, role) : role) + ', ';
+          }
+          roles = roles.slice(0, -2);
+          let id = e.id || e.data.cuid;
+          return (
+            <li key={id + Math.random()}>
+              <DataInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />; <b>roles:</b> {roles};
             </li>
           )
         })}

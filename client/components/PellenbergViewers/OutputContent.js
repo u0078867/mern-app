@@ -79,7 +79,7 @@ class FilesDataContent extends Component {
         {d.map(f => {
           return (
             <li key={f.storage_uri +  Math.random()}>
-              <a href={this.state.fileURLs[f.storage_uri]} download={`${f.name}`} onMouseOver={() => this.generateFileURL(f.storage_uri)}>{f.name}</a><i> ({f.type})</i>, {formatBytes(f.size)};
+              <a href={this.state.fileURLs[f.storage_uri]} download={`${f.name}`} onMouseOver={() => this.generateFileURL(f.storage_uri)}>{f.name}</a>{f.type ? <i> ({f.type})</i> : null}, {formatBytes(f.size)};
             </li>
           )
         })}
