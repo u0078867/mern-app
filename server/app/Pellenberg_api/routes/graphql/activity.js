@@ -67,7 +67,7 @@ export const SWToolsType = new GraphQLObjectType({
     },
     data: {
       type: SWToolType,
-      resolve: (obj, args, {loaders}) => loaders.software.load(obj.id),
+      resolve: (obj, args, {loaders}) => loaders.swtool.load(obj.id),
     }
   })
 });

@@ -16,7 +16,7 @@ export function createLoaders() {
     project: projectLoader,
     publication: publicationLoader,
     researcher: researcherLoader,
-    software: softwareLoader,
+    swtool: softwareLoader,
     subject: subjectLoader,
   }
 }

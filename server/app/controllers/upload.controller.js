@@ -6,6 +6,7 @@ import config from '../../config';
 import fs from 'fs';
 import promisify from 'es6-promisify';
 import Models from 'MODELS_PATH/entity';
+import postUpdate from 'API_PATH/hooks/post_update';
 
 
 export function uploadFile(req, res) {
@@ -30,7 +31,8 @@ export function uploadData(req, res) {
 
   let subm = req.body;
   let filePath = null;
-  //console.log()
+  let isNew = false;
+  var Model;
 
   Promise.resolve()
   .then(() => {
@@ -41,12 +43,13 @@ export function uploadData(req, res) {
         //return res.status(500).send("Collection does not exist");
         throw new Error("Collection does not exist");
       }
-      var Model = Models[collection];
+      Model = Models[collection];
       return Promise.resolve()
       .then(() => {
         if (subm.data.cuid == undefined) {
           //throw new Error('');
           console.log('creating new document')
+          isNew = true;
           return Model.createAndInit();
         } else {
           console.log('updating document')
@@ -107,6 +110,11 @@ export function uploadData(req, res) {
   })
   .then(() => {
     console.log("File has been created");
+  })
+  .then(() => {
+    if (!isNew) {
+      return postUpdate(subm.saved, Model.getName());
+    }
   })
   .then(() => {
     let result = {

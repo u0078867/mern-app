@@ -12,7 +12,7 @@
     "collection_title": "Researchers"
   },
   {
-    "name": "swtools",
+    "name": "swtool",
     "json_schema_file": "software.json",
     "collection_name": "swtools",
     "collection_title": "Software"
