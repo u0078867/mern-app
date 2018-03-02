@@ -7,7 +7,7 @@ import callApi from 'CLIENT_UTIL/apiCaller';
 
 import styles from './ComponentSearch.css';
 
-var Viewer = getCollectionViewersMap()['swtools'];
+var Viewer = getCollectionViewersMap()['swtools'].full;
 
 class SWToolSearchOption extends Component {
 

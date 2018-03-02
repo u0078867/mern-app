@@ -6,18 +6,18 @@ import {
   Button,
 } from 'react-bootstrap';
 
-import TooltipViewer from './TooltipViewer';
+import TooltipViewer from '../TooltipViewer';
 
-import ResearcherInlineViewer from './ResearcherInlineViewer';
-import SubjectInlineViewer from './SubjectInlineViewer';
-import DeviceInlineViewer from './DeviceInlineViewer';
-import SoftwareInlineViewer from './SoftwareInlineViewer';
+import ResearcherInlineViewer from '../ResearcherViewers/ResearcherInlineViewer';
+import SubjectInlineViewer from '../SubjectViewers/SubjectInlineViewer';
+import DeviceInlineViewer from '../DeviceViewers/DeviceInlineViewer';
+import SoftwareInlineViewer from '../SoftwareViewers/SoftwareInlineViewer';
 import DataInlineViewer from './DataInlineViewer';
-import PublicationInlineViewer from './PublicationInlineViewer';
-import ProjectViewer from './ProjectViewer';
+import PublicationInlineViewer from '../PublicationViewers/PublicationInlineViewer';
+import ProjectInlineViewer from '../ProjectViewers/ProjectInlineViewer';
 import OutputContent from './OutputContent';
 
-import { extractOptionTitle, titleizeOutput } from './utils/formJSONDataExtract';
+import { extractOptionTitle, titleizeOutput } from '../utils/formJSONDataExtract';
 
 import callApi from 'CLIENT_UTIL/apiCaller';
 
@@ -44,7 +44,7 @@ class ActivityViewer extends Component {
       case "adjust-camera":
         return "adjust-camera";
       case "perform-anthro-measures":
-        return "anthro-measures"; // diff
+        return "perform-anthro-measures"; // diff
       case "prepare-subject":
         return "prepare-subject";
       case "configure-us":
@@ -85,6 +85,7 @@ class ActivityViewer extends Component {
 
   render() {
     let { item: d, forms, showEditLink } = this.props;
+    console.log(d.name)
     let form = this.state.form;
     let schema = form ? form.json_schema : undefined;
     let header = (
@@ -385,6 +386,7 @@ class DataContent extends Component {
 
   render() {
     let d = this.props.data;
+    console.log(d)
     let forms = this.props.forms;
     let schema = this.props.dataSchema;
     return (

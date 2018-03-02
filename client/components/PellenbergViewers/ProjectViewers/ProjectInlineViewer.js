@@ -1,14 +1,14 @@
 
 import React, { PropTypes, Component } from 'react';
 
-import TooltipViewer from './TooltipViewer';
+import TooltipViewer from '../TooltipViewer';
 
-import PublicationViewer from './PublicationViewer';
+import ProjectViewer from './ProjectViewer';
 
 import callApi from 'CLIENT_UTIL/apiCaller';
 
 
-class PublicationInlineViewer extends Component {
+class ProjectInlineViewer extends Component {
 
   static defaultProps = {
 
@@ -19,10 +19,10 @@ class PublicationInlineViewer extends Component {
   }
 
   getDetails = (id) => {
-    return callApi(`publications/${id}`)
+    return callApi(`projects/${id}`)
     .then(res => {
       return (
-        <PublicationViewer item={res.item} forms={this.props.forms} />
+        <ProjectViewer item={res.item} forms={this.props.forms} />
       );
     });
   }
@@ -31,10 +31,10 @@ class PublicationInlineViewer extends Component {
     let { item: d } = this.props;
     return (
       <TooltipViewer onContent={() => this.getDetails(d.cuid)} >
-        {d.title ? `${d.title}` : 'Click for details'}
+        {d.name ? `${d.name} (${d.begin_period} - ${d.end_period})` : 'Click for details'}
       </TooltipViewer>
     )
   }
 }
 
-export default PublicationInlineViewer;
+export default ProjectInlineViewer;

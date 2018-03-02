@@ -7,7 +7,7 @@ import callApi from 'CLIENT_UTIL/apiCaller';
 
 import styles from './ComponentSearch.css';
 
-var Viewer = getCollectionViewersMap()['subjects'];
+var Viewer = getCollectionViewersMap()['subjects'].full;
 
 class SubjectSearchOption extends Component {
 

@@ -32,7 +32,7 @@ import callGraphQL from 'CLIENT_UTIL/graphqlCaller';
 const viewers = getCollectionViewersMap();
 
 // Get activities viewer
-let Viewer = viewers['activities'];
+let Viewer = viewers['activities'].full;
 
 let queryText = `
   query MyQuery($session: String) {

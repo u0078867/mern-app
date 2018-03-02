@@ -9,7 +9,7 @@ import pubsub from 'pubsub-js';
 
 import styles from './ComponentSearch.css';
 
-var Viewer = getCollectionViewersMap()['publications'];
+var Viewer = getCollectionViewersMap()['publications'].full;
 
 
 class PublicationSearchOption extends Component {

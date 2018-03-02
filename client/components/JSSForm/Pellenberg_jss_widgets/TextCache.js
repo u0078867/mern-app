@@ -13,11 +13,11 @@ class TextCache extends Component {
   }
 
   componentDidMount = () => {
-    let p = this.props.options.path;
-    let value = _.get(this.props.formContext.cache, p);
     setTimeout(() => {
       this.props.onChange(value);
-    }, 1000);
+    }, 500);
+    let p = this.props.options.path;
+    let value = _.get(this.props.formContext.cache, p);
   }
 
   componentWillReceiveProps = (nextProps) => {

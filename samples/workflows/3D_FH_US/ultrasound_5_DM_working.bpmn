@@ -23,7 +23,7 @@
         <bpmn:flowNodeRef>ExclusiveGateway_190vrde</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>is-muscle-us-visible</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_010mhdr</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>anthro-measures</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>perform-anthro-measures</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="helper" name="Helper">
         <bpmn:flowNodeRef>configure-us</bpmn:flowNodeRef>
@@ -61,8 +61,8 @@
     <bpmn:sequenceFlow id="SequenceFlow_1lbo31o" sourceRef="configure-opto" targetRef="ParallelGateway_03ornrq" />
     <bpmn:sequenceFlow id="SequenceFlow_0di0lsk" sourceRef="ExclusiveGateway_010mhdr" targetRef="ExclusiveGateway_1edwued" />
     <bpmn:sequenceFlow id="SequenceFlow_0hv4htl" sourceRef="ParallelGateway_043qu3r" targetRef="configure-us" />
-    <bpmn:sequenceFlow id="SequenceFlow_1wq3pea" sourceRef="ParallelGateway_043qu3r" targetRef="anthro-measures" />
-    <bpmn:sequenceFlow id="SequenceFlow_0o9v2nh" sourceRef="anthro-measures" targetRef="prepare-subject" />
+    <bpmn:sequenceFlow id="SequenceFlow_1wq3pea" sourceRef="ParallelGateway_043qu3r" targetRef="perform-anthro-measures" />
+    <bpmn:sequenceFlow id="SequenceFlow_0o9v2nh" sourceRef="perform-anthro-measures" targetRef="prepare-subject" />
     <bpmn:sequenceFlow id="SequenceFlow_1hlueyh" sourceRef="prepare-subject" targetRef="ParallelGateway_03ornrq" />
     <bpmn:userTask id="configure-us" name="Configure ultrasonography system" camunda:formKey="configure-us">
       <bpmn:extensionElements>
@@ -225,7 +225,7 @@
       <bpmn:incoming>SequenceFlow_1agd0l9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0di0lsk</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="anthro-measures" name="Perform anthropometric measures" camunda:formKey="anthro-measures">
+    <bpmn:userTask id="perform-anthro-measures" name="Perform anthropometric measures" camunda:formKey="perform-anthro-measures">
       <bpmn:incoming>SequenceFlow_1wq3pea</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0o9v2nh</bpmn:outgoing>
     </bpmn:userTask>
@@ -551,7 +551,7 @@
           <dc:Bounds x="1077" y="560" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="UserTask_02tqh42_di" bpmnElement="anthro-measures">
+      <bpmndi:BPMNShape id="UserTask_02tqh42_di" bpmnElement="perform-anthro-measures">
         <dc:Bounds x="300" y="138" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="UserTask_1qqfb5t_di" bpmnElement="prepare-subject">

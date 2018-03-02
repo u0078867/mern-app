@@ -1,14 +1,14 @@
 
 import React, { PropTypes, Component } from 'react';
 
-import TooltipViewer from './TooltipViewer';
+import TooltipViewer from '../TooltipViewer';
 
-import OutputContent from './OutputContent';
+import SubjectViewer from './SubjectViewer';
 
 import callApi from 'CLIENT_UTIL/apiCaller';
 
 
-class DataInlineViewer extends Component {
+class SubjectInlineViewer extends Component {
 
   static defaultProps = {
 
@@ -19,10 +19,10 @@ class DataInlineViewer extends Component {
   }
 
   getDetails = (id) => {
-    return callApi(`outputs/${id}`)
+    return callApi(`subjects/${id}`)
     .then(res => {
       return (
-        <OutputContent item={res.item} forms={this.props.forms} />
+        <SubjectViewer item={res.item} forms={this.props.forms} />
       );
     });
   }
@@ -31,10 +31,10 @@ class DataInlineViewer extends Component {
     let { item: d } = this.props;
     return (
       <TooltipViewer onContent={() => this.getDetails(d.cuid)} >
-        {d.name ? `${d.name}` : 'Click for details'}
+        {d.hospital_id ? `${d.hospital_id}` : 'Click for details'}
       </TooltipViewer>
     )
   }
 }
 
-export default DataInlineViewer;
+export default SubjectInlineViewer;

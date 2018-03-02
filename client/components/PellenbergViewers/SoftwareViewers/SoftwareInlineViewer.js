@@ -1,14 +1,14 @@
 
 import React, { PropTypes, Component } from 'react';
 
-import TooltipViewer from './TooltipViewer';
+import TooltipViewer from '../TooltipViewer';
 
-import ProjectViewer from './ProjectViewer';
+import SoftwareViewer from './SoftwareViewer';
 
 import callApi from 'CLIENT_UTIL/apiCaller';
 
 
-class ProjectInlineViewer extends Component {
+class SoftwareInlineViewer extends Component {
 
   static defaultProps = {
 
@@ -19,10 +19,10 @@ class ProjectInlineViewer extends Component {
   }
 
   getDetails = (id) => {
-    return callApi(`projects/${id}`)
+    return callApi(`swtools/${id}`)
     .then(res => {
       return (
-        <ProjectViewer item={res.item} forms={this.props.forms} />
+        <SoftwareViewer item={res.item} forms={this.props.forms} />
       );
     });
   }
@@ -31,10 +31,10 @@ class ProjectInlineViewer extends Component {
     let { item: d } = this.props;
     return (
       <TooltipViewer onContent={() => this.getDetails(d.cuid)} >
-        {d.name ? `${d.name} (${d.begin_period} - ${d.end_period})` : 'Click for details'}
+        {d.name ? `${d.name} (${d.version})` : 'Click for details'}
       </TooltipViewer>
     )
   }
 }
 
-export default ProjectInlineViewer;
+export default SoftwareInlineViewer;

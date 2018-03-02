@@ -20,7 +20,7 @@ class FormDataFiller extends Component {
     setTimeout(() => {
       let value = this.props.value;
       this.fillFormFromValue(value);
-    }, 10);
+    }, 1000);
   }
 
   fillFormFromValue = (value) => {

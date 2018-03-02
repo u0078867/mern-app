@@ -8,7 +8,7 @@ import pubsub from 'pubsub-js';
 
 import styles from './ComponentSearch.css';
 
-var Viewer = getCollectionViewersMap()['devices'];
+var Viewer = getCollectionViewersMap()['devices'].full;
 
 
 class DeviceSearchOption extends Component {

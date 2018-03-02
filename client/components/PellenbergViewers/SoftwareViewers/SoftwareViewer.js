@@ -6,7 +6,7 @@ import {
   Button,
 } from 'react-bootstrap';
 
-import { extractOptionTitle } from './utils/formJSONDataExtract';
+import { extractOptionTitle } from '../utils/formJSONDataExtract';
 
 
 class SoftwareViewer extends Component {

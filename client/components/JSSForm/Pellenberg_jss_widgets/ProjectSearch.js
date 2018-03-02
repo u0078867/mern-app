@@ -8,7 +8,7 @@ import pubsub from 'pubsub-js';
 
 import styles from './ComponentSearch.css';
 
-var Viewer = getCollectionViewersMap()['projects'];
+var Viewer = getCollectionViewersMap()['projects'].full;
 
 
 class ProjectSearchOption extends Component {

@@ -5,7 +5,7 @@ import {
   Panel
 } from 'react-bootstrap';
 
-import OutputContent from 'DATA_VIEWERS/OutputContent';
+import OutputContent from 'DATA_VIEWERS/ActivityViewers/OutputContent';
 
 
 

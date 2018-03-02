@@ -653,7 +653,7 @@ function dummyData(verbose, fillLevel) {
 
     form = {
       title: "Perform anthropometric measures",
-      key: "anthro-measures",
+      key: "perform-anthro-measures",
       json_schema: require('./forms/activity/perform_anthro_measures_schema.json'),
       ui_schema: require('./forms/activity/perform_anthro_measures_ui_schema.json'),
       init_data: require('./forms/activity/perform_anthro_measures_data.json'),
@@ -661,7 +661,7 @@ function dummyData(verbose, fillLevel) {
       insert_on_submit: true,
       submitter: 'direct',
       output_variables: {},
-      slug: "anthro-measures",
+      slug: "perform-anthro-measures",
     };
     forms.push(form);
 

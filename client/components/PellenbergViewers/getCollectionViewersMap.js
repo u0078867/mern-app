@@ -1,24 +1,24 @@
 
 
-import DeviceViewer from './DeviceViewer';
-import ResearcherViewer from './ResearcherViewer';
-import SoftwareViewer from './SoftwareViewer';
-import SubjectViewer from './SubjectViewer';
-import ProjectViewer from './ProjectViewer';
-import PublicationViewer from './PublicationViewer';
-import ActivityViewer from './ActivityViewer';
+import DeviceViewers from './DeviceViewers';
+import ResearcherViewers from './ResearcherViewers';
+import SoftwareViewers from './SoftwareViewers';
+import SubjectViewers from './SubjectViewers';
+import ProjectViewers from './ProjectViewers';
+import PublicationViewers from './PublicationViewers';
+import ActivityViewers from './ActivityViewers';
 
 
 module.exports = function() {
 
   return {
-    "devices": DeviceViewer,
-    "researchers": ResearcherViewer,
-    "swtools": SoftwareViewer,
-    "subjects": SubjectViewer,
-    "projects": ProjectViewer,
-    "publications": PublicationViewer,
-    "activities": ActivityViewer,
+    "devices": DeviceViewers,
+    "researchers": ResearcherViewers,
+    "swtools": SoftwareViewers,
+    "subjects": SubjectViewers,
+    "projects": ProjectViewers,
+    "publications": PublicationViewers,
+    "activities": ActivityViewers,
   };
 
 }

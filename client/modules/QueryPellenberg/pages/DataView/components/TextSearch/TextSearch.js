@@ -124,7 +124,7 @@ class TextSearch extends Component {
         <ul style={{listStylePosition: 'inside'}}>
           {this.state.items.map(item => {
             if (!this.state.showRawData && this.state.collectionName in viewers) {
-              let Viewer = viewers[this.state.collectionName];
+              let Viewer = viewers[this.state.collectionName].full;
               return (
                 <ViewerWithEditLink
                   key={item.cuid}

@@ -8,7 +8,7 @@ import pubsub from 'pubsub-js';
 
 import styles from './ComponentSearch.css';
 
-var Viewer = getCollectionViewersMap()['researchers'];
+var Viewer = getCollectionViewersMap()['researchers'].full;
 
 class ResearcherSearchOption extends Component {
 

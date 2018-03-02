@@ -6,12 +6,12 @@ import {
   Button,
 } from 'react-bootstrap';
 
-import ResearcherInlineViewer from './ResearcherInlineViewer';
+import ResearcherInlineViewer from '../ResearcherViewers/ResearcherInlineViewer';
 
 import {
   extractOptionTitle,
   titleizeAttribute
-} from './utils/formJSONDataExtract';
+} from '../utils/formJSONDataExtract';
 
 
 class OptoCluster extends Component {
