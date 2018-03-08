@@ -15,7 +15,10 @@
     "build:server": "cross-env NODE_ENV=production webpack --config webpack.config.server.js",
     "clean": "rimraf dist",
     "slate": "rimraf node_modules && npm install",
-    "lint": "eslint client server"
+    "lint": "eslint client server",
+    "get-graphql-schema-file": "get-graphql-schema http://localhost:8000/graphql > ./schema.graphql",
+    "relay-compile": "relay-compiler --src ./client --schema ./schema.graphql",
+    "relay-compile-auto-schema": "get-graphql-schema-file && relay-compile"
   },
   "pre-commit": [
     "lint",
@@ -76,11 +79,13 @@
     "react-jsonschema-form-layout": "^1.0.4",
     "react-popout": "^1.0.1",
     "react-redux": "^4.4.5",
+    "react-relay": "^1.5.0",
     "react-router": "^2.0.0",
     "react-select": "^1.0.0-rc.5",
     "react-webcam": "^0.2.0",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
+    "relay-runtime": "^1.5.0",
     "sanitize-html": "^1.11.4",
     "slug": "^0.9.1"
   },
@@ -88,6 +93,7 @@
     "ava": "^0.15.2",
     "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
+    "babel-plugin-relay": "^1.5.0",
     "babel-plugin-webpack-loaders": "^0.7.0",
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
@@ -132,6 +138,7 @@
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.0.11",
+    "relay-compiler": "^1.5.0",
     "rimraf": "^2.5.2",
     "sinon": "^1.17.4",
     "style-loader": "^0.13.1",

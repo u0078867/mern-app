@@ -1,6 +1,13 @@
 import fetch from 'isomorphic-fetch';
 import Config from '../../server/config';
 
+import {
+  Environment,
+  Network,
+  RecordSource,
+  Store,
+} from 'relay-runtime';
+
 export const GRAPHQL_URL = (typeof window === 'undefined' || process.env.NODE_ENV === 'test') ?
   process.env.BASE_URL || (`http://127.0.0.1:${process.env.PORT || Config.port}/graphql`) :
   '/graphql';
@@ -44,3 +51,8 @@ export function callGraphQLForRelay(operation, variables) {
     return response.json();
   });
 }
+
+export const relayEnvironment = new Environment({
+  network: Network.create(callGraphQLForRelay),
+  store: new Store(new RecordSource()),
+});

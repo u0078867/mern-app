@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import fileUpload from 'express-fileupload';
+import { execSync, exec } from 'child_process';
 
 
 // monkey patching error to support JSON.stringify()
@@ -20,6 +21,37 @@ Object.defineProperty(Error.prototype, 'toJSON', {
   configurable: true,
   writable: true
 })
+
+// define some useful helpers
+function cleanCacheServer() {
+  console.log("Clearing /app/ module cache from server");
+  Object.keys(require.cache).forEach(function(id) {
+    if (/[\/\\]app[\/\\]/.test(id)) {
+      delete require.cache[id];
+    }
+  });
+}
+
+function cleanCacheClient() {
+  console.log("Clearing /client/ module cache from server");
+  Object.keys(require.cache).forEach(function(id) {
+    if (/[\/\\]client[\/\\]/.test(id)) {
+      delete require.cache[id];
+    }
+  });
+}
+
+function generateGraphQLSchemaFile() {
+  console.log('Generating schema.graphql ...');
+  exec('npm run get-graphql-schema-file');
+  console.log('schema.graphql generated');
+}
+
+function compileRelay() {
+  console.log('Compiling Relay ...');
+  exec('npm run relay-compile');
+  console.log('Relay compiled');
+}
 
 
 // Initialize the Express App
@@ -41,15 +73,12 @@ if (process.env.NODE_ENV === 'development') {
   }));
   app.use(webpackHotMiddleware(compiler));
 
-  // Watch files and clean cache (server)
+  // Watch files and clean cache (client)
   compiler.plugin('done', function() {
-    console.log("Clearing /client/ module cache from server");
-    Object.keys(require.cache).forEach(function(id) {
-      if (/[\/\\]client[\/\\]/.test(id)) {
-        //console.log(`Uncaching ${id} ...`);
-        delete require.cache[id];
-      }
-    });
+    cleanCacheServer();
+    generateGraphQLSchemaFile();
+    compileRelay();
+    cleanCacheClient();
   });
 
 }
@@ -262,13 +291,10 @@ if (process.env.NODE_ENV === 'development') {
   watcher.on('ready', function() {
     console.log('Chokidar ready to watch server files');
     watcher.on('all', function() {
-      console.log("Clearing /app/ module cache from server");
-      Object.keys(require.cache).forEach(function(id) {
-        if (/[\/\\]app[\/\\]/.test(id)) {
-          //console.log(`Uncaching ${id} ...`);
-          delete require.cache[id];
-        }
-      });
+      cleanCacheServer();
+      generateGraphQLSchemaFile();
+      compileRelay();
+      cleanCacheClient();
     });
   });
 }

@@ -16,6 +16,20 @@ class PublicationInlineViewer extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      form: null,
+    };
+  }
+
+  componentDidMount() {
+    let d = this.props.item;
+    let forms = this.props.forms;
+    let formKey = 'insert-update-publication';
+    let form;
+    if (formKey) {
+      form = forms.find(form => form.key == formKey);
+      this.setState({ form });
+    }
   }
 
   getDetails = (id) => {
@@ -28,7 +42,9 @@ class PublicationInlineViewer extends Component {
   }
 
   render() {
-    let { item: d } = this.props;
+    let { item: d, forms } = this.props;
+    let form = this.state.form;
+    let schema = form ? form.json_schema : undefined;
     return (
       <TooltipViewer onContent={() => this.getDetails(d.cuid)} >
         {d.title ? `${d.title}` : 'Click for details'}

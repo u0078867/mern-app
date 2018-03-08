@@ -8,13 +8,13 @@ import {
 
 import TooltipViewer from '../TooltipViewer';
 
-import ResearcherInlineViewer from '../ResearcherViewers/ResearcherInlineViewer';
-import SubjectInlineViewer from '../SubjectViewers/SubjectInlineViewer';
-import DeviceInlineViewer from '../DeviceViewers/DeviceInlineViewer';
-import SoftwareInlineViewer from '../SoftwareViewers/SoftwareInlineViewer';
+import ResearcherInlineViewerRelay from '../ResearcherViewers/ResearcherInlineViewerRelay';
+import SubjectInlineViewerRelay from '../SubjectViewers/SubjectInlineViewerRelay';
+import DeviceInlineViewerRelay from '../DeviceViewers/DeviceInlineViewerRelay';
+import SoftwareInlineViewerRelay from '../SoftwareViewers/SoftwareInlineViewerRelay';
 import DataInlineViewer from './DataInlineViewer';
-import PublicationInlineViewer from '../PublicationViewers/PublicationInlineViewer';
-import ProjectInlineViewer from '../ProjectViewers/ProjectInlineViewer';
+import PublicationInlineViewerRelay from '../PublicationViewers/PublicationInlineViewerRelay';
+import ProjectInlineViewerRelay from '../ProjectViewers/ProjectInlineViewerRelay';
 import OutputContent from './OutputContent';
 
 import { extractOptionTitle, titleizeOutput } from '../utils/formJSONDataExtract';
@@ -218,7 +218,7 @@ class ResearchersContent extends Component {
           let id = e.id || e.data.cuid;
           return (
             <li key={id + Math.random()}>
-              <ResearcherInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />
+              <ResearcherInlineViewerRelay item={e.data || {cuid: id}} forms={this.props.forms} />
             </li>
           )
         })}
@@ -255,7 +255,7 @@ class SubjectsContent extends Component {
           let id = e.id || e.data.cuid;
           return (
             <li key={id + Math.random()}>
-              <SubjectInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />; <b>areas of interest:</b> {areas}; <b>anatomical side:</b> {side};
+              <SubjectInlineViewerRelay item={e.data || {cuid: id}} forms={this.props.forms} />; <b>areas of interest:</b> {areas}; <b>anatomical side:</b> {side};
             </li>
           )
         })}
@@ -286,7 +286,7 @@ class DevicesContent extends Component {
           let id = e.id || e.data.cuid;
           return (
             <li key={id + Math.random()}>
-              <DeviceInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />; <b>roles:</b> {roles};
+              <DeviceInlineViewerRelay item={e.data || {cuid: id}} forms={this.props.forms} />; <b>roles:</b> {roles};
             </li>
           )
         })}
@@ -317,7 +317,7 @@ class SoftwareContent extends Component {
           let id = e.id || e.data.cuid;
           return (
             <li key={id + Math.random()}>
-              <SoftwareInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />; <b>roles:</b> {roles};
+              <SoftwareInlineViewerRelay item={e.data || {cuid: id}} forms={this.props.forms} />; <b>roles:</b> {roles};
             </li>
           )
         })}
@@ -342,7 +342,7 @@ class PublicationsContent extends Component {
           let id = e.id || e.data.cuid;
           return (
             <li key={id + Math.random()}>
-              <PublicationInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />
+              <PublicationInlineViewerRelay item={e.data || {cuid: id}} forms={this.props.forms} />
             </li>
           )
         })}
@@ -367,7 +367,7 @@ class ProjectsContent extends Component {
           let id = e.id || e.data.cuid;
           return (
             <li key={id + Math.random()}>
-              <ProjectInlineViewer item={e.data || {cuid: id}} forms={this.props.forms} />
+              <ProjectInlineViewerRelay item={e.data || {cuid: id}} forms={this.props.forms} />
             </li>
           )
         })}

@@ -16,6 +16,20 @@ class ProjectInlineViewer extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      form: null,
+    };
+  }
+
+  componentDidMount() {
+    let d = this.props.item;
+    let forms = this.props.forms;
+    let formKey = 'insert-update-project';
+    let form;
+    if (formKey) {
+      form = forms.find(form => form.key == formKey);
+      this.setState({ form });
+    }
   }
 
   getDetails = (id) => {
@@ -29,6 +43,8 @@ class ProjectInlineViewer extends Component {
 
   render() {
     let { item: d } = this.props;
+    let form = this.state.form;
+    let schema = form ? form.json_schema : undefined;
     return (
       <TooltipViewer onContent={() => this.getDetails(d.cuid)} >
         {d.name ? `${d.name} (${d.begin_period} - ${d.end_period})` : 'Click for details'}
