@@ -78,6 +78,26 @@
                   "type": "string",
                   "enum": [ "lateral_gastroc" ],
                   "title": "Lateral gastrocnemius"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "tib_ant" ],
+                  "title": "Tibialis anterior"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "soleus" ],
+                  "title": "Soleus"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "rect_fem" ],
+                  "title": "Rectus femoris"
+                },
+                {
+                  "type": "string",
+                  "enum": [ "semiten" ],
+                  "title": "Semitendinosus"
                 }
               ]
             }
