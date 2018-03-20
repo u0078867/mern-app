@@ -97,8 +97,10 @@ import routes from '../client/routes';
 import { fetchComponentData } from './app/util/fetchData';
 import serverConfig from './config';
 
-// Display server config
-console.log(serverConfig);
+if (process.env.NODE_ENV === 'development') {
+  // Display server config
+  console.log(serverConfig);
+}
 
 // Specify routes for internal APIs
 const API_URL = '/api';

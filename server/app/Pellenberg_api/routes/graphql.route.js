@@ -38,7 +38,7 @@ var schema = new GraphQLSchema({query: QueryType});
 var route = graphqlHTTP({
   context: { loaders },
   schema: schema,
-  graphiql: true,
+  graphiql: process.env.NODE_ENV === 'development',
 });
 
 module.exports = route;

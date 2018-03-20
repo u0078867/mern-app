@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import pubsub from 'pubsub-js';
 
-//import callSearchApi from 'CLIENT_UTIL/apiSearchCaller';
+
 import callApi from 'CLIENT_UTIL/apiCaller';
 
 
@@ -20,10 +20,10 @@ import {
 } from 'react-bootstrap';
 
 // Import Actions
-import { setUser } from 'MODULE_APP/AppActions'; // action from App
+import { setUser, loginViaCredentials, loginViaToken } from 'MODULE_APP/AppActions';
 
 // Import Selectors
-//import { getForms, getShowAddForm } from '../../FormReducer';
+import { getUser } from 'MODULE_APP/AppReducer';
 
 class LoginPage extends Component {
 
@@ -31,80 +31,89 @@ class LoginPage extends Component {
     super(props);
     this.state = {
       uNumber: '',
-      name: '',
-      surname: '',
+      accessKey: '',
+      token: '',
       errorVisible: false,
       errorMessage: '',
     };
   }
 
   componentDidMount() {
-    pubsub.subscribe("detect-kul-badge", (msg, tokens) => {
-      this.onChangeName({target: {value: tokens[0]}});
-      this.onChangeSurname({target: {value: tokens[1]}});
-      this.onChangeUNumber({target: {value: tokens[2]}});
-    })
   }
 
-  onChangeName = (event) => {
-    let value = event.target.value;
-    this.setState({name: value});
-  }
-
-  onChangeSurname = (event) => {
-    let value = event.target.value;
-    this.setState({surname: value});
+  componentWillReceiveProps(nextProps) {
+    let { isLoggedIn, user } = nextProps;
+    if (nextProps.isLoggedIn) {
+      this.postLogin({ user });
+    }
   }
 
   onChangeUNumber = (event) => {
     let value = event.target.value;
-    this.setState({uNumber: value});
+    this.setState({ uNumber: value });
   }
 
-  onLogin = () => {
-    // Search for authorized researchers
-    callApi('researchers')
-    .then(res => {
-      var items = res.items.filter(e => {
-        let pass = e.institution_id == this.state.uNumber;
-        if (!pass)
-          return false;
-        if (this.state.name.length) {
-          pass = pass && (e.name == this.state.name);
-        }
-        if (this.state.surname.length) {
-          pass = pass && (e.surname == this.state.surname);
-        }
-        return pass;
-      });
-      let L = items.length;
-      if (L == 0) {
-        this.setState({
-          errorVisible: true,
-          errorMessage: "No user found",
-        })
-        return;
-      }
-      if (L > 1) {
-        this.setState({
-          errorVisible: true,
-          errorMessage: "More than one user found with same credentials",
-        })
-        return;
-      }
-      var user = JSON.parse(JSON.stringify(items[0]));
-      // Set logged user
-      this.props.dispatch(setUser(user));
-      this.setState({
-        errorVisible: false,
-        errorMessage: "",
-      })
-      // Store logged user in the cache service
-      setTimeout(() => {
-        pubsub.publishSync("cache", { user });
-      }, 1000);
-      // Redirect to dashboard
+  onChangeAccessKey = (event) => {
+    let value = event.target.value;
+    this.setState({ accessKey: value });
+  }
+
+  onLoginViaCredentials = (event) => {
+    let { uNumber, accessKey } = this.state;
+    this.loginViaCredentials({
+      username: uNumber,
+      password: accessKey,
+    })
+  }
+
+  loginViaCredentials = (data) => {
+    this.props.dispatch(loginViaCredentials(data))
+    .catch(err => {
+      this.postError(err);
+    })
+  }
+
+  onChangeToken = (event) => {
+    let value = event.target.value;
+    this.setState({ token: value });
+  }
+
+  onLoginViaToken = (event) => {
+    let { token } = this.state;
+    this.loginViaToken({
+      token,
+    })
+  }
+
+  loginViaToken = (data) => {
+    this.props.dispatch(loginViaToken(data))
+    .catch(err => {
+      this.postError(err);
+    })
+  }
+
+
+  postLogin = (data) => {
+    let { user } = data;
+    // Hide errors
+    this.setState({
+      errorVisible: false,
+      errorMessage: "",
+    })
+    // Store logged user in the cache service
+    setTimeout(() => {
+      pubsub.publishSync("cache", { user });
+    }, 1000);
+    // Redirect to dashboard
+    setImmediate(() => {
       this.context.router.push('/dashboard');
+    });
+  }
+
+  postError = (err) => {
+    this.setState({
+      errorVisible: true,
+      errorMessage: err.message,
     })
   }
 
@@ -119,19 +128,27 @@ class LoginPage extends Component {
     return (
       <div>
         {error}
-        <FormGroup>
-          <ControlLabel>u-number:</ControlLabel>
-          <FormControl type="text" ref="uNumber" value={this.state.uNumber} onChange={this.onChangeUNumber} />
-        </FormGroup>
-        <FormGroup>
-          <ControlLabel>Name:</ControlLabel>
-          <FormControl type="text" ref="name" value={this.state.name} onChange={this.onChangeName} />
-        </FormGroup>
-        <FormGroup>
-          <ControlLabel>Surname:</ControlLabel>
-          <FormControl type="text" ref="surname" value={this.state.surname} onChange={this.onChangeSurname} />
-        </FormGroup>
-        <Button bsStyle="primary" bsSize="large" onClick={this.onLogin}>Login</Button>
+
+        <Panel header="Access via credentials">
+          <FormGroup>
+            <ControlLabel>Username (u-number):</ControlLabel>
+            <FormControl type="text" ref="uNumber" value={this.state.uNumber} onChange={this.onChangeUNumber} />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Access key:</ControlLabel>
+            <FormControl type="password" ref="name" value={this.state.accessKey} onChange={this.onChangeAccessKey} />
+          </FormGroup>
+          <Button bsStyle="primary" bsSize="large" onClick={this.onLoginViaCredentials}>Login</Button>
+        </Panel>
+
+        <Panel header="Access via token">
+          <FormGroup>
+            <ControlLabel>Access token:</ControlLabel>
+            <FormControl type="password" ref="name" value={this.state.token} onChange={this.onChangeToken} />
+          </FormGroup>
+          <Button bsStyle="primary" bsSize="large" onClick={this.onLoginViaToken}>Login</Button>
+        </Panel>
+
       </div>
     );
   }
@@ -143,7 +160,8 @@ LoginPage.need = [];
 // Retrieve data from store as props
 function mapStateToProps(state) {
   return {
-
+    user: getUser(state),
+    isLoggedIn: getUser(state) != null,
   };
 }
 

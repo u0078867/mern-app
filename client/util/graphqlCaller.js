@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import Config from '../../server/config';
+import { getAccessTokenHeaders } from './apiUtils';
 
 import {
   Environment,
@@ -13,8 +14,9 @@ export const GRAPHQL_URL = (typeof window === 'undefined' || process.env.NODE_EN
   '/graphql';
 
 export default function callGraphQL(operation, variables) {
+  let headers = getAccessTokenHeaders(null);
   return fetch(`${GRAPHQL_URL}`, {
-    headers: { 'content-type': 'application/json' },
+    headers: Object.assign({}, headers, { 'content-type': 'application/json' }),
     method: 'post',
     body: JSON.stringify({
       query: operation,
@@ -38,11 +40,10 @@ export default function callGraphQL(operation, variables) {
 
 // https://facebook.github.io/relay/docs/en/quick-start-guide.html
 export function callGraphQLForRelay(operation, variables) {
+  let headers = getAccessTokenHeaders();
   return fetch(`${GRAPHQL_URL}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: Object.assign({}, headers, { 'Content-type': 'application/json' }),
     body: JSON.stringify({
       query: operation.text,
       variables,

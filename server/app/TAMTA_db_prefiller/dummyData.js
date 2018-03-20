@@ -7,12 +7,36 @@ mongoose.Promise = global.Promise;
 
 
 import cuid from 'cuid';
+import serverConfig from '../../config';
 
 import Chance from 'chance';
 let chance = new Chance();
 
 import callApi from 'CLIENT_UTIL/apiCaller';
 
+let defaultUsername = 'u0000000';
+let accessToken = null;
+
+// --- helper functions
+
+var getTempAccessToken = () => {
+  console.log('getting temporary access token ...')
+  return callApi('login/authenticate', 'POST', {
+    username: defaultUsername,
+    password: serverConfig.accessKeyAdmin,
+  }, true)
+  .then(res => {
+    console.log('temporary access token fetched');
+    let { user, token } = res;
+    accessToken = token;
+  })
+}
+
+var callApiWithToken = (endpoint, token) => {
+  return callApi(endpoint, 'GET', undefined, false, token);
+}
+
+// ---
 
 
 var Researcher = Models['researchers'];
@@ -44,7 +68,7 @@ function dummyData(verbose, fillLevel) {
       name: 'default user',
       surname: 'default user',
       birthdate: '00/00/0000',
-      institution_id: 'u0000000',
+      institution_id: defaultUsername,
       slug: 'default-user',
     };
     console.log('filling with default user ...');
@@ -81,7 +105,8 @@ function dummyData(verbose, fillLevel) {
       console.log('researchers skipped')
     }
   })
-  .then(() => callApi(`researchers`))
+  .then(() => getTempAccessToken())
+  .then(() => callApiWithToken(`researchers`, accessToken))
   .then(res => {
     user = res.items[0];
   })
@@ -436,10 +461,10 @@ function dummyData(verbose, fillLevel) {
     }
     console.log('filling activities collection ...');
     return Promise.all([
-      callApi(`researchers`),
-      callApi(`subjects`),
-      callApi(`devices`),
-      callApi(`swtools`),
+      callApiWithToken(`researchers`, accessToken),
+      callApiWithToken(`subjects`, accessToken),
+      callApiWithToken(`devices`, accessToken),
+      callApiWithToken(`swtools`, accessToken),
     ])
     .then(results => {
       var data = results.reduce((acc, r, i) => {

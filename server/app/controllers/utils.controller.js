@@ -9,7 +9,7 @@ import callSearchApi from '../../../client/util/apiSearchCaller';
 
 
 
-var JSONSchemaDynToStat = (schema_in, data_in) => {
+var JSONSchemaDynToStat = (schema_in, data_in, token) => {
 
   // fill template
   var schema = JSON.parse(mustache.render(JSON.stringify(schema_in), data_in));
@@ -48,11 +48,11 @@ var JSONSchemaDynToStat = (schema_in, data_in) => {
             case 'api':
               // apply API query
               var endpoint = query[1];
-              return callApi(endpoint);
+              return callApi(endpoint, GET, undefined, false, token);
             case 'search-api':
               // apply API query
               var endpoint = query[1];
-              return callSearchApi(endpoint, query[2]);
+              return callSearchApi(endpoint, query[2], token);
             default:
               throw 'query type not recognized';
           }
@@ -112,7 +112,7 @@ var JSONSchemaDynToStat = (schema_in, data_in) => {
  * @returns void
  */
 export function staticizeJSONSchema(req, res) {
-  JSONSchemaDynToStat(req.body.schema, req.body.data)
+  JSONSchemaDynToStat(req.body.schema, req.body.data, req.token)
   .then(schema => {
     res.json({ schema });
   })
