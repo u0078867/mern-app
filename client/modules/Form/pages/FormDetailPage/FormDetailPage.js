@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
@@ -123,6 +124,7 @@ class FormDetailPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps.form)
+    ReactDOM.findDOMNode(this).scrollIntoView();
     if (nextProps.form.cuid != this.props.form.cuid) {
       this.setState({
         validateForm: true,
@@ -203,6 +205,7 @@ class FormDetailPage extends Component {
       updates[v] = _.get(data, outputVariables[v].path);
     }
     this.props.dispatch(updateGlobalVariables(updates));
+    ReactDOM.findDOMNode(this.submitter).scrollIntoView();
   }
 
   onCloseMessage = () => {
@@ -255,6 +258,7 @@ class FormDetailPage extends Component {
         </JSSForm>
         { !Submitter ? null :
           <Submitter
+          ref={e => this.submitter = e}
           dispatch={this.props.dispatch}
           subm={this.state.subm}
           form={this.props.form}
