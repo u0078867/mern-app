@@ -1,0 +1,6 @@
+{
+  "subject_anatomical_areas": {
+    "valueFromVar": "subject_anatomical_areas",
+    "__replacer__": true
+  }
+}

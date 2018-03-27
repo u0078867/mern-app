@@ -1,0 +1,79 @@
+{
+  "type": "object",
+  "properties": {
+    "capture_another_muscle": {
+      "type": "boolean",
+      "title": {
+        "fillString": "<<name>> <<surname>>: capture a different muscle ? If so, which ?",
+        "select": "_;items[0]",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      },
+      "default": true
+    }
+  },
+  "dependencies": {
+    "capture_another_muscle": {
+      "oneOf": [
+        {
+          "properties": {
+            "capture_another_muscle": {
+              "enum": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "capture_another_muscle": {
+              "enum": [
+                true
+              ]
+            },
+            "subject_anatomical_areas": {
+              "type": "array",
+              "title": "New anatomical areas",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [ "medial_gastroc" ],
+                    "title": "Medial gastrocnemius"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [ "lateral_gastroc" ],
+                    "title": "Lateral gastrocnemius"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [ "tib_ant" ],
+                    "title": "Tibialis anterior"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [ "soleus" ],
+                    "title": "Soleus"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [ "rect_fem" ],
+                    "title": "Rectus femoris"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [ "semiten" ],
+                    "title": "Semitendinosus"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

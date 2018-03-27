@@ -1104,6 +1104,34 @@ function dummyData(verbose, fillLevel) {
     forms.push(form);
 
     form = {
+      title: "Change muscles of interest if needed",
+      key: "ask-another-muscle",
+      json_schema: require('./forms/activity/ask_another_muscle_schema.json'),
+      ui_schema: require('./forms/activity/ask_another_muscle_ui_schema.json'),
+      init_data: require('./forms/activity/ask_another_muscle_data.json'),
+      dest_collection: undefined,
+      insert_on_submit: false,
+      submitter: 'wf-variables',
+      output_variables: {},
+      slug: "ask-another-muscle",
+    };
+    forms.push(form);
+
+    form = {
+      title: "Change subject position if needed",
+      key: "ask-same-subject-position",
+      json_schema: require('./forms/activity/ask_same_subject_position_schema.json'),
+      ui_schema: require('./forms/activity/ask_same_subject_position_ui_schema.json'),
+      init_data: require('./forms/activity/ask_same_subject_position_data.json'),
+      dest_collection: undefined,
+      insert_on_submit: false,
+      submitter: 'wf-variables',
+      output_variables: {},
+      slug: "ask-same-subject-position",
+    };
+    forms.push(form);
+
+    form = {
       title: "Associate results to project(s)",
       key: "associate-results-to-project",
       json_schema: require('./forms/activity/assoc_output_to_project_schema.json'),

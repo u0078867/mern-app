@@ -5,6 +5,8 @@
 		"are_markers_visible_during_setup": true,
 		"was_trial_bad": false,
 		"capture_extra_trial": false,
+		"capture_another_muscle": false,
+		"same_subject_position": true,
 		"main_researcher": "john doe",
 		"helper": "default user"
 	},

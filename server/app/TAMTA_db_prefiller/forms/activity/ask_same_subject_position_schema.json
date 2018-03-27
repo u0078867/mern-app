@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "same_subject_position": {
+      "type": "boolean",
+      "title": {
+        "fillString": "<<name>> <<surname>>: same subject position for the new muscle ?",
+        "select": "_;items[0]",
+        "query": "search-api;researchers;{{actor}}",
+        "__replacer__": true
+      },
+      "default": true
+    }
+  }
+}

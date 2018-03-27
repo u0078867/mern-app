@@ -205,7 +205,9 @@ class FormDetailPage extends Component {
       updates[v] = _.get(data, outputVariables[v].path);
     }
     this.props.dispatch(updateGlobalVariables(updates));
-    ReactDOM.findDOMNode(this.submitter).scrollIntoView();
+    if (this.submitter) {
+      ReactDOM.findDOMNode(this.submitter).scrollIntoView();
+    }
   }
 
   onCloseMessage = () => {
