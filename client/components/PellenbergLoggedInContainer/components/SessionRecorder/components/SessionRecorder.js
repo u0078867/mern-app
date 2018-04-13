@@ -31,6 +31,7 @@ class SessionRecorder extends React.Component {
       showFileLink: false,
       events: [],
       sessionName: "",
+      sessionNameValidationStatus: null,
       sessionNameEditable: true,
       enableRemoteTrigger: true,
     };
@@ -139,6 +140,7 @@ class SessionRecorder extends React.Component {
   }
 
   createFileData = () => {
+    console.log('create file dtaa')
     let data = {
       file_version: 1,
       session_name: this.state.sessionName,
@@ -147,11 +149,27 @@ class SessionRecorder extends React.Component {
     var json = JSON.stringify(data, null, 2);
     var blob = new Blob([json], {type: "application/json"});
     var url  = URL.createObjectURL(blob);
-    this.setState({fileLink: url, showFileLink: true});
+    this.setState({fileLink: url, showFileLink: true}, () => {
+      console.log('ciao')
+      this.fileLinkRef.click();
+    });
+  }
+
+  validateSessionName = (name) => {
+    if (this.props.notAllowedSessionNames.includes(name)) {
+      this.setState({
+        sessionNameValidationStatus: 'error',
+      });
+    } else {
+      this.setState({
+        sessionNameValidationStatus: 'success',
+      });
+    }
   }
 
   onSessionNameChange = (event) => {
-    let name = event.target.value;
+    let name = event.target.value.trim();
+    this.validateSessionName(name);
     this.props.onSessionNameChange(name);
     this.setSessionName(name);
   }
@@ -186,9 +204,10 @@ class SessionRecorder extends React.Component {
     }
     return (
       <div className={styles['content']}>
-        <FormGroup>
+        <FormGroup validationState={this.state.sessionNameValidationStatus}>
           <ControlLabel>Session name:</ControlLabel>
           <FormControl type="text" disabled={!this.state.sessionNameEditable} value={this.state.sessionName} onChange={this.onSessionNameChange}/>
+          <HelpBlock>{this.state.sessionNameValidationStatus == 'error' ? 'Session already exists.' : 'Valid new session name'}</HelpBlock>
         </FormGroup>
         <FormGroup>
           <Checkbox checked={this.state.enableRemoteTrigger} onChange={this.onEnableRemoteTriggerChange}>
@@ -206,7 +225,7 @@ class SessionRecorder extends React.Component {
         <FormGroup>
           <FormControl.Static><strong>Events recorded:</strong> {this.state.events.length}</FormControl.Static>
         </FormGroup>
-        {this.state.showFileLink ? <a href={this.state.fileLink} download={`session_${this.state.sessionName}.json`}>Download session file</a> : null}
+        {this.state.showFileLink ? <a href={this.state.fileLink} download={`session_${this.state.sessionName}.json`} ref={(e) => {this.fileLinkRef = e}}>Download session file</a> : null}
       </div>
     )
   }

@@ -7,3 +7,22 @@
   margin: '0 auto 10';
   align: center;
 }
+
+.op-list li {
+  margin-top: 30px;
+}
+
+.img {
+  width: 500px;
+  height: auto;
+}
+
+.popover-custom > .popover-inner {
+  max-width: none;
+  background-color: black;
+  white-space: nowrap;
+  margin:0;
+  padding:0;
+  color:gray;
+  border: 0px solid #062e56;
+}

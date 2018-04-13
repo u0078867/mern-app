@@ -10,6 +10,7 @@ import {
   Button,
   Glyphicon,
   Label,
+  Alert,
 } from 'react-bootstrap';
 
 // Import Style
@@ -17,7 +18,9 @@ import styles from './WorkFlowEngine.css';
 
 // Import engine
 const Bpmn = require('bpmn-engine');
+const BpmnModdle = require('bpmn-moddle');
 const camundaModdle = require('camunda-bpmn-moddle/resources/camunda.json');
+const moddle = new BpmnModdle({ camunda: camundaModdle });
 //const EventEmitter = require('eventemitter3');
 const EventEmitter = require('events').EventEmitter;
 
@@ -46,6 +49,8 @@ class WorkFlowEngine extends React.Component {
       showMessage: false,
       clientMessage: '',
       showViewer: false,
+      errorMessage: null,
+      showErrorMessage: false,
     };
     this.engine = null;
     this.engineState = null;
@@ -55,6 +60,7 @@ class WorkFlowEngine extends React.Component {
     this.varDefinitions = null;
     this.variables = {};
     this.instance = null;
+    this.isLastStopManual = false;
   }
 
   componentDidMount() {
@@ -114,6 +120,12 @@ class WorkFlowEngine extends React.Component {
       }
     }
     return containerLane;
+  }
+
+  validateFile = (processXml, callback) => {
+
+    moddle.fromXML(processXml, (err, definitions) => callback(err));
+
   }
 
   createEngine = (processXml) => {
@@ -181,14 +193,36 @@ class WorkFlowEngine extends React.Component {
     });
 
     this.engine.once('end', (definition) => {
-      console.log('Process ended');
-      this.setState({
-        status: 'completed'
-      }, () => {
-        this.props.onComplete();
-      })
+      if (!this.isLastStopManual) {
+        console.log('Process completed');
+        this.setState({
+          status: 'completed'
+        }, () => {
+          this.props.onComplete();
+        })
+      } else {
+        console.log('Process stopped');
+        // post-stop logic handled elsewhere
+      }
     });
 
+  }
+
+  onError = (msg) => {
+    var errorMessage = (
+      <Alert
+        bsStyle="danger"
+        onDismiss={() => this.setState({ showErrorMessage: false })}
+      >
+        <p><strong>Error</strong> while loading file! </p>
+        <br/>
+        {msg}
+      </Alert>
+    )
+    this.setState({
+      errorMessage,
+      showErrorMessage: true,
+    });
   }
 
   onStart = (event) => {
@@ -205,10 +239,12 @@ class WorkFlowEngine extends React.Component {
           this.instance = instance;
           if (err) {
             console.log(err);
+            this.onError(`Workflow engine error: ${err.message}`);
             this.setState({
               status: 'crashed'
             })
           } else {
+            this.isLastStopManual = false;
             this.setState({
               status: 'running'
             }, () => this.props.onStart())
@@ -257,6 +293,7 @@ class WorkFlowEngine extends React.Component {
 
     if (this.engine) {
       // Stop engine
+      this.isLastStopManual = true;
       this.engine.stop();
       this.setState({
         status: 'stopped',
@@ -294,24 +331,31 @@ class WorkFlowEngine extends React.Component {
     var reader = new FileReader();
     reader.onload = event => {
       var content = reader.result;
-      // Create engine
-      this.process = content;
-      this.createEngine(this.process);
-      // Create viewer
-      viewer.importXML(content, (err) => {
+      // Validate workflow file
+      this.validateFile(content, (err) => {
         if (err) {
-          console.log(err);
-          console.log('Error importing viewer data');
-          this.setState({
-            status: 'crashed'
-          });
-        } else {
-          console.log('Viewer data imported');
-          this.setState({
-            status: 'ready'
-          });
+          return this.onError(`File validation failed: ${err.message}. Possible causes: you did not load a BPMN file or the workflow model misses something.`);
         }
-      });
+        // Create engine
+        this.process = content;
+        this.createEngine(this.process);
+        // Create viewer
+        viewer.importXML(content, (err) => {
+          if (err) {
+            console.log(err);
+            console.log('Error importing viewer data');
+            this.onError(`Workflow viewer error: ${err.message}`);
+            this.setState({
+              status: 'crashed'
+            });
+          } else {
+            console.log('Viewer data imported');
+            this.setState({
+              status: 'ready'
+            });
+          }
+        });
+      })
     }
     if (file) {
       reader.readAsText(file);
@@ -325,7 +369,16 @@ class WorkFlowEngine extends React.Component {
     var reader = new FileReader();
     reader.onload = event => {
       var content = reader.result;
-      this.varDefinitions = JSON.parse(content);
+      let varDefinitions;
+      try {
+        varDefinitions = JSON.parse(content);
+      } catch (e) {
+        return this.onError('File is not a valid JSON file.');
+      }
+      this.varDefinitions = varDefinitions;
+      if (!this.varDefinitions.initial) {
+        return this.onError('File is not a valid work-flow variables file.');
+      }
       this.variables = JSON.parse(JSON.stringify(this.varDefinitions.initial));
     }
     if (file) {
@@ -402,6 +455,7 @@ class WorkFlowEngine extends React.Component {
             />
           </PopoutWindow>
         : null}
+        {this.state.showErrorMessage ? this.state.errorMessage : null}
       </div>
     )
   }

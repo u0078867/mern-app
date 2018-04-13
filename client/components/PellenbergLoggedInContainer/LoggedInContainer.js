@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import _ from 'lodash';
+import callGraphQL from 'CLIENT_UTIL/graphqlCaller';
 
 // Import Style
 import styles from './LoggedInContainer.css';
@@ -40,6 +41,7 @@ export class LoggedInContainer extends Component {
     this.state = {
       tasks: [],
       currentTaskId: null,
+      notAllowedSessionNames: [],
     }
   }
 
@@ -56,6 +58,21 @@ export class LoggedInContainer extends Component {
       pubsub.publishSync('wf-engine-int', data);
       this.consumeTask();
     });
+    callGraphQL(
+      `
+      query AllSessions {
+        allSessions {
+          name
+        }
+      }
+      `
+    )
+    .then(res => {
+      console.log(res)
+      let notAllowedSessionNames = res.allSessions.map(e => e.name);
+      notAllowedSessionNames.sort();
+      this.setState({ notAllowedSessionNames });
+    })
   }
 
   deleteTask = () => {
@@ -101,6 +118,7 @@ export class LoggedInContainer extends Component {
 
   onStop = () => {
     this.setState({ tasks: [] });
+    console.log('onStop')
     pubsub.publishSync('sess-rec-int', { command: 'stop' });
   }
 
@@ -215,6 +233,7 @@ export class LoggedInContainer extends Component {
               listenTopic="sess-rec-int"
               onSessionNameChange={this.onSessionNameChange}
               onReplayEvent={this.onReplayEvent}
+              notAllowedSessionNames={this.state.notAllowedSessionNames}
             />
           </Services>
         </div>

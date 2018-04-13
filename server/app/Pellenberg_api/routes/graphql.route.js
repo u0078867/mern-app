@@ -9,10 +9,14 @@ import {
 
 
 import { ActivityType } from './graphql/activity';
+import { SessionType } from './graphql/session';
 
 import { createLoaders } from '../dataLoaders';
 
-import { getActivitiesBySession } from '../dataServices/activity.search.service';
+import {
+  getActivitiesBySession,
+  getAllSessions
+} from '../dataServices/activity.search.service';
 
 
 
@@ -28,6 +32,10 @@ const QueryType = new GraphQLObjectType({
         session: { type: GraphQLString }
       },
       resolve: (root, args, {loaders}) => getActivitiesBySession(args.session),
+    },
+    allSessions: {
+      type: new GraphQLList(SessionType),
+      resolve: (root, args, {loaders}) => getAllSessions(),
     }
   }),
 });

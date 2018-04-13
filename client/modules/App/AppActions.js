@@ -64,7 +64,6 @@ function postLogin(data, dispatch) {
 export function loginViaCredentials(data) {
   return (dispatch) => {
     let { username, password } = data;
-    console.log(data)
     return callApi('login/authenticate', 'POST', {
       username,
       password,
