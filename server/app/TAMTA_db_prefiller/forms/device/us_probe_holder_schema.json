@@ -22,13 +22,17 @@
       "type": "array",
       "title": "Functions",
       "uniqueItems": true,
-      "default": ["us_probe_holder"],
+      "default": [
+        "us_probe_holder"
+      ],
       "items": {
         "type": "string",
         "anyOf": [
           {
             "type": "string",
-            "enum": [ "us_probe_holder" ],
+            "enum": [
+              "us_probe_holder"
+            ],
             "title": "Ultrasonography probe holder"
           }
         ]
@@ -40,7 +44,9 @@
       "anyOf": [
         {
           "type": "string",
-          "enum": [ "uz_leuven_pellenberg_ganglabo" ],
+          "enum": [
+            "uz_leuven_pellenberg_ganglabo"
+          ],
           "title": "UZ Leuven (Pellenberg Ganglabo)"
         }
       ]
@@ -62,8 +68,10 @@
               "default": "material",
               "anyOf": [
                 {
-                  "type": "value",
-                  "enum": [ "material" ],
+                  "type": "string",
+                  "enum": [
+                    "material"
+                  ],
                   "title": "Material"
                 }
               ]
@@ -74,18 +82,24 @@
               "default": "plastic",
               "anyOf": [
                 {
-                  "type": "value",
-                  "enum": [ "plastic" ],
+                  "type": "string",
+                  "enum": [
+                    "plastic"
+                  ],
                   "title": "Plastic"
                 },
                 {
-                  "type": "value",
-                  "enum": [ "PLA" ],
+                  "type": "string",
+                  "enum": [
+                    "PLA"
+                  ],
                   "title": "PLA"
                 },
                 {
-                  "type": "value",
-                  "enum": [ "ABS" ],
+                  "type": "string",
+                  "enum": [
+                    "ABS"
+                  ],
                   "title": "ABS"
                 }
               ]

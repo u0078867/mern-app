@@ -22,13 +22,17 @@
       "type": "array",
       "title": "Functions",
       "uniqueItems": true,
-      "default": ["us_probe"],
+      "default": [
+        "us_probe"
+      ],
       "items": {
         "type": "string",
         "anyOf": [
           {
             "type": "string",
-            "enum": [ "us_probe" ],
+            "enum": [
+              "us_probe"
+            ],
             "title": "Ultrasonography probe"
           }
         ]
@@ -40,7 +44,9 @@
       "anyOf": [
         {
           "type": "string",
-          "enum": [ "telemed" ],
+          "enum": [
+            "telemed"
+          ],
           "title": "Telemed"
         }
       ]
@@ -62,8 +68,10 @@
               "default": "radius_of_curvature",
               "anyOf": [
                 {
-                  "type": "value",
-                  "enum": [ "radius_of_curvature" ],
+                  "type": "string",
+                  "enum": [
+                    "radius_of_curvature"
+                  ],
                   "title": "Radius of curvature"
                 }
               ]
@@ -79,7 +87,9 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "deg" ],
+                  "enum": [
+                    "deg"
+                  ],
                   "title": "deg"
                 }
               ]
@@ -95,8 +105,10 @@
               "default": "fov_angle",
               "anyOf": [
                 {
-                  "type": "value",
-                  "enum": [ "fov_angle" ],
+                  "type": "string",
+                  "enum": [
+                    "fov_angle"
+                  ],
                   "title": "Field of view angle"
                 }
               ]
@@ -112,7 +124,9 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "deg" ],
+                  "enum": [
+                    "deg"
+                  ],
                   "title": "deg"
                 }
               ]
@@ -128,8 +142,10 @@
               "default": "fov_width",
               "anyOf": [
                 {
-                  "type": "value",
-                  "enum": [ "fov_width" ],
+                  "type": "string",
+                  "enum": [
+                    "fov_width"
+                  ],
                   "title": "Field of view width"
                 }
               ]
@@ -145,7 +161,9 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "mm" ],
+                  "enum": [
+                    "mm"
+                  ],
                   "title": "mm"
                 }
               ]
@@ -161,8 +179,10 @@
               "default": "fov_height",
               "anyOf": [
                 {
-                  "type": "value",
-                  "enum": [ "fov_height" ],
+                  "type": "string",
+                  "enum": [
+                    "fov_height"
+                  ],
                   "title": "Field of view height"
                 }
               ]
@@ -178,7 +198,9 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [ "mm" ],
+                  "enum": [
+                    "mm"
+                  ],
                   "title": "mm"
                 }
               ]
